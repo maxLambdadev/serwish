@@ -1,0 +1,104 @@
+<!-- Search and Sliders -->
+<section class="sw-first" [ngClass]="{ 'sw-first--desktop': device === DEVICE.DESKTOP }">
+  <!-- Search -->
+  <div class="sw-first__search">
+    <div
+      class="sw-container sw-first__search__container"
+      [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+    >
+      <div class="sw-first__search__content">
+        <!-- Search Compact -->
+        <sw-search-compact [device]="device"></sw-search-compact>
+
+        <!-- Slider -->
+        <swiper
+          #swiperAdditional
+          class="sw-slider__additional"
+          [ngClass]="{ 'sw-slider__additional--mobile': device === DEVICE.MOBILE }"
+          (slideChange)="onMainSlideChange()"
+          [config]="configMainAdditional"
+        >
+          <ng-container *ngFor="let slider of slider$ | async; trackBy: trackBy">
+            <ng-template swiperSlide>
+              <div class="sw-slider__additional-item">
+                <h2
+                  *ngIf="(slider?.translated)[0].title"
+                  class="sw-slider__additional-title"
+                >
+                  {{ (slider?.translated)[0].title }}
+                </h2>
+
+                <div
+                  *ngIf="(slider?.translated)[0].description"
+                  class="sw-slider__additional-desc"
+                  [innerHTML]="(slider?.translated)[0].description | safe"
+                ></div>
+
+                <div *ngIf="slider.showMoreBtn" class="sw-slider__additional-button">
+                  <a href="{{ slider.showMoreBtn }}">
+                    <sw-button swRightIconButton swPrimaryButton [size]="'size-56'">
+                      {{ "Global.MORE" | translate }}
+                    </sw-button>
+                  </a>
+                </div>
+              </div>
+            </ng-template>
+          </ng-container>
+        </swiper>
+      </div>
+      <div class="sw-godown" (click)="goDown()">
+        <div class="sw-godown__text">
+          {{ "Home.SPECIALISTS_OF_MONTH" | translate }}
+        </div>
+        <div class="sw-godown__icon">
+          <sw-icon [iconName]="'corner-right-down'" [iconSize]="'size-12'"></sw-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="sw-first__content">
+    <!-- Slider -->
+    <swiper
+      #swiper
+      class="sw-slider"
+      [config]="configMain"
+      (slideChange)="onMainSlideChange()"
+    >
+      <ng-container *ngFor="let slider of slider$ | async; trackBy: trackBy">
+        <ng-template swiperSlide>
+          <div class="sw-slider__background">
+            <img fetchpriority="high" [attr.src]="slider.image" alt="Slider" />
+          </div>
+        </ng-template>
+      </ng-container>
+    </swiper>
+
+    <!-- Slider Content -->
+    <div
+      class="sw-slider__bottom"
+      [ngClass]="{ 'sw-slider__bottom--mobile': device === DEVICE.MOBILE }"
+    >
+      <div
+        class="sw-container"
+        [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+      >
+        <div class="sw-slider__bottom__content">
+          <!-- Go Down -->
+          <!-- <div class="sw-godown" (click)="goDown()">
+            <div class="sw-godown__text">
+              {{ "Home.SPECIALISTS_OF_MONTH" | translate }}
+            </div>
+            <div class="sw-godown__icon">
+              <sw-icon [iconName]="'corner-right-down'" [iconSize]="'size-12'"></sw-icon>
+            </div>
+          </div> -->
+
+          <!-- Pagination -->
+          <div class="sw-slider__pagination"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

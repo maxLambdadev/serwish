@@ -1,0 +1,760 @@
+<div
+  class="sw-add-service__content"
+  [ngClass]="{ 'sw-add-service__content--mobile': device === DEVICE.MOBILE }"
+>
+  <div
+    class="sw-add-service__left"
+    [ngClass]="{ 'sw-add-service__left--mobile': device === DEVICE.MOBILE }"
+  >
+    <div
+      *ngIf="device === DEVICE.MOBILE"
+      (click)="onClosePopup()"
+      class="sw-add-service__closeX"
+    >
+      <div class="sw-add-service__closeX__icon">
+        <sw-icon [iconName]="'arrow-left-2'" [iconSize]="'size-28'"></sw-icon>
+      </div>
+
+      <div class="sw-add-service__closeX__text">
+        {{ "Global.CLOSE" | translate }}
+      </div>
+    </div>
+
+    <div class="sw-add-service__header">
+      <div class="sw-add-service__header__button">
+        <sw-button swOnlyIconButton swSecondaryButton [size]="'size-48'">
+          <sw-icon onlyicon [iconName]="'plus'" [iconSize]="'size-20'"></sw-icon>
+        </sw-button>
+      </div>
+      <h3 class="sw-add-service__header__title">
+        {{ "AddService.ADD_NEW_SERVICE" | translate }}
+      </h3>
+    </div>
+
+    <div class="sw-add-service__form">
+      <form [formGroup]="serviceAddForm" #localForm="ngForm">
+        <!-- Overall -->
+        <ng-container *ngIf="activeStep === SERVICE_ADD_STEPS.OVERALL_INFO">
+          <!-- Category -->
+          <div class="sw-add-service__form__item">
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.OVERALL_INFO" | translate }}
+            </div>
+
+            <div class="sw-add-service__form__item-input" *ngIf="categories$ | async">
+              <ng-select
+                [ngClass]="{
+                  'ng-select--error': showFormErrors.OVERALL_INFO
+                }"
+                [clearable]="false"
+                [items]="categories$ | async"
+                groupBy="childrens"
+                bindLabel="translated.title"
+                bindValue="id"
+                placeholder="{{ 'AddService.CHOOSE_CATEGORY' | translate }}"
+                formControlName="selectedCategory"
+                [searchFn]="customSearchFn"
+              >
+                >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.translated.title }}
+                </ng-template>
+
+                <!-- Main Category Label // Should be same as groupBy -->
+                <ng-template ng-optgroup-tmp let-item="item" let-index="index">
+                  {{ item.translated.title }}
+                </ng-template>
+
+                <ng-template ng-typetosearch-tmp>
+                  <div class="ng-option disabled">
+                    {{ "Global.SEARCH.NOT_FOUND" | translate }}
+                  </div>
+                </ng-template>
+
+                <ng-template ng-notfound-tmp let-searchTerm="searchTerm">
+                  <div class="ng-option disabled">
+                    "{{ searchTerm }}" - {{ "Global.SEARCH.NOT_FOUND" | translate }}
+                  </div>
+                </ng-template>
+
+                <ng-template
+                  ng-option-tmp
+                  let-item="item"
+                  let-index="index"
+                  let-search="searchTerm"
+                >
+                  {{ item.translated.title }}
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+
+          <!-- Title -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--title sw-add-service__form__item--margin-bottom-16"
+          >
+            <sw-input
+              [name]="'title'"
+              [size]="'medium'"
+              [type]="'title-in'"
+              [placeholderDraft]="'AddService.TITLE_PLACEHOLDER' | translate"
+              [labelText]="'AddService.TITLE_LABEL' | translate"
+              [inputType]="'text'"
+              [showErrors]="showFormErrors.OVERALL_INFO"
+              [required]="true"
+              [maxlength]="60"
+              formControlName="title"
+            >
+            </sw-input>
+
+            <div
+              class="sw-add-service__form__item-specifier"
+              *ngIf="(titleLength | async) !== 0"
+            >
+              {{ 60 - (titleLength | async) }}
+
+              {{ "Global.SYMBOL" | translate }}
+            </div>
+
+            <div
+              class="sw-add-service__form__item-specifier"
+              *ngIf="(titleLength | async) === 0"
+            >
+              {{ "AddService.MAX_60_CHARACHTERS" | translate }}
+            </div>
+          </div>
+
+          <!-- Editor -->
+          <div class="sw-add-service__editor">
+            <div
+              class="sw-add-service__editor__count"
+              *ngIf="(descriptionLength | async) !== 0"
+            >
+              {{ 380 - (descriptionLength | async) }}
+
+              {{ "Global.SYMBOL" | translate }}
+            </div>
+
+            <div
+              class="sw-add-service__editor__count"
+              *ngIf="(descriptionLength | async) === 0"
+            >
+              {{ "AddService.MAX_380_CHARACHTERS" | translate }}
+            </div>
+
+            <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+            <ngx-editor
+              [ngClass]="{
+                'ngx-editor--error': showFormErrors.OVERALL_INFO
+              }"
+              [editor]="editor"
+              [placeholder]="'AddService.DESCRIPTION' | translate"
+              formControlName="description"
+            >
+            </ngx-editor>
+
+            <div
+              class="sw-add-service__editor__error"
+              *ngIf="showFormErrors.OVERALL_INFO"
+            >
+              <ng-container *ngIf="(descriptionLength | async) === 380">
+                {{ "Global.MAX_380" | translate }}
+              </ng-container>
+
+              <ng-container *ngIf="(descriptionLength | async) === 0">
+                {{ "Global.REQUIRED" | translate }}
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Images Upload -->
+        <ng-container *ngIf="activeStep === SERVICE_ADD_STEPS.IMAGE_UPLOAD">
+          <!-- Upload -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--margin-bottom-32"
+          >
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.PHOTOS" | translate }}
+            </div>
+            <div
+              class="sw-add-service__form__gallery"
+              [ngClass]="{
+                'sw-add-service__form__gallery--mobile': device === DEVICE.MOBILE
+              }"
+            >
+              <!-- 'ng-select--error': showFormErrors.IMAGE_UPLOAD && imageCount === 0 -->
+              <sw-image-upload
+                (successUpload)="countUpUpload()"
+                (successRemove)="countDownUpload()"
+                [uploadDestination]="'service'"
+                [serviceId]="newId"
+                [ngClass]="{
+                  'image-upload-error': showFormErrors.IMAGE_UPLOAD && showImageErrors
+                }"
+              ></sw-image-upload>
+
+              <sw-image-upload
+                (successUpload)="countUpUpload()"
+                (successRemove)="countDownUpload()"
+                [uploadDestination]="'service'"
+                [serviceId]="newId"
+                [ngClass]="{
+                  'image-upload-error': showFormErrors.IMAGE_UPLOAD && showImageErrors
+                }"
+              ></sw-image-upload>
+
+              <sw-image-upload
+                (successUpload)="countUpUpload()"
+                (successRemove)="countDownUpload()"
+                [uploadDestination]="'service'"
+                [serviceId]="newId"
+                [ngClass]="{
+                  'image-upload-error': showFormErrors.IMAGE_UPLOAD && showImageErrors
+                }"
+              ></sw-image-upload>
+
+              <sw-image-upload
+                (successUpload)="countUpUpload()"
+                (successRemove)="countDownUpload()"
+                [uploadDestination]="'service'"
+                [serviceId]="newId"
+                [ngClass]="{
+                  'image-upload-error': showFormErrors.IMAGE_UPLOAD && showImageErrors
+                }"
+              ></sw-image-upload>
+
+              <ng-container *ngIf="imageCount >= 4">
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+              </ng-container>
+
+              <ng-container *ngIf="imageCount >= 8">
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+              </ng-container>
+
+              <ng-container *ngIf="imageCount >= 12">
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+              </ng-container>
+
+              <ng-container *ngIf="imageCount >= 16">
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  (successUpload)="countUpUpload()"
+                  (successRemove)="countDownUpload()"
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+              </ng-container>
+
+              <ng-container *ngIf="imageCount >= 20">
+                <sw-image-upload
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+
+                <sw-image-upload
+                  [uploadDestination]="'service'"
+                  [serviceId]="newId"
+                ></sw-image-upload>
+              </ng-container>
+            </div>
+            <div
+              *ngIf="showFormErrors.IMAGE_UPLOAD && showImageErrors"
+              class="sw-add-service-no-img-error"
+            >
+              {{ "AddService.IMAGE_ERROR" | translate }}
+            </div>
+
+            <ng-container *ngIf="isUploadingImage$ | async">
+              <div class="sw-add-service__uploading">
+                {{ "AddService.IMAGE_UPLOAD" | translate }}
+              </div>
+            </ng-container>
+          </div>
+
+          <!-- Tags -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--margin-bottom-32"
+          >
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.TAGS_TITLE" | translate }}
+            </div>
+
+            <div class="sw-add-service__form__item-desc">
+              {{ "AddService.TAGS_DESC" | translate }}
+            </div>
+
+            <div class="sw-add-sevice__form__item-input autoHeightContainer">
+              <ng-select
+                [ngClass]="{
+                  'ng-select--error': showFormErrors.IMAGE_UPLOAD
+                }"
+                [items]="tags$ | async"
+                bindLabel="name"
+                [addTag]="true"
+                [multiple]="true"
+                [hideSelected]="true"
+                [trackByFn]="trackByFn"
+                [minTermLength]="1"
+                [loading]="tagsLoading"
+                typeToSearchText="{{ 'AddService.ENTER_CHARACTER' | translate }}"
+                [typeahead]="tagsInput$"
+                placeholder="{{ 'AddService.TAGS' | translate }}"
+                formControlName="tags"
+              >
+                <ng-template ng-tag-tmp let-search="searchTerm">
+                  <b>{{ "AddService.ADD_NEW_TAG" | translate }} </b> - {{ search }}
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Availability -->
+        <ng-container *ngIf="activeStep === SERVICE_ADD_STEPS.AVAILABILITY">
+          <div class="sw-add-service__form__item">
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.AVAILABILITY" | translate }}
+            </div>
+
+            <!-- Avaliability Input -->
+            <div class="sw-add-service__form__item-input">
+              <ws-radio
+                formControlName="workType"
+                groupName="workType"
+                valueName="full"
+                label="{{ 'AddService.ANYTIME' | translate }}"
+              ></ws-radio>
+
+              <ws-radio
+                formControlName="workType"
+                groupName="workType"
+                valueName="custom"
+                label="{{ 'AddService.SPECIFIC_TIME' | translate }}"
+              ></ws-radio>
+            </div>
+          </div>
+
+          <!-- Work Days -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--workingDays sw-add-service__form__item--hasOption"
+          >
+            <ng-container *ngIf="device === DEVICE.DESKTOP">
+              <sw-checkbox
+                formControlName="workingDays"
+                [label]="'AddService.WORK_DAYS' | translate"
+              >
+              </sw-checkbox>
+            </ng-container>
+
+            <ng-container *ngIf="device === DEVICE.MOBILE">
+              <sw-checkbox
+                formControlName="workingDays"
+                [label]="'AddService.WORK_DAYS_SMALL' | translate"
+              >
+              </sw-checkbox>
+            </ng-container>
+
+            <div class="sw-add-service__form__options">
+              <ng-select
+                class="ng-select--small"
+                [items]="hours"
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="workingDaysValueStart"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.name }}
+                </ng-template>
+              </ng-select>
+
+              <ng-select
+                class="ng-select--small"
+                [items]="hours"
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="workingDaysValueEnd"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.name }}
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+
+          <!-- Saturday -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--saturday sw-add-service__form__item--hasOption"
+          >
+            <sw-checkbox
+              formControlName="saturday"
+              [label]="'AddService.SATURDAY' | translate"
+            >
+            </sw-checkbox>
+
+            <div class="sw-add-service__form__options">
+              <ng-select
+                class="ng-select--small"
+                [items]="hours"
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="saturdayValueStart"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.name }}
+                </ng-template>
+              </ng-select>
+
+              <ng-select
+                class="ng-select--small"
+                [items]="hours"
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="saturdayValueEnd"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.name }}
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+
+          <!-- Sunday  -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--sunday sw-add-service__form__item--hasOption sw-add-service__form__item--margin-bottom-32"
+          >
+            <sw-checkbox
+              formControlName="sunday"
+              [label]="'AddService.SUNDAY' | translate"
+            ></sw-checkbox>
+
+            <div class="sw-add-service__form__options">
+              <ng-select
+                class="ng-select--small"
+                [items]="hours"
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="sundayValueStart"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.name }}
+                </ng-template>
+              </ng-select>
+
+              <ng-select
+                class="ng-select--small"
+                [items]="hours"
+                [clearable]="false"
+                bindLabel="name"
+                bindValue="name"
+                formControlName="sundayValueEnd"
+              >
+                <ng-template ng-label-tmp let-item="item">
+                  {{ item.name }}
+                </ng-template>
+              </ng-select>
+            </div>
+          </div>
+
+          <div class="sw-add-service__form__item">
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.SERVICE_AREAL" | translate }}
+            </div>
+
+            <!-- City -->
+            <div class="sw-add-service__form__item-input">
+              <ng-select
+                [ngClass]="{
+                  'ng-select--error': showFormErrors.AVAILABILITY
+                }"
+                [items]="cities$ | async"
+                bindLabel="name"
+                [multiple]="true"
+                [hideSelected]="true"
+                [trackByFn]="trackByFn"
+                [minTermLength]="1"
+                [loading]="citiesLoading"
+                typeToSearchText="{{ 'AddService.ENTER_CHARACTER' | translate }}"
+                [typeahead]="citiesInput$"
+                placeholder="{{ 'AddService.CITY' | translate }}"
+                formControlName="cities"
+              >
+              </ng-select>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- Payments -->
+        <ng-container *ngIf="activeStep === SERVICE_ADD_STEPS.PAYMENTS">
+          <!-- Phone -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--margin-bottom-32"
+          >
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.PHONE_NUMBER" | translate }}
+            </div>
+
+            <div class="sw-add-service__form__item-input">
+              <sw-checkbox
+                formControlName="phoneFromProfile"
+                [label]="'AddService.PHONE_NUMBER_FROM_PROFILE' | translate"
+              ></sw-checkbox>
+              <sw-input
+                [name]="'phone'"
+                [size]="'medium'"
+                [type]="'title-in'"
+                [placeholderDraft]="'555 555 555'"
+                [labelText]="'AddService.OTHER_PHONE_NUMBER' | translate"
+                [inputType]="'text'"
+                [showErrors]="showFormErrors.PAYMENTS"
+                formControlName="phoneOther"
+                [mask]="'000 000 000'"
+              ></sw-input>
+            </div>
+            <div class="sw-add-service__form__item-input">
+              <sw-checkbox
+                formControlName="nameFromProfile"
+                [label]="'AddService.NAME_FROM_PROFILE' | translate"
+              ></sw-checkbox>
+
+              <sw-input
+                [name]="'nameOther'"
+                [size]="'medium'"
+                [type]="'title-in'"
+                [placeholderDraft]="'******'"
+                [labelText]="'AddService.OTHER_NAME' | translate"
+                [inputType]="'text'"
+                [showErrors]="showFormErrors.PAYMENTS"
+                formControlName="nameOther"
+              ></sw-input>
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div
+            class="sw-add-service__form__item sw-add-service__form__item--margin-bottom-32"
+          >
+            <div class="sw-add-service__form__item-label">
+              {{ "AddService.PRICE" | translate }}
+            </div>
+
+            <div class="sw-add-service__form__item-input">
+              <sw-checkbox
+                formControlName="showPrice"
+                [label]="'AddService.SHOW_PRICE' | translate"
+              >
+              </sw-checkbox>
+
+              <div class="sw-add-service__form__sub-row">
+                <sw-input
+                  [name]="'price'"
+                  swFloatingError
+                  [size]="'medium'"
+                  [type]="'title-in'"
+                  [placeholderDraft]="'50'"
+                  [labelText]="'AddService.PRICE' | translate"
+                  [inputType]="'text'"
+                  [showErrors]="showFormErrors.PAYMENTS"
+                  formControlName="price"
+                >
+                </sw-input>
+
+                <ng-select
+                  [ngClass]="{
+                    'ng-select--error': showFormErrors.PAYMENTS
+                  }"
+                  [clearable]="false"
+                  [items]="payLogic"
+                  bindLabel="label"
+                  bindValue="name"
+                  formControlName="payLogic"
+                  placeholder="{{ 'AddService.PER_HOUR' | translate }}"
+                >
+                  <ng-template ng-label-tmp let-item="item">
+                    {{ item.label }}
+                  </ng-template>
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="activeStep === SERVICE_ADD_STEPS.SUCCESS">
+          <div class="sw-add-service__success">
+            <div class="sw-add-service__success__image-wrapper">
+              <div class="sw-add-service__success__image">
+                <sw-image
+                  [alt]="'AddService.SUCCESS' | translate"
+                  [src]="'./assets/img/Illustration-40'"
+                ></sw-image>
+              </div>
+            </div>
+
+            <div class="sw-add-service__success__title">
+              {{ "AddService.HEY" | translate }}
+            </div>
+            <div class="sw-add-service__success__desc">
+              {{ "AddService.SUCCESS" | translate }}
+            </div>
+          </div>
+        </ng-container>
+      </form>
+    </div>
+
+    <div class="sw-add-service__buttons" *ngIf="activeStep !== SERVICE_ADD_STEPS.SUCCESS">
+      <div class="sw-add-service__back" *ngIf="activeStep > 0">
+        <sw-button
+          swOnlyIconButton
+          swSecondaryButton
+          [size]="'size-56'"
+          (clickAction)="prevStep()"
+        >
+          <ng-container onlyicon>
+            <sw-icon [iconName]="'back-icon'" [iconSize]="'size-10'"></sw-icon>
+          </ng-container>
+        </sw-button>
+      </div>
+
+      <!-- Next -->
+      <div class="sw-add-service__next">
+        <sw-button
+          swPrimaryButton
+          [size]="'size-56'"
+          [isLoading]="isLoading"
+          (clickAction)="nextStep()"
+          [disabled]="(isUploadingImage$ | async) || (isDeletingImages$ | async)"
+        >
+          {{ "AddService.NEXT" | translate }}
+        </sw-button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sw-add-service__right" *ngIf="device === DEVICE.DESKTOP">
+    <div class="sw-add-service__close">
+      <sw-button
+        swWhiteButton
+        swOnlyIconButton
+        [size]="'size-48'"
+        (clickAction)="onClosePopup()"
+      >
+        <sw-icon onlyicon [iconName]="'close-icon'" [iconSize]="'size-12'"></sw-icon>
+      </sw-button>
+    </div>
+
+    <div class="sw-add-service__right__over"></div>
+  </div>
+</div>

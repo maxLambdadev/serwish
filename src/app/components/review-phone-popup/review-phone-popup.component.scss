@@ -1,0 +1,197 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-review-phone-popup {
+
+    @include element("content") {
+        display: flex;
+        flex-direction: column;
+        background: var(--neutral_100);
+        border-radius: 16px;
+        padding: 32px;
+        width: 398px;
+        position: relative;
+    }
+
+    @include element("close") {
+        color: var(--neutral_100);
+        cursor: pointer;
+        position: absolute;
+        right: 0px;
+        top: -36px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    @include element("user") {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        @include element("name") {
+            color: var(--primary_100);
+            @include typo("body-bold");
+            margin-bottom: 32px;
+        }
+
+
+        @include element("image") {
+            width: 56px;
+            height: 56px;
+            padding: 8px;
+            border-radius: 10px;
+            background: #EFFAFF;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                border-radius: 8px;
+                width: 40px;
+                height: 40px;
+                object-fit: cover;
+            }
+        }
+
+
+    }
+
+    @include element("questions") {
+        @include element("title") {
+            color: var(--primary-dark_100);
+            @include typo("bodyS");
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        @include element("content") {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+
+    @include element("question") {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        border-radius: 12px;
+        height: 56px;
+        padding: 8px;
+        transition: background 200ms ease;
+        margin-bottom: 8px;
+
+        @include element("title") {
+            @include typo("body-bold");
+
+        }
+
+        @include element("icon") {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            background: var(--neutral_100);
+            border-radius: 8px;
+            margin-right: 16px;
+        }
+
+
+        @include modifier("call") {
+
+            @include part("no") {
+                background: var(--secondary_60);
+
+                .sw-review-phone-popup__question__icon {
+                    color: var(--primary-dark_100);
+                }
+
+                .sw-review-phone-popup__question__title {
+                    color: var(--primary-dark_100);
+                }
+
+                &:hover {
+                    background: var(--secondary_100);
+                }
+            }
+
+            @include part("cant") {
+                background: var(--error_10);
+
+                .sw-review-phone-popup__question__icon {
+                    color: var(--error_100);
+                }
+
+                .sw-review-phone-popup__question__title {
+                    color: var(--error_100);
+                }
+
+                &:hover {
+                    background: var(--error_20);
+                }
+            }
+
+            @include part("noanswer") {
+                background: var(--processing_10);
+
+                .sw-review-phone-popup__question__icon {
+                    color: var(--processing_100);
+                }
+
+                .sw-review-phone-popup__question__title {
+                    color: var(--processing_100);
+                }
+
+                &:hover {
+                    background: var(--processing_20);
+                }
+            }
+
+            @include part("nodeal") {
+                background: var(--primary_10);
+
+                .sw-review-phone-popup__question__icon {
+                    color: var(--primary_100);
+                }
+
+                .sw-review-phone-popup__question__title {
+                    color: var(--primary_100);
+                }
+
+                &:hover {
+                    background: var(--primary_20);
+                }
+            }
+
+            @include part("deal") {
+                background: var(--success_10);
+
+                .sw-review-phone-popup__question__icon {
+                    color: var(--success_100);
+                }
+
+                .sw-review-phone-popup__question__title {
+                    color: var(--success_100);
+                }
+
+                &:hover {
+                    background: var(--success_20);
+                }
+            }
+
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}

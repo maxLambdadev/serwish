@@ -1,0 +1,225 @@
+<a
+  [routerLink]="['/services/details', _item.id, _item.translated.slug]"
+  queryParamsHandling="merge"
+  [queryParams]="{
+    page: null,
+    categories: null,
+    quality: null,
+    personal: null,
+    cities: null
+  }"
+  *ngIf="_item"
+>
+  <div class="sw-service-item__content">
+    <div class="sw-service-item__image" *ngIf="_item?.images">
+      <!-- EMPTY -->
+      <div class="sw-service-item__image-empty" *ngIf="!(_item?.images)[0]?.path">
+        <img
+          [attr.src]="'./assets/img/empty.png'"
+          [attr.alt]="_item.translated.title"
+          loading="lazy"
+        />
+      </div>
+
+      <!-- IMAGE -->
+      <sw-image
+        *ngIf="(_item?.images)[0]?.path"
+        [src]="apiUrl + '/storage/' + (_item?.images)[0]?.path | generateThumb: '228x176'"
+        [alt]="_item?.translated?.title"
+        [absolute]="true"
+        [noSRCSET]="true"
+        [format]=""
+      ></sw-image>
+
+      <div class="sw-service-item__viewed" *ngIf="_item.isViewed && !_item.isCalled">
+        <div class="sw-service-item__viewed-icon">
+          <sw-icon [iconName]="'eye'" [iconSize]="'size-12'"></sw-icon>
+        </div>
+        <div class="sw-service-item__viewed-text">
+          {{ "Global.VIEWED" | translate }}
+        </div>
+      </div>
+
+      <div class="sw-service-item__called" *ngIf="_item.isCalled">
+        <div class="sw-service-item__called-icon">
+          <sw-icon [iconName]="'call'" [iconSize]="'size-12'"></sw-icon>
+        </div>
+
+        <div class="sw-service-item__called-text">
+          {{ "Global.CALLED" | translate }}
+        </div>
+      </div>
+
+      <!-- Image Overlay -->
+      <div class="sw-service-item__image__overlay"></div>
+
+      <!-- Button Overlay -->
+      <div class="sw-service-item__image__button">
+        <sw-button swRightIconButton [size]="'size-32'">
+          {{ "Global.MORE" | translate }}
+          <sw-icon
+            righticon
+            [iconName]="'next-arrow-icon'"
+            [iconSize]="'size-12'"
+          ></sw-icon>
+        </sw-button>
+      </div>
+    </div>
+
+    <div class="sw-service-item__other">
+      <h1 class="sw-service-item__title">
+        {{ _item.translated.title }}
+      </h1>
+
+      <div class="sw-service-item__info">
+        <div class="sw-flex">
+          <div
+            class="sw-service-item__boost"
+            *ngIf="isBoost && !(_item.vip_status && _item.vip_status !== 'none')"
+            (click)="boostService($event, _item.id)"
+          >
+            <div class="sw-service-item__boost__icon">
+              <sw-icon [iconName]="'edit'" [iconSize]="'size-20'"></sw-icon>
+            </div>
+
+            <div class="sw-service-item__boost__text">
+              {{ "MyServices.BOOST" | translate }}
+            </div>
+          </div>
+
+          <div
+            class="sw-service-item__vip"
+            *ngIf="_item.vip_status && _item.vip_status !== 'none'"
+          >
+            <div class="sw-service-item__vip__icon">
+              <img
+                [attr.src]="_item.vip_icon"
+                [attr.alt]="_item.vip_status"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="sw-service-item__vip__text">{{ _item.vip_status }}</div>
+          </div>
+
+          <div class="sw-service-item__author">ID: {{ _item.id | formatId }}</div>
+
+          <div
+            class="sw-service-item__phone"
+            *ngIf="_item.has_serwish_quality"
+            (click)="togglePhoneNumber($event)"
+          >
+            <div class="sw-service-item__phone-icon">
+              <sw-icon [iconName]="'call'" [iconSize]="'size-12'"></sw-icon>
+            </div>
+
+            <div class="sw-service-item__phone-text">
+              <ng-container *ngIf="showPhone">
+                <a href="tel:{{ phoneNumber }}">{{ phoneNumber }}</a>
+              </ng-container>
+
+              <ng-container *ngIf="!showPhone">
+                {{ hiddenPhoneNumber }}
+              </ng-container>
+            </div>
+
+            <ng-template #reviewPopupContent>
+              <sw-review-phone-popup
+                [specialist]="_specialist"
+                [serviceId]="_item.id"
+                (closePhoneReviewPopup)="closeReviewPhonePopup()"
+              >
+              </sw-review-phone-popup>
+            </ng-template>
+          </div>
+        </div>
+
+        <div class="sw-flex">
+          <div class="sw-service-item__category">
+            <ng-container *ngFor="let category of _item?.categories; trackBy: trackBy">
+              {{ category.translated[0].title }}
+            </ng-container>
+          </div>
+
+          <div class="sw-service-item__location" *ngIf="_item?.cities?.length > 0">
+            <div class="sw-service-item__location-icon">
+              <sw-icon onlyicon [iconName]="'location'" [iconSize]="'size-12'"></sw-icon>
+            </div>
+            <div class="sw-service-item__location-content">
+              <ng-container
+                *ngFor="let city of _item?.cities; trackBy: trackBy; let isLast = last"
+              >
+                {{ city.translated[0].name
+                }}<ng-container *ngIf="!isLast">,</ng-container>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sw-service-item__description">
+        <p
+          class="sw-service-item__description__content"
+          [innerHTML]="_item.translated.description"
+        ></p>
+      </div>
+
+      <div class="sw-service-item__bottom">
+        <div class="sw-service-item__badges">
+          <div
+            class="sw-service-item__badge sw-service-item__badge--serwish"
+            *ngIf="_item.has_serwish_quality"
+          >
+            <div class="sw-service-item__badge__icon">
+              <sw-icon onlyicon [iconName]="'star-icon'" [iconSize]="'size-10'"></sw-icon>
+            </div>
+            <div class="sw-service-item__badge__text">
+              <span>SER</span>WISH {{ "Global.QUALITY" | translate }}
+            </div>
+          </div>
+
+          <!-- Rating -->
+          <div class="sw-service-item__rating">
+            <div class="sw-service-item__rating__percentage">
+              <div class="sw-service-item__rating__percentage-icon">
+                <sw-icon onlyicon [iconName]="'like-icon'" [iconSize]="'size-12'">
+                </sw-icon>
+              </div>
+
+              <div class="sw-service-item__rating__percentage-value">
+                {{ _item.likePercent }} %
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="sw-service-item__actions">
+          <div class="sw-service-item__favorite">
+            <sw-favorite
+              [isWishlist]="isWishlist"
+              (removeFromWishlist)="toggleFavorite()"
+              [id]="_item.id"
+            >
+            </sw-favorite>
+          </div>
+
+          <div class="sw-service-item__share">
+            <div class="sw-service-item__share__content" (click)="openSharePopup($event)">
+              <span class="sw-service-item__share__icon">
+                <sw-icon onlyicon [iconName]="'share-icon'" [iconSize]="'size-16'">
+                </sw-icon>
+              </span>
+            </div>
+
+            <ng-template cdk-portal>
+              <sw-share-popup
+                (closeSharePopup)="closeSharePopup()"
+                [link]="link"
+                [device]="DEVICE.DESKTOP"
+              ></sw-share-popup>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</a>

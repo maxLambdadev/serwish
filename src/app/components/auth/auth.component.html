@@ -1,0 +1,59 @@
+<!-- Login -->
+<ng-container *ngIf="_activeAuthType === AUTHTYPE.LOGIN">
+  <sw-login
+    (changeAuthTab)="onChangeAuthTab($event)"
+    (closeSidePanel)="onCloseSidePanel()"
+  ></sw-login>
+</ng-container>
+
+<!-- Registration -->
+<ng-container *ngIf="_activeAuthType === AUTHTYPE.REGISTRATION">
+  <sw-registration
+    [device]="device"
+    (changeAuthTab)="onChangeAuthTab($event)"
+  ></sw-registration>
+</ng-container>
+
+<!-- Registration as specialist-->
+<ng-container *ngIf="_activeAuthType === AUTHTYPE.REGISTRATION_SPECIALIST">
+  <sw-registration-specialist
+    (changeAuthTab)="onChangeAuthTab($event)"
+  ></sw-registration-specialist>
+</ng-container>
+
+<!-- Specialsit Info -->
+<ng-container *ngIf="_activeAuthType === AUTHTYPE.SPECIALIST_INFO">
+  <sw-specialis-info
+    (changeAuthTab)="onChangeAuthTab($event)"
+    (closeSidePanel)="onCloseSidePanel()"
+  ></sw-specialis-info>
+</ng-container>
+
+<!-- Reset Password -->
+<ng-container *ngIf="_activeAuthType === AUTHTYPE.RESET_PASSWORD">
+  <sw-reset-password
+    (changeAuthTab)="onChangeAuthTab($event)"
+    (passWordChangeSuccess)="passWordChangeSuccess()"
+  >
+  </sw-reset-password>
+</ng-container>
+
+<ng-container *ngIf="_activeAuthType === AUTHTYPE.ADD_MOBILE">
+  <!-- <sw-reset-password (changeAuthTab)="onChangeAuthTab($event)" (passWordChangeSuccess)="passWordChangeSuccess()">
+  </sw-reset-password> -->
+  <sw-add-mobile
+    (changeAuthTab)="onChangeAuthTab($event)"
+    (closeSideBar)="onCloseSidebar()"
+    (changeAndClose)="onChangeAndClose()"
+  ></sw-add-mobile>
+</ng-container>
+
+<div class="sw-auth__notification" *ngIf="passWordChangeSuccessStatus" @slideUpDown>
+  <div class="sw-auth__notification__icon">
+    <sw-icon [iconName]="'check-icon'" [iconSize]="'size-16'"> </sw-icon>
+  </div>
+
+  <div class="sw-auth__notification__text">
+    {{ "Registration.PASSWORD_CHANGE_SUCCESS" | translate }}
+  </div>
+</div>

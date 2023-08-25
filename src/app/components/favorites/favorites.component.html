@@ -1,0 +1,42 @@
+<div class="sw-favorite__content" (click)="favouriteClick(id, $event)"
+  [ngClass]="{'sw-favorite__content--active' : (isFavorite$ | async) }">
+  <span class="sw-favorite__icon sw-favorite__icon--favorited" *ngIf="(isFavorite$ | async)" onlyicon [@inOutAnimation]>
+    <sw-icon onlyicon [iconName]="'love-icon'" [iconSize]="'size-16'" ></sw-icon>
+  </span>
+  <span class="sw-favorite__icon" *ngIf="!(isFavorite$ | async)" onlyicon>
+    <sw-icon onlyicon [iconName]="'love-icon'" [iconSize]="'size-16'" ></sw-icon>
+  </span>
+</div>
+
+<ng-template cdk-portal>
+  <div @fadeInSlow class="sw-wishlist__notification" [ngClass]="{
+        'sw-wishlist__notification--add' : (isFavorite$ | async),
+        'sw-wishlist__notification--remove' : !(isFavorite$ | async)
+
+      }">
+
+    <ng-container *ngIf="(isFavorite$ | async)">
+
+      <div class="sw-wishlist__notification__icon">
+        <sw-icon [iconName]="'check-icon'" [iconSize]="'size-16'" >
+        </sw-icon>
+      </div>
+
+      <div class="sw-wishlist__notification__text">
+        {{ 'Wishlist.NOTIFICATION.ADD' | translate }}
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!(isFavorite$ | async)">
+
+      <div class=" sw-wishlist__notification__icon">
+        <sw-icon [iconName]="'close-icon'" [iconSize]="'size-16'" >
+        </sw-icon>
+      </div>
+
+      <div class="sw-wishlist__notification__text">
+        {{ 'Wishlist.NOTIFICATION.REMOVE' | translate }}
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

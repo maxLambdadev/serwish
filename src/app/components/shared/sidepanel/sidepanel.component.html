@@ -1,0 +1,16 @@
+<div class="sw-side-panel__content" [ngClass]="getNgClassObject()" @slideInOut>
+  <div
+    class="sw-side-panel__close"
+    [ngClass]="{
+      'sw-side-panel__close--mobile': device === DEVICE.MOBILE
+    }"
+    (click)="onPanelClose($event)"
+    *ngIf="!underHeader"
+  >
+    <sw-icon [iconName]="'close-icon'" [iconSize]="'size-14'"></sw-icon>
+  </div>
+
+  <ng-content></ng-content>
+</div>
+
+<div class="sw-side-panel__overflow" @fadeIn (click)="onPanelClose($event)"></div>

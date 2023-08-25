@@ -1,0 +1,184 @@
+<div
+  class="sw-login-popup__content"
+  [ngClass]="{ 'sw-login-popup__content--mobile': device === DEVICE.MOBILE }"
+>
+  <div class="sw-login-popup__header">
+    <div class="sw-login-popup__header__info">
+      <div class="sw-login-popup__header__icon">
+        <ng-container *ngIf="isOrder">
+          <sw-icon onlyicon [iconName]="'chat'" [iconSize]="'size-20'"></sw-icon>
+        </ng-container>
+
+        <ng-container *ngIf="!isOrder">
+          <sw-icon onlyicon [iconName]="'user-icon'" [iconSize]="'size-20'"></sw-icon>
+        </ng-container>
+      </div>
+
+      <div class="sw-login-popup__header__title">
+        <ng-container *ngIf="isOrder">
+          {{ "Login.ORDER_TITLE" | translate }}
+        </ng-container>
+
+        <ng-container *ngIf="!isOrder">
+          <span>{{ "Registration.AUTH" | translate }}</span>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="sw-login-popup__header__close">
+      <sw-button
+        swOnlyIconButton
+        swSecondaryButton
+        [size]="'size-48'"
+        (clickAction)="closePopup()"
+      >
+        <sw-icon onlyicon [iconName]="'close-icon'" [iconSize]="'size-12'"></sw-icon>
+      </sw-button>
+    </div>
+  </div>
+
+  <div class="sw-login-popup__notification">
+    <div class="sw-login-popup__notification__icon">!</div>
+    <div class="sw-login-popup__notification__info">
+      <div class="sw-login-popup__notification__title">
+        <ng-container *ngIf="isOrder">
+          {{ "Login.NOTIFICATION.TITLE_ORDER" | translate }}
+        </ng-container>
+
+        <ng-container *ngIf="!isOrder">
+          {{ "Login.NOTIFICATION.TITLE" | translate }}
+        </ng-container>
+      </div>
+
+      <div class="sw-login-popup__notification__desc">
+        <ng-container *ngIf="isOrder">
+          {{ "Login.NOTIFICATION.DESC_ORDER" | translate }}
+        </ng-container>
+
+        <ng-container *ngIf="!isOrder">
+          {{ "Login.NOTIFICATION.DESC" | translate }}
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <form
+    class="sw-login-popup__form"
+    [formGroup]="loginForm"
+    #localForm="ngForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div
+      class="sw-login-popup__form__item sw-login-popup__form__item--desktop"
+      [@shake]="animationState"
+      (@shake.done)="reAnimattingDone()"
+    >
+      <sw-input
+        [name]="'phone'"
+        [size]="'medium'"
+        [type]="'title-in'"
+        [placeholderDraft]="'555 555 555'"
+        [labelText]="'Registration.PHONE_NUMBER' | translate"
+        [inputType]="'text'"
+        [showErrors]="localForm.submitted"
+        [required]="true"
+        formControlName="username"
+        [mask]="'000 000 000'"
+      ></sw-input>
+    </div>
+
+    <div
+      class="sw-login-popup__form__item sw-login-popup__form__item--desktop"
+      [@shake]="animationState"
+      (@shake.done)="reAnimattingDone()"
+    >
+      <sw-input
+        [name]="'password'"
+        swRightIconInput
+        [size]="'medium'"
+        [type]="'title-in'"
+        [placeholderDraft]="'*******'"
+        [labelText]="'Registration.PASSWORD' | translate"
+        [inputType]="'password'"
+        [showErrors]="localForm.submitted"
+        [required]="true"
+        formControlName="password"
+      >
+        <sw-button
+          righticon
+          swSecondaryButton
+          swOnlyIconButton
+          [size]="'size-32'"
+          (clickAction)="onChangeAuthTab(AUTHTYPE.RESET_PASSWORD)"
+        >
+          <ng-container onlyicon>
+            <sw-icon [iconName]="'password-forgot-icon'" [iconSize]="'size-16'"></sw-icon>
+          </ng-container>
+        </sw-button>
+      </sw-input>
+    </div>
+
+    <button class="sw-login-popup__form__send" type="submit">
+      <sw-button
+        swPrimaryButton
+        swRightIconButton
+        [size]="'size-56'"
+        [disabled]="!loginForm.valid"
+      >
+        {{ "Login.AUTH" | translate }}
+
+        <sw-icon
+          righticon
+          [iconName]="'next-arrow-icon'"
+          [iconSize]="'size-12'"
+        ></sw-icon>
+      </sw-button>
+    </button>
+
+    <!-- <sw-button
+      swLeftIconButton
+      swPrimaryButton
+      swBorderedButton
+      [size]="'size-56'"
+      (clickAction)="onSubmitFb()"
+    >
+      {{ "Login.FACEBOOK_LOGIN" | translate }}
+
+      <sw-icon lefticon [iconName]="'facebook'" [iconSize]="'size-16'"></sw-icon>
+    </sw-button> -->
+
+    <sw-button
+      swLeftIconButton
+      swPrimaryButton
+      swBorderedButton
+      [size]="'size-56'"
+      (clickAction)="onSubmitGoogle()"
+      style="margin-top: 16px;"
+    >
+      {{ "Login.GOOGLE_LOGIN" | translate }}
+      <sw-icon lefticon [iconName]="'google'" [iconSize]="'size-16'"></sw-icon>
+    </sw-button>
+  </form>
+
+  <div
+    class="sw-login-popup__registration sw-login-popup__registration--popup"
+    (click)="onChangeAuthTab(AUTHTYPE.REGISTRATION)"
+  >
+    <div class="sw-login-popup__registration__icon">
+      <sw-icon onlyicon [iconName]="'plus'" [iconSize]="'size-24'"></sw-icon>
+    </div>
+
+    <div class="sw-login-popup__registration__other">
+      <div class="sw-login-popup__registration__label">
+        {{ "Registration.NO_ACCOUNT_QUESTION" | translate }}
+      </div>
+      <div class="sw-login-popup__registration__button">
+        {{ "Registration.REGISTRATION" | translate }}
+      </div>
+    </div>
+  </div>
+
+  <div class="sw-login-popup__loader" *ngIf="isLoadingResults">
+    <div class="sw-login-popup__loader__spinner"></div>
+  </div>
+</div>

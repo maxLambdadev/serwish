@@ -1,0 +1,19 @@
+<div class="sb-navigation-bottom">
+    <!-- BACKGROUND LOGIC -->
+    <div class="sb-navigation-bottom__background" [@transform]="{
+            value: activateAnimation,
+            params: { transform: 'translateX(' + bgPosition + '%)' }
+        }">
+        <div class="sb-navigation-bottom__background__cutout"></div>
+        <div class="sb-navigation-bottom__background__circle">
+            <span></span>
+        </div>
+    </div>
+
+    <div class="sb-navigation-bottom__content">
+        <ng-container *ngFor="let navItem of navigationItems; let index = index">
+            <ss-bottom-navigation-item class="sb-navigation-bottom__item" [activePage]="activePage" [navItem]="navItem">
+            </ss-bottom-navigation-item>
+        </ng-container>
+    </div>
+</div>

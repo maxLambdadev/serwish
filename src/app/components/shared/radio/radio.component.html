@@ -1,0 +1,21 @@
+<div class="ws-radio__content">
+  <label class="ws-radio__label">
+    <input class="ws-radio__input" #rdbtn type="radio" [id]="groupName + '_' + valueName"
+      (change)="onInputChange($event)" [name]="groupName" [value]="valueName" [disabled]="disabled" />
+
+    <div class="ws-radio__button"
+      [ngClass]="{ 'ws-radio__button--active': rdbtn.checked, 'ws-radio__button--disabled': disabled }">
+      <div class="ws-radio__icon">
+        <ng-container *ngIf="rdbtn.checked">
+          <sw-icon [iconName]="'radio-active'" [iconSize]="'size-16'"  [colored]="true"></sw-icon>
+        </ng-container>
+
+        <ng-container *ngIf="!rdbtn.checked">
+          <sw-icon [iconName]="'radio'" [iconSize]="'size-16'"  [colored]="true"></sw-icon>
+        </ng-container>
+      </div>
+
+      <div class="ws-radio__text">{{ label }}</div>
+    </div>
+  </label>
+</div>

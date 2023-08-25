@@ -1,0 +1,99 @@
+<section class="sw-page sw-page--my-services" [ngClass]="{ 'sw-page--mobile': device === DEVICE.MOBILE }">
+    <div class="sw-my-services">
+
+        <div class="sw-my-services__wrapper">
+            <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+
+                <h1 class="sw-my-services__title"
+                    [ngClass]="{ 'sw-my-services__title--mobile': device === DEVICE.MOBILE }">
+                    <span>
+                        {{ 'MyServices.TITLE' | translate }}
+                    </span>
+                </h1>
+
+                <div class="sw-my-services__content"
+                    [ngClass]="{ 'sw-my-services__content--mobile': device === DEVICE.MOBILE }">
+
+                    <ng-container *ngFor="
+                            let service of services$ | async;
+                            trackBy: trackBy;
+                            let i = index;
+                            let isLast = last
+                        ">
+
+                        <ng-container *ngIf="device === DEVICE.DESKTOP">
+                            <sw-service-item @fadeIn [item]="service" [isBoost]="true" [specialist]="service.specialist"
+                                (boostServiceClick)="openBoostPopup($event)">
+                            </sw-service-item>
+                        </ng-container>
+
+                        <ng-container *ngIf="device === DEVICE.MOBILE">
+                            <sw-service-item-mobile @fadeIn [item]="service" [isBoost]="true"
+                                [specialist]="service.specialist" (boostServiceClick)="openBoostPopup($event)">
+                            </sw-service-item-mobile>
+                        </ng-container>
+
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #reviewPopupContent>
+
+    <div class="sw-boost__content" [ngClass]="{'sw-boost__content--mobile' : device === DEVICE.MOBILE}">
+
+        <div class="sw-boost__header">
+
+            <div class="sw-boost__header__info">
+
+                <div class="sw-boost__header__title">
+                    <span>{{'MyServices.BOOST_SERVICE' | translate}}</span>
+                </div>
+
+            </div>
+
+
+            <div class="sw-boost__header__close">
+                <sw-button swOnlyIconButton swSecondaryButton [size]="'size-48'" (clickAction)="detechBoostPopup()">
+                    <sw-icon onlyicon [iconName]="'close-icon'" [iconSize]="'size-12'"></sw-icon>
+                </sw-button>
+            </div>
+
+        </div>
+
+        <form class="sw-boost__form" [formGroup]="boostForm" #localForm="ngForm" (ngSubmit)="onSubmit()">
+
+            <div class="sw-boost__form__item sw-boost__form__item--desktop">
+
+                <ng-select [clearable]="false" [items]="packets" bindLabel="'zdd'" bindValue="id"
+                    placeholder="{{ 'MyServices.CHOOSE_PACKET' | translate }}" formControlName="packet_id">
+                    >
+                    <ng-template ng-label-tmp let-item="item">
+                        {{ item.translated[0].name + " - ₾" + item.price + " - " + item.valid_days + " დღე" }}
+                    </ng-template>
+
+                    <ng-template ng-option-tmp let-item="item">
+                        {{ item.translated[0].name + " - ₾" + item.price + " - " + item.valid_days + " დღე" }}
+                    </ng-template>
+
+                </ng-select>
+
+            </div>
+
+
+            <button class="sw-boost__form__send" type="submit">
+                <sw-button swPrimaryButton swRightIconButton [size]="'size-56'" [disabled]="!boostForm.valid">
+                    {{ "MyServices.PAY" | translate }}
+
+                    <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+                </sw-button>
+            </button>
+        </form>
+
+    </div>
+
+
+</ng-template>

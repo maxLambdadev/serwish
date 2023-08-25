@@ -1,0 +1,350 @@
+<section class="sw-page sw-page--specialist">
+  <div class="sw-specialist-details">
+    <div
+      class="sw-container"
+      [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+    >
+      <div
+        class="sw-specialist-details__content"
+        [ngClass]="{ 'sw-specialist-details__content--mobile': device === DEVICE.MOBILE }"
+      >
+        <ng-container *ngIf="_specialist">
+          <!-- Info -->
+          <div
+            class="sw-specialist-details__info"
+            [ngClass]="{
+              'sw-specialist-details__info--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <!-- Image -->
+            <div
+              class="sw-specialist-details__info__image-wrapper"
+              [ngClass]="{
+                'sw-specialist-details__info__image-wrapper--mobile':
+                  device === DEVICE.MOBILE
+              }"
+            >
+              <div class="sw-specialist-details__info__image">
+                <!-- NO IMAGE -->
+                <div
+                  class="sw-specialist-details__info__image-empty"
+                  *ngIf="
+                    _specialist?.images &&
+                    !(_specialist?.images)[0]?.path &&
+                    !_specialist.extraPic
+                  "
+                >
+                  <img
+                    [attr.src]="'./assets/img/empty.png'"
+                    [attr.alt]="_specialist.name | onlyName"
+                    loading="lazy"
+                  />
+                </div>
+
+                <!-- UPLOADED ONE -->
+                <ng-container
+                  *ngIf="
+                    _specialist?.images &&
+                    (_specialist?.images)[0]?.path &&
+                    !_specialist.extraPic
+                  "
+                >
+                  <sw-image
+                    [src]="
+                      apiUrl + '/storage/' + (_specialist?.images)[0].path
+                        | generateThumb: '228x228'
+                    "
+                    [attr.alt]="_specialist.name | onlyName"
+                    [absolute]="true"
+                    [noSRCSET]="true"
+                    [format]=""
+                  ></sw-image>
+                </ng-container>
+
+                <!-- EXTRA PIC -->
+                <ng-container *ngIf="_specialist.extraPic">
+                  <sw-image
+                    [src]="_specialist.extraPic"
+                    [attr.alt]="_specialist.name | onlyName"
+                    [absolute]="true"
+                    [noSRCSET]="true"
+                  >
+                  </sw-image>
+                </ng-container>
+              </div>
+            </div>
+
+            <!-- Other -->
+            <div class="sw-specialist-details__info__other">
+              <div class="sw-specialist-details__info__top">
+                <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADED">
+                  <!-- Title -->
+                  <h1 class="sw-specialist-details__info__title" @fadeIn>
+                    {{ _specialist.name | onlyName }} {{ _specialist.id }}
+                  </h1>
+
+                  <!-- Categories -->
+                  <h2 class="sw-specialist-details__info__categories">
+                    {{ _specialist?.categories }}
+                  </h2>
+                </ng-container>
+
+                <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADING">
+                  <div class="sw-specialist-details__info__title-loader"></div>
+
+                  <div class="sw-specialist-details__info__categories-loader"></div>
+                </ng-container>
+
+                <!-- Badges -->
+                <div class="sw-specialist-details__info__badges">
+                  <div class="sw-specialist-details__info__review">
+                    <div class="sw-specialist-details__info__review-icon">
+                      <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'"> </sw-icon>
+                    </div>
+                    <div class="sw-specialist-details__info__review-info">
+                      <div class="sw-specialist-details__info__review-percentage">
+                        {{ _specialist.likePercent }}%
+                      </div>
+                      <div class="sw-specialist-details__info__review-count">
+                        {{ _specialist.totalReviews }}
+                        {{ "Specialist.REVIEW" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="sw-specialist-details__info__serwish"
+                    *ngIf="_specialist?.serwish_quality > 0"
+                  >
+                    <div class="sw-specialist-details__info__serwish-icon">
+                      <sw-icon [iconName]="'star-icon'" [iconSize]="'size-16'"> </sw-icon>
+                    </div>
+                    <div class="sw-specialist-details__info__serwish-info">
+                      <div class="sw-specialist-details__info__serwish-title">
+                        {{ "Specialist.SERWISH_QUALITY" | translate }}
+                      </div>
+                      <div class="sw-specialist-details__info__serwish-count">
+                        {{ _specialist?.serwish_quality }}
+                        {{ "Specialist.ON_SERVICE" | translate }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Phone -->
+              <div
+                class="sw-specialist-details__info__phone"
+                [ngClass]="{
+                  'sw-specialist-details__info__phone--mobile': device === DEVICE.MOBILE
+                }"
+                (click)="togglePhoneNumber()"
+              >
+                <div class="sw-specialist-details__info__phone-content">
+                  <ng-container *ngIf="showPhone">
+                    <a href="tel:{{ phoneNumber }}">{{ phoneNumber }}</a>
+                  </ng-container>
+
+                  <ng-container *ngIf="!showPhone">
+                    {{ hiddenPhoneNumber }}
+                  </ng-container>
+                </div>
+                <div class="sw-specialist-details__info__phone-toggle" *ngIf="!showPhone">
+                  <sw-icon [iconName]="'eye'" [iconSize]="'size-16'"></sw-icon>
+                </div>
+
+                <ng-template #templatePortalContent>
+                  <sw-review-phone-popup
+                    [specialist]="_specialist"
+                    [specialistId]="_specialist.id"
+                    (closePhoneReviewPopup)="closeReviewPhonePopup()"
+                  >
+                  </sw-review-phone-popup>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <ng-container *ngIf="reviews && reviews.length > 0">
+            <div
+              class="sw-specialist-details__review"
+              [ngClass]="{
+                'sw-specialist-details__review--mobile': device === DEVICE.MOBILE
+              }"
+            >
+              <h1 class="sw-specialist-details__review__title">
+                <span> {{ "Specialist.CLIENTS" | translate }}</span>
+                {{ "Specialist.RECOMENDATIONS" | translate }}
+              </h1>
+
+              <div
+                class="sw-specialist-details__review__slider"
+                [ngClass]="{
+                  'sw-specialist-details__review__slider--mobile':
+                    device === DEVICE.MOBILE
+                }"
+              >
+                <swiper [config]="configRecomendations">
+                  <ng-container *ngFor="let review of reviews; trackBy: trackBy">
+                    <ng-template swiperSlide>
+                      <div
+                        class="sw-specialist-details__review__slider__item"
+                        [ngClass]="{
+                          'sw-specialist-details__review__slider__item--mobile':
+                            device === DEVICE.MOBILE
+                        }"
+                      >
+                        <div class="sw-specialist-details__review__item__header">
+                          <!-- Image-->
+                          <div class="sw-specialist-details__review__item__user-image">
+                            <div
+                              class="sw-specialist-details__review__item__user-image-empty"
+                              *ngIf="!review.user.image && !review.user.extraPic"
+                            >
+                              <sw-icon
+                                [iconName]="'no-img'"
+                                [iconSize]="'size-24'"
+                              ></sw-icon>
+                            </div>
+
+                            <ng-container
+                              *ngIf="
+                                !review.user.extraPic &&
+                                review?.user?.images &&
+                                (review?.user?.images)[0]?.path
+                              "
+                            >
+                              <sw-image
+                                [src]="
+                                  apiUrl +
+                                  '/storage/' +
+                                  ((review?.user?.images)[0]?.path
+                                    | generateThumb: '228x228')
+                                "
+                                [alt]="review?.user?.name"
+                                [absolute]="true"
+                                [noSRCSET]="true"
+                              >
+                              </sw-image>
+                            </ng-container>
+
+                            <ng-container *ngIf="review.user.extraPic">
+                              <sw-image
+                                [src]="review.user.extraPic"
+                                [alt]="review?.user?.name"
+                                [absolute]="true"
+                                [noSRCSET]="true"
+                              >
+                              </sw-image>
+                            </ng-container>
+                          </div>
+
+                          <!-- Other -->
+                          <div class="sw-specialist-details__review__item__user-other">
+                            <div class="sw-specialist-details__review__item__user-name">
+                              {{ review?.user?.name }}
+                            </div>
+                            <div class="sw-specialist-details__review__item__user-date">
+                              {{ review.created_at | date: "M.dd.y" }}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="sw-specialist-details__review__item__content">
+                          {{ review.description }}
+                        </div>
+
+                        <div class="sw-specialist-details__review__item__footer">
+                          <div class="sw-specialist-details__review__item__quote"></div>
+
+                          <div
+                            class="sw-specialist-details__review__item__status sw-specialist-details__review__item__status--like"
+                            *ngIf="review.likes"
+                          >
+                            <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'">
+                            </sw-icon>
+                          </div>
+
+                          <div
+                            class="sw-specialist-details__review__item__status sw-specialist-details__review__item__status--dislike"
+                            *ngIf="!review.likes"
+                          >
+                            <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'">
+                            </sw-icon>
+                          </div>
+                        </div>
+                      </div>
+                    </ng-template>
+                  </ng-container>
+                </swiper>
+              </div>
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <div
+        class="sw-specialist-details__services"
+        [ngClass]="{
+          'sw-specialist-details__services--mobile': device === DEVICE.MOBILE
+        }"
+      >
+        <h1
+          class="sw-specialist-details__services__title"
+          [ngClass]="{
+            'sw-specialist-details__services__title--mobile': device === DEVICE.MOBILE
+          }"
+        >
+          {{ "Specialist.SERVICES" | translate }}
+        </h1>
+
+        <div
+          infinite-scroll
+          [infiniteScrollDistance]="scrollDistance"
+          [infiniteScrollUpDistance]="scrollUpDistance"
+          [infiniteScrollThrottle]="throttle"
+          (scrolled)="onScrollDown()"
+          (scrolledUp)="onUp()"
+          class="sw-specialist-details__services__content"
+          [ngClass]="{
+            'sw-specialist-details__services__content--mobile': device === DEVICE.MOBILE
+          }"
+        >
+          <!-- Loaded -->
+          <ng-container
+            *ngFor="
+              let service of specialistServices$ | async;
+              trackBy: trackBy;
+              let i = index;
+              let isLast = last
+            "
+          >
+            <ng-container *ngIf="device === DEVICE.MOBILE">
+              <sw-service-item-mobile @fadeIn [item]="service" [specialist]="_specialist">
+              </sw-service-item-mobile>
+            </ng-container>
+
+            <ng-container *ngIf="device === DEVICE.DESKTOP">
+              <sw-service-item @fadeIn [item]="service" [specialist]="_specialist">
+              </sw-service-item>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <!-- Empty -->
+        <ng-container *ngIf="(servicesLoadingStatus$ | async) === LOADING_STATUS.EMPTY">
+          <div class="sw-specialist-details__services__empty">
+            <div class="sw-specialist-details__services__empty__icon">
+              <sw-icon [iconName]="'empty'" [iconSize]="'size-70'"></sw-icon>
+            </div>
+            <h3 class="sw-specialist-details__services__empty__title">
+              {{ "Specialist.EMPTY_SERVICES.TITLE" | translate }}
+            </h3>
+            <p class="sw-specialist-details__services__empty__desc">
+              {{ "Specialist.EMPTY_SERVICES.DESC" | translate }}
+            </p>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>

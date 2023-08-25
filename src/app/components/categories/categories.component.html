@@ -1,0 +1,179 @@
+<div
+  class="sw-categories__content"
+  [ngClass]="{ 'sw-categories__content--mobile': device === DEVICE.MOBILE }"
+>
+  <div
+    class="sw-categories__items"
+    [ngClass]="{ 'sw-categories__items--mobile': device === DEVICE.MOBILE }"
+  >
+    <ng-container *ngIf="(categoriesLoading$ | async) === LOADING_STATUS.LOADED">
+      <ng-container
+        *ngFor="
+          let category of categories$ | async;
+          let isFirst = first;
+          let isLast = last;
+          trackBy: trackBy
+        "
+      >
+        <div
+          *ngIf="category.childrens.length > 0"
+          class="sw-categories__item"
+          [ngClass]="{
+            'sw-categories__item--active': category.id === activeCategoryId,
+            'sw-categories__item--first': isFirst,
+            'sw-categories__item--last': isLast,
+            'sw-categories__item--mobile': device === DEVICE.MOBILE
+          }"
+          [attr.title]="category?.translated.title"
+          (click)="changeActiveCategory(category.id)"
+        >
+          <div
+            class="sw-categories__item__content"
+            [ngClass]="{
+              'sw-categories__item__content--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <div class="sw-categories__item__arrow">
+              <sw-icon [iconName]="'back-icon'" [iconSize]="'size-10'"></sw-icon>
+            </div>
+
+            <div
+              class="sw-categories__item__other"
+              [ngClass]="{
+                'sw-categories__item__other--mobile': device === DEVICE.MOBILE
+              }"
+            >
+              <p
+                class="sw-categories__item__name"
+                [ngClass]="{
+                  'sw-categories__item__name--mobile': device === DEVICE.MOBILE
+                }"
+              >
+                {{ category?.translated.title }}
+              </p>
+
+              <div
+                class="sw-categories__item__settings"
+                [ngClass]="{
+                  'sw-categories__item__settings--mobile': device === DEVICE.MOBILE
+                }"
+              >
+                <sw-image
+                  *ngIf="(category?.images)[0]?.path"
+                  [src]="apiUrl + '/storage/' + (category?.images)[0]?.path"
+                  [alt]="category?.translated?.title"
+                  [absolute]="true"
+                  [noSRCSET]="true"
+                  [format]=""
+                >
+                </sw-image>
+              </div>
+            </div>
+
+            <ng-container *ngIf="device === DEVICE.MOBILE">
+              <div
+                class="sw-categories__subitems sw-categories__subitems--mobile"
+                *ngIf="category.id === activeCategoryId"
+              >
+                <div class="sw-categories__subitems__header">
+                  <div
+                    class="sw-categories__subitems__header__back"
+                    (click)="goBack($event)"
+                  >
+                    <div class="sw-categories__subitems__header__back-icon">
+                      <sw-icon [iconName]="'drop-left'" [iconSize]="'size-12'"> </sw-icon>
+                    </div>
+
+                    <div class="sw-categories__subitems__header__back-text">
+                      {{ "Global.BACK" | translate }}
+                    </div>
+                  </div>
+
+                  <div class="sw-categories__subitems__header__title">
+                    <div>
+                      {{ category?.translated.title }}
+                    </div>
+
+                    <div class="imagei">
+                      <sw-image
+                        *ngIf="(category?.images)[0]?.path"
+                        [src]="apiUrl + '/storage/' + (category?.images)[0]?.path"
+                        [alt]="category?.translated?.title"
+                        [absolute]="true"
+                        [noSRCSET]="true"
+                        [format]=""
+                      >
+                      </sw-image>
+                    </div>
+                  </div>
+                </div>
+
+                <ng-container
+                  *ngFor="let subcategory of category.childrens; trackBy: trackBy"
+                >
+                  <a
+                    class="sw-categories__subitem-link"
+                    queryParamsHandling="merge"
+                    [routerLink]="['/services', subcategory?.translated.slug]"
+                    [attr.title]="subcategory?.translated.title"
+                    [attr.alt]="subcategory?.translated.title"
+                    [queryParams]="{
+                      categories: subcategory.id,
+                      page: null,
+                      cities: null,
+                      quality: null,
+                      personal: null
+                    }"
+                  >
+                    {{ subcategory?.translated.title }}
+                  </a>
+                </ng-container>
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="device === DEVICE.DESKTOP">
+              <div
+                class="sw-categories__subitems"
+                *ngIf="category.id === activeCategoryId"
+                @slideInFromLeft
+              >
+                <ng-container
+                  *ngFor="let subcategory of category.childrens; trackBy: trackBy"
+                >
+                  <a
+                    class="sw-categories__subitem-link"
+                    queryParamsHandling="merge"
+                    [routerLink]="['/services', subcategory?.translated.slug]"
+                    [attr.title]="subcategory?.translated.title"
+                    [attr.alt]="subcategory?.translated.title"
+                    [queryParams]="{
+                      categories: subcategory.id,
+                      page: null,
+                      cities: null,
+                      quality: null,
+                      personal: null
+                    }"
+                  >
+                    {{ subcategory?.translated.title }}
+                  </a>
+                </ng-container>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="(categoriesLoading$ | async) === LOADING_STATUS.NOT_LOADED">
+      <div class="sw-categories__loader">
+        <div class="sw-categories__loader__spinner"></div>
+      </div>
+
+      <ng-container *ngFor="let in of counter(12)">
+        <div class="sw-categories-item-loader">
+          <div class="sw-categories-item-loader__content"></div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<!-- Specialists -->
+<section class="sw-main-section sw-main-section--services"
+    [ngClass]="{'sw-main-section--mobile': device === DEVICE.MOBILE}">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+        <div class="sw-main-section__header" [ngClass]="{'sw-main-section__header--mobile' : device === DEVICE.MOBILE}">
+            <h2 class="sw-main-section__header__title"
+                [ngClass]="{'sw-main-section__header__title--mobile': device === DEVICE.MOBILE}">
+                <span>{{ 'Home.MONTH' |translate }}</span> {{ 'Home.SPECIALIST' |translate }}
+            </h2>
+
+            <div class="sw-main-section__header__other"
+                [ngClass]="{ 'sw-main-section__header__other--mobile': device === DEVICE.MOBILE }">
+                <div class="sw-main-section__filters"
+                    [ngClass]="{ 'sw-main-section__filters--mobile': device === DEVICE.MOBILE }">
+
+                    <div class="sw-main-section__filters__item" (click)="changeSpecialistFilter($event,'ALL')"
+                        [ngClass]="{'sw-main-section__filters__item--active' : activeSpecialistFilter === 'ALL'}">
+                        {{'Global.ALL' | translate }}
+                    </div>
+
+                    <div class="sw-main-section__filters__item" (click)="changeSpecialistFilter($event, 'QUALITY')"
+                        [ngClass]="{'sw-main-section__filters__item--active' : activeSpecialistFilter === 'QUALITY'}">
+                        {{ 'Global.WITH_QUALITY' | translate }}
+                    </div>
+
+                </div>
+
+                <div class="sw-main-section__show-all" *ngIf="device === DEVICE.DESKTOP">
+                    <a [routerLink]="['/specialists']" [queryParams]="{ page:null , categories:null , cities:null  }">
+                        {{ 'Home.ALL_SPECIALISTS' | translate }}
+                        <sw-icon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sw-main-section__content sw-main-section__content--services"
+            [ngClass]="{'sw-main-section__content--mobile' : device === DEVICE.MOBILE}">
+            <swiper [config]="configTopSpecialists">
+                <ng-container *ngIf="(specialistsLoadingStatus$ | async) === LOADING_STATUS.LOADED">
+                    <ng-container *ngFor="let specialist of specialists$ | async; trackBy: trackBy">
+                        <ng-template swiperSlide>
+                            <sw-specialist-item [item]="specialist" [device]="device"></sw-specialist-item>
+                        </ng-template>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="(specialistsLoadingStatus$ | async) === LOADING_STATUS.LOADING">
+
+                    <ng-container *ngFor="let in of counter(7); let i = index ">
+                        <ng-template swiperSlide>
+                            <sw-specialist-item-loader [device]="device"></sw-specialist-item-loader>
+                        </ng-template>
+                    </ng-container>
+
+                </ng-container>
+            </swiper>
+        </div>
+    </div>
+</section>

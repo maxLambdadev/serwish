@@ -1,0 +1,151 @@
+<div class="sw-registration-specialist__content">
+  <div class="sw-registration-specialist__top">
+    <div class="sw-registration-specialist__title">
+      <div>
+        <span>{{ "Registration.FOR_SPECIALIST" | translate }}</span> {{ "Registration.REGISTRATION" | translate }}
+      </div>
+
+      <div class="sw-registration-specialist__title__counter" *ngIf="counter !== 30">
+        {{ counter }}
+      </div>
+    </div>
+
+    <form class="sw-registration-specialist__form" [formGroup]="registrationForm" #localForm="ngForm"
+      (ngSubmit)="onSubmit()">
+      <!-- TYPE -->
+      <div class="sw-registration-specialist__form__item">
+        <ws-radio formControlName="personal" groupName="personal" valueName="personal"
+          label="{{ 'Registration.PERSONAL' | translate }}">
+        </ws-radio>
+
+        <ws-radio formControlName="personal" groupName="personal" valueName="business"
+          label="{{ 'Registration.BUSINESS' | translate }}"></ws-radio>
+      </div>
+
+      <!-- IF PERSON -->
+      <ng-container *ngIf="activeType === 'personal'">
+        <!-- Name -->
+        <div class="sw-registration-specialist__form__item" [@shake]="animationState"
+          (@shake.done)="reAnimattingDone()">
+          <sw-input [name]="'name'" [size]="'medium'" [type]="'title-in'"
+            [placeholderDraft]="'Registration.FIRST_AND_LAST_NAME_PLACEHOLDER' | translate"
+            [labelText]="'Registration.FIRST_AND_LAST_NAME' | translate" [inputType]="'text'"
+            [showErrors]="localForm.submitted" [required]="true" formControlName="name"></sw-input>
+        </div>
+
+        <!-- ID -->
+        <div class="sw-registration-specialist__form__item" [@shake]="animationState"
+          (@shake.done)="reAnimattingDone()">
+          <sw-input [name]="'id'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'00000000000'"
+            [labelText]="'Registration.ID_NUMBER' | translate" [inputType]="'number'" [showErrors]="localForm.submitted"
+            [required]="true" formControlName="id_number">
+          </sw-input>
+        </div>
+
+        <!-- Gender -->
+        <div class="sw-registration-specialist__form__item">
+          <ws-radio formControlName="gender" groupName="gender" valueName="male"
+            label="{{ 'Registration.MALE' | translate }}"></ws-radio>
+
+          <ws-radio formControlName="gender" groupName="gender" valueName="female"
+            label="{{ 'Registration.FEMALE' | translate }}"></ws-radio>
+        </div>
+
+        <!-- Date -->
+        <div class="sw-registration-specialist__form__item">
+          <sw-input id="requestdate" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'06.01.1997'"
+            [labelText]="'Registration.BIRTH_DATE' | translate" [inputType]="'date'" [showErrors]="localForm.submitted"
+            [required]="true" formControlName="date_of_birth">
+          </sw-input>
+        </div>
+      </ng-container>
+
+      <!-- IF COMPANY -->
+      <ng-container *ngIf="activeType === 'business'">
+        <!-- Company Name -->
+        <div class="sw-registration-specialist__form__item" [@shake]="animationState"
+          (@shake.done)="reAnimattingDone()">
+          <sw-input [name]="'name'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'Metrix'"
+            [labelText]="'Registration.COMPANY_NAME' | translate" [inputType]="'text'"
+            [showErrors]="localForm.submitted" [required]="true" formControlName="name">
+          </sw-input>
+        </div>
+
+        <!-- Company ID -->
+        <div class="sw-registration-specialist__form__item" [@shake]="animationState"
+          (@shake.done)="reAnimattingDone()">
+          <sw-input [name]="'id'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'00000000000'"
+            [labelText]="'Registration.IDENTIFICATION_CODE' | translate" [inputType]="'number'"
+            [showErrors]="localForm.submitted" [required]="true" formControlName="id_number">
+          </sw-input>
+        </div>
+
+        <!-- Date -->
+        <div class="sw-registration-specialist__form__item">
+          <sw-input id="requestdate" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'06.01.1997'"
+            [labelText]="'Registration.ESTABLISHMENT_DATE' | translate" [inputType]="'date'"
+            [showErrors]="localForm.submitted" [required]="true" formControlName="date_of_birth">
+          </sw-input>
+        </div>
+      </ng-container>
+
+      <!-- Phone -->
+      <div class="sw-registration-specialist__form__item" [@shake]="animationState" (@shake.done)="reAnimattingDone()">
+        <sw-input [name]="'phone'" swRightIconInput [size]="'medium'" [type]="'title-in'"
+          [placeholderDraft]="'555 555 555'" [labelText]="'Registration.PHONE_NUMBER' | translate" [inputType]="'tel'"
+          [showErrors]="localForm.submitted" [required]="true" [mask]="'000 000 000'" formControlName="phone_number">
+          <sw-button righticon swSecondaryButton [size]="'size-40'" [disabled]="waitingForCode"
+            (clickAction)="getVerificationCode()">
+            {{ 'Registration.SEND_CODE' | translate }}
+          </sw-button>
+        </sw-input>
+      </div>
+
+      <!-- SMS Code -->
+      <div class="sw-registration-specialist__form__item">
+        <sw-input [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'1234'"
+          [labelText]="'Registration.SMS_CODE' | translate" [inputType]="'number'" [showErrors]="localForm.submitted"
+          formControlName="sms_validation">
+        </sw-input>
+      </div>
+
+      <!-- Password -->
+      <div class="sw-registration-specialist__form__item" [@shake]="animationState" (@shake.done)="reAnimattingDone()">
+        <sw-input [name]="'password'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'*******'"
+          [labelText]="'Registration.PASSWORD' | translate" [inputType]="'password'" [showErrors]="localForm.submitted"
+          [required]="true" formControlName="password">
+        </sw-input>
+
+        <sw-input [name]="'password'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'*******'"
+          [labelText]="'Registration.REPEAT_PASSWORD' | translate" [inputType]="'password'"
+          [showErrors]="localForm.submitted" [required]="true" formControlName="password_confirmation">
+        </sw-input>
+      </div>
+
+      <!-- Submit -->
+      <div class="sw-registration-specialist__form__bottom">
+
+        <!-- Back -->
+        <div class="sw-registration-specialist__form__back">
+          <sw-button swSecondaryButton swOnlyIconButton [size]="'size-56'" (clickAction)="goBack()">
+            <sw-icon onlyicon [iconName]="'back-icon'" [iconSize]="'size-12'" ></sw-icon>
+          </sw-button>
+        </div>
+
+        <!-- Submit -->
+        <button class="sw-registration-specialist__form__send" type="submit">
+          <sw-button swPrimaryButton swRightIconButton [size]="'size-56'" [disabled]="!registrationForm.valid">
+            {{ "Registration.REGISTRATION" | translate }}
+
+            <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'" ></sw-icon>
+          </sw-button>
+        </button>
+
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="sw-registration-specialist__loader" *ngIf="isLoadingResults">
+  <div class="sw-registration-specialist__loader__spinner"></div>
+</div>

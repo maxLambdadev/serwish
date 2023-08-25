@@ -1,0 +1,103 @@
+<section class="sw-page sw-page--specialists">
+    <div class="sw-specialists">
+        <div class="sw-specialists__search" [ngClass]="{'sw-specialists__search--mobile' : device === DEVICE.MOBILE}">
+            <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+                <sw-search></sw-search>
+            </div>
+        </div>
+
+        <div class="sw-specialists__wrapper"
+            [ngClass]="{ 'sw-specialists__wrapper--mobile': device === DEVICE.MOBILE }">
+            <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+                <div class="sw-specialists__content"
+                    [ngClass]="{'sw-specialists__content--mobile' : device === DEVICE.MOBILE}" infinite-scroll
+                    [infiniteScrollDistance]="scrollDistance" [infiniteScrollUpDistance]="scrollUpDistance"
+                    [infiniteScrollThrottle]="throttle" (scrolled)="onScrollDown()" (scrolledUp)="onUp()">
+
+                    <!-- Loaded -->
+                    <ng-container *ngFor="
+                                let specialist of specialists$ | async;
+                                trackBy: trackBy;
+                                let i = index;
+                                let isLast = last
+                            ">
+                        <sw-specialist-item [item]="specialist" [noneSlider]="true" [device]="device">
+                        </sw-specialist-item>
+
+                        <ng-container *ngIf="ads">
+                            <ng-container *ngIf="ads.length > 0">
+                                <div class="sw-specialists__banner"
+                                    [ngClass]="{ 'sw-specialists__banner--mobile': device === DEVICE.MOBILE }"
+                                    *ngIf="i === 5 && ads[0]?.is_active">
+                                    <sw-banner *ngIf="ads" [banner]="ads[0]"></sw-banner>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+
+                    </ng-container>
+
+
+                    <!-- Loading -->
+                    <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADING">
+
+                        <ng-container *ngFor="let in of counter(12); let i = index ">
+
+                            <sw-specialist-item-loader [device]="device" [noneSlider]="true">
+                            </sw-specialist-item-loader>
+
+                            <ng-container *ngIf="ads">
+                                <ng-container *ngIf="ads.length > 0">
+                                    <div class="sw-specialists__banner"
+                                        [ngClass]="{ 'sw-specialists__banner--mobile': device === DEVICE.MOBILE }"
+                                        *ngIf="i === 5 && ads[0]?.is_active">
+                                        <sw-banner *ngIf="ads" [banner]="ads[0]"></sw-banner>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+
+                        </ng-container>
+
+                    </ng-container>
+
+                </div>
+
+                <!-- Empty -->
+                <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.EMPTY">
+                    <div class="sw-specialists__empty">
+                        <div class="sw-specialists__empty__icon">
+                            <sw-icon [iconName]="'empty'" [iconSize]="'size-70'"></sw-icon>
+                        </div>
+                        <h3 class="sw-specialists__empty__title">{{"Specialist.EMPTY.TITLE" | translate }}</h3>
+                        <p class="sw-specialists__empty__desc">{{
+                            "Specialist.EMPTY.DESC" | translate }}</p>
+
+
+                        <div class="sw-specialists__empty__buttons">
+                            <div (click)="goBack()"
+                                class="sw-specialists__empty__button sw-specialists__empty__button--back sw-specialists__empty__button--outline">
+                                <div
+                                    class="sw-specialists__empty__button-icon  sw-specialists__empty__button-icon--mirrored">
+                                    <sw-icon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'">
+                                    </sw-icon>
+                                </div>
+                                <div class="sw-specialists__empty__button-text">{{"Specialist.EMPTY.BACK" |
+                                    translate
+                                    }}
+                                </div>
+                            </div>
+
+                            <div (click)="goHome()"
+                                class="sw-specialists__empty__button sw-specialists__empty__button--home sw-specialists__empty__button--full">
+                                <div class="sw-specialists__empty__button-text">{{"Specialist.EMPTY.HOME_PAGE" |
+                                    translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+</section>

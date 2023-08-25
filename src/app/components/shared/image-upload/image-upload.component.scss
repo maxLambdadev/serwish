@@ -1,0 +1,125 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.img-preview-container {
+  position: relative;
+
+  .img-preview {
+    background: center center no-repeat;
+    background-size: cover;
+    height: 150px;
+    width: 150px;
+
+    &-error {
+      display: none;
+    }
+  }
+}
+
+.img-loading-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: absolute;
+
+  z-index: 999;
+
+  top: 8px;
+  right: 8px;
+}
+
+.img-spinning-circle {
+  width: 24px;
+  height: 24px;
+  border: 4px solid var(--primary_100);
+  border-bottom-color: var(--neutral_100);
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+.sw-add-service {
+  @include element("form") {
+    @include element("photo") {
+      width: 150px;
+      height: 150px;
+      background: var(--secondary_100);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+
+      @include modifier("specialist") {
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        position: static;
+      }
+
+      @include element("add") {
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+
+        @include part("button") {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          flex-shrink: 0;
+          width: 24px;
+          height: 24px;
+          color: var(--primary_100);
+          background: var(--neutral_100);
+          border-radius: 6px;
+          margin-bottom: 8px;
+
+          @include part("specialist") {
+            background: var(--neutral_100);
+            height: 32px;
+            padding: 0 16px;
+            border-radius: 8px;
+            display: flex;
+            color: var(--primary_100);
+            align-items: center;
+            @include typo("bodyS-bold");
+
+
+          }
+
+          @include element("icon") {
+            margin-right: 4px;
+          }
+        }
+
+        @include part("text") {
+          color: var(--primary_100);
+          @include typo("bodyS");
+          width: 60px;
+          text-align: center;
+        }
+      }
+
+      @include element("remove") {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-shrink: 0;
+        width: 24px;
+        height: 24px;
+        color: var(--primary-dark_100);
+        background: var(--neutral_100);
+        border-radius: 50%;
+        position: absolute;
+        top: 8px;
+        right: 8px;
+      }
+
+      input {
+        display: none;
+      }
+    }
+  }
+}

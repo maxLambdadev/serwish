@@ -1,0 +1,100 @@
+<div class="sw-review-phone-popup__content">
+
+    <div class="sw-review-phone-popup__user">
+
+        <div class="sw-review-phone-popup__user__image">
+
+            <div class="sw-review-phone-popup__user__image__empty"
+                *ngIf="_specialist?.images && !_specialist?.images[0]?.path && !_specialist?.extraPic">
+                <sw-icon [iconName]="'no-img'" [iconSize]="'size-24'"></sw-icon>
+            </div>
+
+            <ng-container *ngIf="!_specialist?.extraPic && _specialist?.images && (_specialist?.images)[0]?.path">
+                <sw-image
+                    [src]="apiUrl + '/storage/' + (_specialist?.images[0].path) | generateThumb:'228x228'"
+                    [alt]="_specialist?.translated?.title" [absolute]="true" [noSRCSET]="true" [format]=""></sw-image>
+            </ng-container>
+
+            <ng-container *ngIf="_specialist?.extraPic">
+                <sw-image [src]="_specialist?.extraPic" [alt]="_specialist?.translated?.title" [absolute]="true"
+                    [noSRCSET]="true">
+                </sw-image>
+            </ng-container>
+
+        </div>
+
+        <div class="sw-review-phone-popup__user__name">
+            {{ _specialist?.name }}
+        </div>
+    </div>
+
+    <div class="sw-review-phone-popup__questions">
+
+        <div class="sw-review-phone-popup__questions__title">
+            {{ 'ReviewPhone.TITLE' | translate }}
+        </div>
+
+        <div class="sw-review-phone-popup__questions__content">
+
+            <div class="sw-review-phone-popup__question sw-review-phone-popup__question--call-no" (click)="onSubmit(1)">
+                <div class="sw-review-phone-popup__question__icon">
+
+                    <sw-icon [iconName]="'close-icon'" [iconSize]="'size-12'"></sw-icon>
+
+                </div>
+                <div class="sw-review-phone-popup__question__title">
+                    {{ 'ReviewPhone.QUESTIONS.ITEM1' | translate }}
+                </div>
+            </div>
+
+            <div class="sw-review-phone-popup__question sw-review-phone-popup__question--call-cant"
+                (click)="onSubmit(2)">
+                <div class="sw-review-phone-popup__question__icon">
+
+                    <sw-icon [iconName]="'smile-sad'" [iconSize]="'size-24'"></sw-icon>
+
+                </div>
+                <div class="sw-review-phone-popup__question__title">
+                    {{ 'ReviewPhone.QUESTIONS.ITEM2' | translate }}
+                </div>
+            </div>
+
+            <div class="sw-review-phone-popup__question sw-review-phone-popup__question--call-noanswer"
+                (click)="onSubmit(3)">
+                <div class="sw-review-phone-popup__question__icon">
+
+                    <sw-icon [iconName]="'smile-neutral'" [iconSize]="'size-24'"></sw-icon>
+
+                </div>
+                <div class="sw-review-phone-popup__question__title">
+                    {{ 'ReviewPhone.QUESTIONS.ITEM3' | translate }}
+                </div>
+            </div>
+
+            <div class="sw-review-phone-popup__question  sw-review-phone-popup__question--call-nodeal"
+                (click)="onSubmit(4)">
+                <div class="sw-review-phone-popup__question__icon">
+                    <sw-icon [iconName]="'smile'" [iconSize]="'size-24'"></sw-icon>
+                </div>
+                <div class="sw-review-phone-popup__question__title">
+                    {{ 'ReviewPhone.QUESTIONS.ITEM4' | translate }}
+                </div>
+            </div>
+
+            <div class="sw-review-phone-popup__question  sw-review-phone-popup__question--call-deal"
+                (click)="onSubmit(5)">
+
+                <div class="sw-review-phone-popup__question__icon">
+                    <sw-icon [iconName]="'smile-mouth-open'" [iconSize]="'size-24'"></sw-icon>
+                </div>
+                <div class="sw-review-phone-popup__question__title">
+                    {{ 'ReviewPhone.QUESTIONS.ITEM5' | translate }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>

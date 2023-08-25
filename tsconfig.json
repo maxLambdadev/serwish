@@ -1,0 +1,48 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "module": "es2020",
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    // "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "types": ["node"],
+    "target": "es2020",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@services/*": ["src/app/services/*"],
+      "@pipes/*": ["src/app/pipes/*"],
+      "@directives/*": ["src/app/directives/*"],
+      "@components/*": ["src/app/components/*"],
+      "@utils/*": ["src/app/utils/*"],
+      "@icons/*": ["src/icons/*"],
+      "@models/*": ["src/app/models/*"],
+      "@animations/*": ["src/app/animations/*"],
+      "@store/*": ["src/app/store/*"],
+      "@config": ["src/app/services/config.ts"],
+      "tools": ["src/assets/styles/tools/tools.scss"],
+      "palette": ["src/assets/styles/config/palette.scss"],
+      "rxjs": ["node_modules/rxjs"]
+    }
+  },
+  "angularCompilerOptions": {
+    "experimentalDecorators": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "preserveWhitespaces": false
+  }
+}

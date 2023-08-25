@@ -1,0 +1,92 @@
+<section class="sw-page sw-page--wishlist">
+    <div class="sw-wishlist">
+
+        <div class="sw-wishlist__wrapper">
+            <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+
+                <h1 class="sw-wishlist__title" [ngClass]="{ 'sw-wishlist__title--mobile': device === DEVICE.MOBILE }">
+                    <span>
+                        {{ 'Wishlist.LIKED' | translate }}
+                    </span>
+                    {{ 'Wishlist.SERVICES' | translate }}
+                </h1>
+
+                <div class="sw-wishlist__content"
+                    [ngClass]="{ 'sw-wishlist__content--mobile': device === DEVICE.MOBILE }">
+
+                    <!-- Loaded -->
+                    <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADED">
+                        <ng-container *ngFor="
+                            let service of services$ | async;
+                            trackBy: trackBy;
+                            let i = index;
+                            let isLast = last
+                        ">
+
+                            <ng-container *ngIf="device === DEVICE.DESKTOP">
+                                <sw-service-item [isWishlist]="true" @fadeIn [item]="service"
+                                    [specialist]="service.specialist">
+                                </sw-service-item>
+                            </ng-container>
+
+                            <ng-container *ngIf="device === DEVICE.MOBILE">
+                                <sw-service-item-mobile [isWishlist]="true" @fadeIn [item]="service"
+                                    [specialist]="service.specialist">
+                                </sw-service-item-mobile>
+                            </ng-container>
+
+                        </ng-container>
+                    </ng-container>
+
+                    <!-- Loading -->
+                    <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADING">
+                        <ng-container *ngFor="let in of counter(16); let i = index ">
+                            <ng-container *ngIf="device === DEVICE.DESKTOP">
+                                <sw-service-item-loader></sw-service-item-loader>
+                            </ng-container>
+
+                            <ng-container *ngIf="device === DEVICE.MOBILE">
+                                <sw-service-item-loader-mobile></sw-service-item-loader-mobile>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+
+
+                </div>
+
+                <!-- Empty -->
+                <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.EMPTY">
+                    <div class="sw-wishlist__empty">
+                        <div class="sw-wishlist__empty__icon">
+                            <sw-icon [iconName]="'empty'" [iconSize]="'size-70'" ></sw-icon>
+                        </div>
+                        <h3 class="sw-wishlist__empty__title">{{"Wishlist.EMPTY.TITLE" | translate }}</h3>
+                        <p class="sw-wishlist__empty__desc">{{
+                            "Wishlist.EMPTY.DESC" |
+                            translate }}</p>
+
+
+                        <div class="sw-wishlist__empty__buttons">
+                            <div (click)="goBack()"
+                                class="sw-wishlist__empty__button sw-wishlist__empty__button--back sw-wishlist__empty__button--outline">
+                                <div class="sw-wishlist__empty__button-icon  sw-wishlist__empty__button-icon--mirrored">
+                                    <sw-icon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'" >
+                                    </sw-icon>
+                                </div>
+                                <div class="sw-wishlist__empty__button-text">{{"Wishlist.EMPTY.BACK" | translate }}
+                                </div>
+                            </div>
+
+                            <div (click)="goHome()"
+                                class="sw-wishlist__empty__button sw-wishlist__empty__button--home sw-wishlist__empty__button--full">
+                                <div class="sw-wishlist__empty__button-text">{{"Wishlist.EMPTY.HOME_PAGE" | translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</section>

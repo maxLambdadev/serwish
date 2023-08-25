@@ -1,0 +1,94 @@
+<section class="sw-main-section sw-main-section--blog"
+    [ngClass]="{'sw-main-section--mobile': device === DEVICE.MOBILE}">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+        <div *ngIf="(blogs$ | async).length > 0 || (blogsLoading$ | async) === LOADING_STATUS.LOADING" class="sw-main-section__header" [ngClass]="{'sw-main-section__header--mobile' : device === DEVICE.MOBILE}">
+            <h2 class="sw-main-section__header__title"
+                [ngClass]="{'sw-main-section__header__title--mobile': device === DEVICE.MOBILE}">
+                <span>{{ 'Home.ARTICLES' | translate }}</span> {{ 'Home.FROM_BLOG' | translate }}
+            </h2>
+
+            <div class="sw-main-section__header__other"
+                [ngClass]="{ 'sw-main-section__header__other--mobile': device === DEVICE.MOBILE }">
+                <div class="sw-main-section__filters"
+                    [ngClass]="{ 'sw-main-section__filters--mobile': device === DEVICE.MOBILE }">
+                    <div class="sw-main-section__filters__item"
+                        [ngClass]="{'sw-main-section__filters__item--active' : activeBlogFilter === 'newest'}"
+                        (click)="changeBlogFilter($event, 'newest')">
+                        {{
+                        'Home.NEWEST' | translate }}
+                    </div>
+
+                    <div class="sw-main-section__filters__item"
+                        [ngClass]="{'sw-main-section__filters__item--active' : activeBlogFilter === 'weekly'}"
+                        (click)="changeBlogFilter($event, 'weekly')">
+                        {{
+                        'Home.TOP_WEEK' | translate }}
+                    </div>
+
+                    <div class="sw-main-section__filters__item"
+                        [ngClass]="{'sw-main-section__filters__item--active' : activeBlogFilter === 'monthly'}"
+                        (click)="changeBlogFilter($event, 'monthly')">
+                        {{
+                        'Home.TOP_MONTH' | translate }}
+                    </div>
+                </div>
+
+                <div class="sw-main-section__show-all" *ngIf="device === DEVICE.DESKTOP">
+                    <a [routerLink]="['/blog']">
+                        {{ 'Home.ALL_BLOGS' | translate }}
+                        <sw-icon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'" ></sw-icon>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="sw-main-section__content sw-main-section__content--blog"
+            [ngClass]="{'sw-main-section__content--mobile' : device === DEVICE.MOBILE}">
+
+
+            <ng-container *ngIf="device === DEVICE.MOBILE">
+
+                <swiper [config]="configBlogs">
+
+                    <ng-container *ngIf="(blogsLoading$ | async) === LOADING_STATUS.LOADED">
+                        <ng-container *ngFor="let blog of blogs$ | async; trackBy: trackBy">
+                            <ng-template swiperSlide>
+                                <sw-blog-item [blog]="blog"></sw-blog-item>
+                            </ng-template>
+                        </ng-container>
+                    </ng-container>
+
+                    <ng-container *ngIf="(blogsLoading$ | async) === LOADING_STATUS.LOADING">
+                        <ng-container *ngFor="let in of counter(4); let i = index ">
+                            <ng-template swiperSlide>
+                                <sw-blog-item-loader></sw-blog-item-loader>
+                            </ng-template>
+                        </ng-container>
+                    </ng-container>
+                </swiper>
+
+            </ng-container>
+
+            <ng-container *ngIf="device === DEVICE.DESKTOP">
+
+                <ng-container *ngIf="(blogsLoading$ | async) === LOADING_STATUS.LOADED">
+                    <ng-container *ngFor="let blog of blogs$ | async; trackBy: trackBy">
+                        <sw-blog-item [blog]="blog"></sw-blog-item>
+                    </ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="(blogsLoading$ | async) === LOADING_STATUS.LOADING">
+
+                    <ng-container *ngFor="let in of counter(4); let i = index ">
+                        <sw-blog-item-loader></sw-blog-item-loader>
+                    </ng-container>
+
+                </ng-container>
+
+            </ng-container>
+
+
+
+        </div>
+    </div>
+</section>

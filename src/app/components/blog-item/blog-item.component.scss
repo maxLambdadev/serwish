@@ -1,0 +1,123 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-blog-item {
+  @include modifier("mobile") {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @include element("content") {
+    border-radius: 16px;
+    background: var(--neutral_100);
+    padding: 16px;
+
+    @include hover-supported() {
+      box-shadow: 0px 24px 48px -20px rgba(89, 95, 108, 0.4);
+
+      .sw-blog-item__image__overlay {
+        opacity: 1;
+      }
+
+      .sw-blog-item__image__button {
+        opacity: 1;
+      }
+    }
+  }
+
+  @include element("image") {
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+
+    height: 228px;
+    background: #EFFAFF;
+    border-radius: 8px;
+
+    @include element("overlay") {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--primary_20);
+      backdrop-filter: blur(8px);
+
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 200ms ease-in-out;
+      will-change: opacity;
+    }
+
+    @include element("button") {
+      opacity: 0;
+      position: absolute;
+      bottom: 16px;
+      left: 19px;
+      transition: opacity 200ms ease-in-out;
+      will-change: opacity;
+
+      .sw-button {
+        color: var(--primary_100);
+        background: var(--neutral_100);
+        .sw-icon:not(.sw-icon--colored) path {
+          fill: none;
+          stroke: currentColor;
+        }
+
+        &:hover {
+          color: var(--neutral_100);
+          background: var(--primary_100);
+        }
+      }
+    }
+
+    @include element("empty") {
+      color: var(--primary-dark_100);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px;
+      height: 68px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @include element("date") {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+
+    @include typo("bodyS");
+    color: var(--primary-dark_40);
+    background: var(--neutral_100);
+    border-radius: 10px;
+    width: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @include element("info") {
+    padding-top: 24px;
+    height: 156px;
+    overflow: hidden;
+  }
+
+  @include element("title") {
+    color: var(--primary-dark_100);
+    @include typo("h3");
+    margin-bottom: 8px;
+    font-feature-settings: "case" on;
+  }
+
+  @include element("desc") {
+    color: var(--primary-dark_60);
+    @include typo("bodyS");
+  }
+}

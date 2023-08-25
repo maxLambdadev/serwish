@@ -1,0 +1,450 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-add-service {
+  @include element("content") {
+    display: flex;
+    width: 1088px;
+    height: 566px;
+    background: var(--neutral_100);
+    border-radius: 12px;
+
+    @include modifier("mobile") {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      padding-bottom: 60px;
+    }
+  }
+
+  @include element("closeX") {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    align-self: flex-start;
+
+    padding: 20px 0;
+    margin-bottom: 16px;
+
+    @include element("icon") {
+      margin-right: 16px;
+    }
+
+    @include element("text") {
+      @include typo("h2");
+      font-feature-settings: "case" on;
+    }
+
+    &:hover {
+      color: var(--primary-dark_100);
+    }
+  }
+
+  @include element("header") {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+
+    @include element("title") {
+      color: var(--primary-dark_100);
+      @include typo("h3-bold");
+      font-feature-settings: "case" on;
+      text-transform: uppercase;
+    }
+
+    @include element("button") {
+      pointer-events: none;
+      margin-right: 16px;
+    }
+  }
+
+  @include element("left") {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 16px;
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
+    width: 690px;
+
+    @include modifier("mobile") {
+      width: 100%;
+      padding: 16px;
+      overflow: auto;
+    }
+  }
+
+  @include element("form") {
+    height: 100%;
+
+    form {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    @include element("item") {
+      margin-bottom: 8px;
+      position: relative;
+
+      @include part("label") {
+        color: var(--primary-dark_100);
+        @include typo("body-bold");
+        margin-bottom: 8px;
+      }
+
+      @include part("input") {
+        display: grid;
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+        grid-column-gap: 8px;
+        column-gap: 8px;
+        width: 100%;
+        margin-bottom: 5px;
+      }
+
+      @include part("desc") {
+        color: var(--primary-dark_100);
+        @include typo("bodyS");
+        margin-bottom: 8px;
+      }
+
+      @include part("specifier") {
+        color: var(--primary-dark_40);
+        position: absolute;
+        right: 24px;
+        top: 0;
+        @include typo("bodyS");
+        height: 56px;
+        display: flex;
+        align-items: center;
+      }
+
+      @include modifier("margin") {
+        @include part("bottom") {
+          @include part("32") {
+            margin-bottom: 32px;
+          }
+
+          @include part("16") {
+            margin-bottom: 16px;
+          }
+        }
+      }
+
+      @include modifier("hasOption") {
+        position: relative;
+
+        .ng-select {
+          z-index: 999;
+          width: 75px;
+        }
+      }
+
+      @include modifier("workingDays") {
+        z-index: 999;
+      }
+
+      @include modifier("saturday") {
+        z-index: 998;
+      }
+
+      @include modifier("sunday") {
+        z-index: 997;
+      }
+
+      @include modifier("title") {
+        .sw-input__text {
+          padding-right: 95px;
+        }
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    @include element("options") {
+      display: flex;
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 999;
+
+      .ng-select {
+        &:first-child {
+          margin-right: 16px;
+        }
+      }
+    }
+
+    @include element("sub-row") {
+      display: grid;
+      grid-auto-columns: 50%;
+      grid-auto-flow: column;
+      grid-column-gap: 8px;
+      column-gap: 8px;
+      width: 100%;
+    }
+
+    @include element("gallery") {
+      display: flex;
+      overflow: auto;
+      padding-bottom: 10px;
+
+      sw-image-upload {
+        margin-right: 8px;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+
+      @include modifier("mobile") {
+        //
+      }
+    }
+  }
+
+  @include element("editor") {
+    border-radius: 12px;
+    max-height: 100%;
+    position: relative;
+
+    @include element("count") {
+      color: var(--primary-dark_40);
+      position: absolute;
+      right: 0;
+      top: 0;
+      @include typo("bodyS");
+      height: 56px;
+      display: flex;
+      align-items: center;
+      padding-right: 24px;
+    }
+
+    .NgxEditor {
+      border: 2px solid var(--secondary_100);
+      background: none;
+      border-radius: 12px;
+      border-top-left-radius: 0px;
+      border-top-right-radius: 0px;
+
+      @include element("MenuBar") {
+        background: var(--secondary_100);
+        border-radius: 12px 12px 0px 0px;
+      }
+
+      @include element("Content") {
+        min-height: 112px;
+        color: var(--primary-dark_100);
+        @include typo("body");
+        padding: 17px 24px;
+        max-height: 112px;
+        overflow-y: auto;
+
+        ol {
+          list-style-type: decimal;
+        }
+
+        ul {
+          list-style-type: disc;
+        }
+
+        ul,
+        ol,
+        dl {
+          margin: 0 14px;
+          padding: 0 8px;
+        }
+
+        p {
+          margin: 0;
+        }
+      }
+
+      @include element("Placeholder") {
+        color: var(--primary-dark_100);
+        @include typo("body");
+      }
+
+      @include element("MenuBar") {
+        height: 56px;
+        align-items: center;
+        padding: 3px 13px;
+      }
+
+      @include element("MenuItem") {
+        // &.NgxEditor__MenuItem--Icon {
+        //   width: 24px;
+        //   height: 24px;
+        //   svg {
+        //     height: 24px;
+        //     width: 24px;
+        //   }
+        // }
+      }
+    }
+
+    .ng-invalid {
+      &.ngx-editor--error {
+        .NgxEditor {
+          border-color: #ff003d;
+        }
+      }
+    }
+
+    @include element("error") {
+      display: flex;
+      align-items: center;
+      border-radius: 8px;
+      height: 26px;
+      padding: 0 16px;
+      width: 100%;
+      @include typo("bodyS");
+      color: #ff003d;
+      margin-top: 4px;
+    }
+
+    @include element("specifier") {
+      color: var(--primary-dark_40);
+      @include typo("bodyS");
+      position: absolute;
+      top: 73px;
+      right: 24px;
+      transition: opacity 200ms ease-in;
+
+      &:hover {
+        opacity: 0.3;
+      }
+    }
+  }
+
+  @include element("right") {
+    background: rgba(255, 153, 0, 0.16);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    width: 398px;
+    flex-shrink: 0;
+    position: relative;
+    background-position: center;
+    background-size: cover;
+    background-image: url("../../../assets/img/addService.png");
+
+    @include element("over") {
+      background-position: center;
+      background-size: cover;
+      background-image: url("../../../assets/img/addServiceOver.png");
+      width: 146px;
+      height: 146px;
+      position: absolute;
+      top: 40%;
+      left: -50px;
+    }
+  }
+
+  @include element("close") {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+  }
+
+  @include element("buttons") {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  @include element("next") {
+    width: 100%;
+
+    .sw-button {
+      flex-shrink: 0;
+    }
+  }
+
+  @include element("back") {
+    margin-right: 16px;
+  }
+
+  @include element("success") {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 64px;
+
+    @include element("image") {
+      @include part("wrapper") {
+        margin-bottom: 67px;
+        border-radius: 24px;
+        height: 221px;
+        width: 100%;
+        position: relative;
+      }
+
+      width: 208px;
+      height: 208px;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 40px;
+      border-radius: 50%;
+      background: var(--processing_20);
+
+      .image__wrapper {
+        width: auto;
+        height: auto;
+
+        img {
+          height: 256px;
+          width: 256px;
+        }
+      }
+    }
+
+    @include element("title") {
+      text-align: center;
+      margin-bottom: 8px;
+      @include typo("h1-bold");
+      color: var(--primary100);
+    }
+
+    @include element("desc") {
+      text-align: center;
+      @include typo("h3");
+      max-width: 395px;
+      color: var(--primary-dark_100);
+    }
+  }
+
+  @include modifier("mobile") {
+    width: 100%;
+  }
+
+  @include element("uploading") {
+    color: var(--primary-dark_100);
+    @include typo("h3-bold");
+  }
+}
+
+.autoHeightContainer {
+  .ng-select-container {
+    height: auto !important;
+    padding-top: 5px !important;
+
+    .ng-value {
+      margin-bottom: 4px !important;
+    }
+  }
+}
+
+.image-upload-error {
+  border: 2px solid #ff003d;
+  border-radius: 8px;
+}
+
+.sw-add-service-no-img-error {
+  font-size: 14px;
+  color: #ff003d;
+}

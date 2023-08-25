@@ -1,0 +1,63 @@
+<section class="sw-bottom-sheet">
+  <!-- HEADER -->
+  <div
+    class="sw-bottom-sheet__header"
+    *ngIf="title && !hasCustomHeader"
+    (pandown)="onPanDown($event)"
+  >
+    <div class="sw-bottom-sheet__heading">{{ title }}</div>
+  </div>
+
+  <!-- BOTTOM ACTION BUTTON -->
+  <div class="sw-bottom-sheet__bottom">
+    <ng-container *ngIf="hasSubmit">
+      <!-- CLOSE  -->
+      <sw-button
+        *ngIf="!hasChange"
+        wsGreyButton
+        class="sw-bottom-sheet__close"
+        [size]="'large'"
+        (clickAction)="onBottomSheetClose()"
+      >
+        Cancel
+      </sw-button>
+
+      <sw-button
+        *ngIf="hasChange"
+        class="sw-bottom-sheet__close sw-bottom-sheet__close--hasChange"
+        [size]="'large'"
+        (clickAction)="onBottomSheetClose()"
+      >
+        Cancel
+      </sw-button>
+
+      <!-- SUBMIT -->
+      <sw-button
+        *ngIf="hasChange"
+        swPrimaryButton
+        class="sw-bottom-sheet__submit"
+        [size]="'large'"
+        (clickAction)="onBottomSheetSubmit()"
+      >
+        Submit
+      </sw-button>
+    </ng-container>
+
+    <ng-container *ngIf="!hasSubmit">
+      <!-- CLOSE  -->
+      <sw-button
+        class="sw-bottom-sheet__close"
+        wsGreyButton
+        [size]="'large'"
+        (clickAction)="onBottomSheetClose()"
+      >
+        Cancel
+      </sw-button>
+    </ng-container>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="sw-bottom-sheet__content">
+    <ng-content></ng-content>
+  </div>
+</section>

@@ -1,0 +1,20 @@
+<div class="sw-specialist-item-loader__content" [ngClass]="{
+    'sw-specialist-item-loader__content--mobile' : device === DEVICE.MOBILE,
+    'sw-specialist-item-loader__content--noneSlider' : noneSlider
+  }">
+  <!-- Image -->
+  <div class="sw-specialist-item-loader__image">
+    <div class="sw-specialist-item-loader__image__empty">
+      <img [attr.src]="'./assets/img/empty.png'" [attr.alt]="'loading'" loading="lazy" />
+    </div>
+
+    <!-- Rating -->
+    <div class="sw-specialist-item-loader__rating"></div>
+  </div>
+</div>
+
+<!-- Bottom -->
+<div class="sw-specialist-item-loader__bottom">
+  <div class="sw-specialist-item-loader__title"></div>
+  <div class="sw-specialist-item-loader__specialty"></div>
+</div>

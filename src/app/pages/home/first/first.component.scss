@@ -1,0 +1,229 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-first {
+  height: calc(100vh - 72px);
+  min-height: 500px;
+
+  width: 100%;
+  background-color: rgba(89, 95, 108, 0.032);
+  position: relative;
+
+  @include element("content") {
+    display: flex;
+    align-items: center;
+
+    flex-wrap: wrap;
+    height: 100%;
+    position: relative;
+  }
+  .sw-first__search__container {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+  }
+
+  @include element("search") {
+    position: absolute;
+    z-index: 99;
+    top: 16px;
+    transform: none;
+    left: 16px;
+    right: 16px;
+
+    @include element("content") {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  @include modifier("desktop") {
+    height: calc(100vh - 112px);
+
+    .sw-first__search {
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      right: 0;
+
+      .sw-first__search__content {
+        flex-direction: row;
+      }
+    }
+  }
+}
+
+.sw-slider {
+  width: 100%;
+  height: 100%;
+
+  @include element("pagination") {
+    width: auto !important;
+
+    .swiper-pagination-bullet {
+      background: var(--primary_100);
+      opacity: 0.4;
+      border-radius: 2px;
+      position: relative;
+      width: 16px;
+      height: 16px;
+
+      @include part("active") {
+        opacity: 1;
+
+        &::before {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          content: "";
+          width: 8px;
+          height: 8px;
+          background: var(--neutral_100);
+          border-radius: 1px;
+        }
+      }
+    }
+  }
+
+  @include element("background") {
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @include element("bottom") {
+    position: absolute;
+    z-index: 99;
+    left: 0;
+    right: 0;
+    bottom: 80px;
+    z-index: 9;
+
+    @include element("content") {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    @include modifier("mobile") {
+      left: 16px;
+      right: 16px;
+    }
+  }
+
+  @include element("additional") {
+    width: 50%;
+
+    @include responsiver("large") {
+      width: 40%;
+    }
+
+    @include part("item") {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    @include part("subtitle") {
+      color: var(--primary_100);
+      @include typo("h2-bold");
+      font-feature-settings: "case" on;
+    }
+
+    @include part("title") {
+      color: var(--primary-dark_100);
+      @include typo("h2");
+      font-feature-settings: "case" on;
+      margin-bottom: 16px;
+    }
+
+    @include part("desc") {
+      color: var(--primary-dark_100);
+      @include typo("bodyS");
+      margin-bottom: 32px;
+      max-width: 250px;
+      text-align: right;
+    }
+
+    @include part("button") {
+      .sw-button {
+        min-width: 162px;
+      }
+    }
+
+    @include modifier("mobile") {
+      width: 100%;
+      padding-top: 32px;
+
+      .sw-slider__additional-item {
+        align-items: center;
+      }
+
+      .sw-slider__additional-title {
+        text-align: center;
+      }
+
+      .sw-slider__additional-desc {
+        text-align: center;
+      }
+    }
+  }
+}
+
+.sw-godown {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+
+  @include element("text") {
+    color: var(--primary-dark_100);
+    @include typo("body");
+  }
+
+  @include element("icon") {
+    color: var(--primary-dark_100);
+    margin-left: 6px;
+    animation: bounce 2s infinite;
+
+    .sw-icon {
+      fill: none;
+
+      path {
+        fill: none;
+      }
+    }
+  }
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+
+  40% {
+    transform: translateY(-8px);
+  }
+
+  60% {
+    transform: translateY(-4px);
+  }
+}
+
+@media (max-height: 750px) {
+  .sw-first {
+    .sw-first__search__container {
+      gap: 10px;
+    }
+  }
+}

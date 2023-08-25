@@ -1,0 +1,48 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-blogs {
+  @include element("content") {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: 16px;
+    column-gap: 16px;
+    row-gap: 16px;
+    margin-bottom: 80px;
+
+    @include modifier("mobile") {
+      grid-template-columns: 1fr;
+    }
+
+    @include modifier("empty") {
+      display: flex;
+    }
+  }
+
+  @include element("empty") {
+    height: 302px;
+    background: var(--neutral_40);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+
+    @include element("icon") {
+      margin-bottom: 32px;
+    }
+
+    @include element("title") {
+      @include typo("h3-bold");
+      color: var(--primary-dark_100);
+      margin-bottom: 8px;
+    }
+
+    @include element("desc") {
+      @include typo("bodyS");
+      color: var(--primary-dark_60);
+      width: 227px;
+      text-align: center;
+    }
+  }
+}

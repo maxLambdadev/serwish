@@ -1,0 +1,121 @@
+<div class="sw-recomendation__content" [ngClass]="{'sw-recomendation__content--mobile' : device === DEVICE.MOBILE}">
+
+    <div class="sw-recomendation__header">
+
+        <div class="sw-recomendation__info">
+
+            <div class="sw-recomendation__info-icon">
+                <sw-icon [iconName]="'recomendation'" [iconSize]="'size-16'" ></sw-icon>
+            </div>
+
+            <h1 class="sw-recomendation__info-title">
+                {{ 'Recomendation.TITLE' | translate }}
+            </h1>
+
+        </div>
+
+        <div class="sw-recomendation__close" (click)="closePopup()">
+
+            <sw-icon [iconName]="'close-icon'" [iconSize]="'size-12'" ></sw-icon>
+
+        </div>
+    </div>
+
+
+    <div class="sw-recomendation__service">
+
+        <div class="sw-recomendation__service__content"
+            [ngClass]="{'sw-recomendation__service__content--mobile' : device === DEVICE.MOBILE}">
+
+            <div class="sw-recomendation__service__image" [ngClass]="{
+                    'sw-recomendation__service__image--mobile' : device === DEVICE.MOBILE
+                }" *ngIf="service?.images">
+
+                <div class="sw-recomendation__service__image-empty" *ngIf="!service?.images[0]?.path">
+                    <sw-icon [iconName]="'no-img'" [iconSize]="'size-24'" ></sw-icon>
+                </div>
+
+                <sw-image *ngIf="(service?.images)[0]?.path"
+                    [src]="apiUrl + '/storage/' + (service?.images)[0]?.path"
+                    [alt]="service?.translated?.title" [absolute]="true" [noSRCSET]="true" [format]=""></sw-image>
+
+            </div>
+
+            <div class="sw-recomendation__service__info">
+
+                <div class="sw-recomendation__service__title">
+                    {{ service?.translated?.title || service?.translated[0]?.title }}
+                </div>
+
+                <p class="sw-recomendation__service__author">
+
+                    <ng-container *ngIf="specialist">
+                        {{ specialist?.name | onlyName }} {{ specialist?.id }}
+                    </ng-container>
+
+                    <ng-container *ngIf="!specialist">
+                        {{ service?.specialist?.name | onlyName }} {{ service?.specialist?.id }}
+                    </ng-container>
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="sw-recomendation__status">
+
+        <div class="sw-recomendation__status__item" (click)="onChanteType(1)"
+            [ngClass]="{'sw-recomendation__status__item--active' : activeType === 1}">
+
+            <div class="sw-recomendation__status__item-icon sw-recomendation__status__item-icon--like">
+                <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'" >
+                </sw-icon>
+            </div>
+
+            <div class="sw-recomendation__status__item-title">
+                {{ 'Recomendation.LIKE' | translate }}
+            </div>
+
+        </div>
+
+        <div class="sw-recomendation__status__item" (click)="onChanteType(0)"
+            [ngClass]="{'sw-recomendation__status__item--active' : activeType === 0}">
+
+            <div class="sw-recomendation__status__item-icon sw-recomendation__status__item-icon--dislike">
+                <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'" >
+                </sw-icon>
+            </div>
+
+            <div class="sw-recomendation__status__item-title">
+                {{ 'Recomendation.DISLIKE' | translate }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <form class="sw-recomendation__form" [formGroup]="recomendationForm" (ngSubmit)="submitReview()"
+        #localForm="ngForm">
+
+        <div class="sw-recomendation__comment">
+            <sw-textarea [autoFocus]="true" [size]="'large'"
+                [placeholderDraft]="'Recomendation.ENTER_MESSAGE' | translate"
+                [labelText]="'Registration.YOUR_MESSAGE' | translate" formControlName="description">
+            </sw-textarea>
+        </div>
+
+        <div class="sw-recomendation__button">
+            <button class="sw-recomendation__form__send" type="submit">
+                <sw-button swPrimaryButton [size]="'size-56'" [disabled]="!recomendationForm.valid">
+                    {{ "Recomendation.SUBMIT" | translate }}
+                </sw-button>
+            </button>
+        </div>
+
+    </form>
+
+</div>

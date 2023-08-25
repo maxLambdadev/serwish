@@ -1,0 +1,68 @@
+$font-size-base: 10;
+
+// Font size px to rem
+@function rem($size, $font-size: $font-size-base) {
+  @return ($size / $font-size) * 1rem;
+}
+
+// Font size px to em
+@function em($size) {
+  @return ($size / $font-size) * 1em;
+}
+
+//Hex to string rgb
+@function hexToRGB($hex) {
+  @return red($hex), green($hex), blue($hex);
+}
+
+@mixin loaderGrey($color: "secondary") {
+  // background: {
+  //   image: $image;
+  //   repeat: no-repeat;
+  //   position: $x $y;
+  // }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      var(--transparent),
+      var(--secondary_40) 20%,
+      var(--secondary_60) 60%,
+      var(--transparent)
+    );
+    animation: shimmer 2s infinite;
+    content: "";
+  }
+}
+
+@mixin loaderWhite($color: "secondary") {
+  // background: {
+  //   image: $image;
+  //   repeat: no-repeat;
+  //   position: $x $y;
+  // }
+
+  &::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    transform: translateX(-100%);
+    background-image: linear-gradient(
+      90deg,
+      var(--transparent),
+      var(--neutral_40) 20%,
+      var(--neutral_60) 60%,
+      var(--transparent)
+    );
+    animation: shimmer 2s infinite;
+    content: "";
+  }
+}

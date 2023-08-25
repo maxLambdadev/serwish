@@ -1,0 +1,60 @@
+<div class="sw-share-popup__content" [ngClass]="{'sw-share-popup__content--mobile' : device === DEVICE.MOBILE}">
+
+
+    <div class="sw-share-popup__close" (click)="onClosePopup()">
+
+        <sw-icon [iconName]="'close-icon'" [iconSize]="'size-16'" ></sw-icon>
+
+    </div>
+
+    <!-- INPUT -->
+    <div class="sw-share-popup__input-wrapper">
+        <div class="sw-share-popup__input__header">
+            <div class="sw-share-popup__input__header-share">{{ "Share.SHARE_WITH_FRIENDS" | translate }} </div>
+            <div class="sw-share-popup__input__header-copy" (click)="onCopy()">
+                {{"Share.COPY_URL" | translate}}
+            </div>
+        </div>
+
+        <label class="sw-share-popup__input__label" (click)="onCopy()">
+            <div class="sw-share-popup__input__icon" (click)="onCopy()">
+                <sw-icon [iconName]="'link'" [iconSize]="'big'" ></sw-icon>
+            </div>
+
+            <div class="sw-share-popup__input__text-wrapper">
+                <input class="sw-share-popup__input__text" [(ngModel)]="_link" type="text" readonly />
+            </div>
+
+            <div class="sw-share-popup__input__button">
+                <sw-button swPrimaryButton [size]="'size-32'" (clickAction)="onCopy()">
+                    {{"Share.COPY" | translate}}
+                </sw-button>
+            </div>
+        </label>
+
+        <span *ngIf="isCopied" class="sw-share-popup__input__copy">
+            {{"Share.LINK_COPIED" | translate}}
+        </span>
+    </div>
+
+    <!-- SOCIALS -->
+    <div class="sw-share-popup__socials" [ngClass]="{'sw-share-popup__socials--mobile' : device === DEVICE.MOBILE}">
+        <ng-container *ngFor="let social of socials">
+            <div *ngIf="social.shareable" class="sw-share-popup__socials__item">
+                <div [shareButton]="social.name" [url]="link">
+                    <div class="sw-share-popup__socials__item-icon">
+                        <sw-icon [colored]="true" [iconName]="social.iconCodeRec" [iconSize]="'size-48'" >
+                        </sw-icon>
+                    </div>
+
+                    <div class="sw-share-popup__socials__item-name">
+                        {{ social.name }}
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+
+
+
+</div>

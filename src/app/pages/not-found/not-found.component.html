@@ -1,0 +1,29 @@
+<div class="sw-not-found-page__wrapper">
+    <div class="sw-not-found-page__content">
+
+
+        <div class="sw-not-found-page__logo"
+            [ngClass]="{ 'sw-not-found-page__logo--mobile': device === DEVICE.MOBILE }">
+            <a [routerLink]="['/']" queryParamsHandling="merge">
+                <sw-image [src]="'./assets/img/logo'" [alt]="'Serwish'" [noWEBP]="true"></sw-image>
+            </a>
+        </div>
+
+        <div class="sw-not-found-page__title"
+            [ngClass]="{ 'sw-not-found-page__title--mobile': device === DEVICE.MOBILE }">
+            <div class="code" [ngClass]="{ 'code--mobile': device === DEVICE.MOBILE }">404</div>
+
+            <div class="message">
+                {{ 'Global.PAGE_NOT_FOUND' | translate }} </div>
+        </div>
+
+        <div class="sw-not-found-page__button">
+            <a [routerLink]="['/']" queryParamsHandling="merge">
+                <sw-button swPrimaryButton>
+                    {{"Global.TO_HOME" | translate}}
+                </sw-button>
+            </a>
+        </div>
+
+    </div>
+</div>

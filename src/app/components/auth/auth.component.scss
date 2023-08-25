@@ -1,0 +1,36 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-auth {
+  @include element("notification") {
+    display: flex;
+    align-items: center;
+    background: var(--neutral_100);
+    border: 2px solid var(--success_100);
+    box-shadow: 0px 24px 48px -20px rgba(0, 188, 41, 0.08);
+    border-radius: 12px;
+    padding: 0 16px;
+    height: 56px;
+
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 275px;
+
+    @include element("icon") {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      color: var(--success_100);
+      background: var(--secondary_100);
+      border-radius: 6px;
+      margin-right: 8px;
+    }
+
+    @include element("text") {
+      color: var(--success_100);
+      @include typo("bodyS-bold");
+    }
+  }
+}

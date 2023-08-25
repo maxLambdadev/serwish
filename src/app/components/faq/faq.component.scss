@@ -1,0 +1,213 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-faq {
+  @include element("content") {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 256px;
+
+    @include modifier("mobile") {
+      height: 100%;
+      padding-left: 16px;
+    }
+  }
+
+  @include element("questions") {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 40%;
+    height: 100%;
+    margin-right: 16px;
+    position: relative;
+
+    @include element("line") {
+      width: 4px;
+      height: 100%;
+      border-radius: 8px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: var(--neutral_100);
+
+      .indicator {
+        width: 4px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 64px;
+        background: var(--primary_100);
+        border-radius: 8px;
+        transition: top 200ms ease-in;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 0;
+          border-top: 8px solid transparent;
+          border-bottom: 8px solid transparent;
+          border-left: 8px solid var(--primary_100);
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+    }
+
+    @include modifier("mobile") {
+      width: 100%;
+    }
+  }
+
+  @include element("question") {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    @include element("number") {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+      background: var(--neutral_100);
+      border: 4px solid var(--neutral_100);
+      border-radius: 8px;
+      color: var(--primary_100);
+      @include typo("h2-bold");
+      margin-right: 16px;
+    }
+
+    @include element("info") {
+    }
+
+    @include element("title") {
+      color: var(--primary-dark_60);
+      @include typo("h3-bold");
+      font-feature-settings: "case" on;
+    }
+
+    @include element("desc") {
+      color: var(--primary-dark_60);
+      @include typo("bodyS");
+    }
+
+    @include modifier("active") {
+      .sw-faq__question__number {
+        border-color: var(--primary_100);
+      }
+
+      .sw-faq__question__title {
+        color: var(--primary_100);
+      }
+
+      .sw-faq__question__desc {
+        color: var(--primary-dark_100);
+      }
+    }
+
+    @include modifier("mobile") {
+      margin-bottom: 16px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      padding: 8px;
+    }
+  }
+
+  @include element("answers") {
+    width: 60%;
+  }
+
+  @include element("answer") {
+    display: none;
+    height: 100%;
+
+    @include element("info") {
+    }
+
+    @include element("image") {
+      background: var(--neutral_100);
+      border-radius: 16px;
+      height: 256px;
+      width: 260px;
+      margin-right: 16px;
+      flex-shrink: 0;
+      padding: 16px;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        border-radius: 16px;
+      }
+
+      @include modifier("mobile") {
+        width: 100%;
+        height: 106px;
+        margin-right: 0;
+        margin-bottom: 26px;
+      }
+    }
+
+    @include element("other") {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: flex-start;
+
+      .sw-button {
+        .sw-icon:not(.sw-icon--colored) path {
+          fill: none;
+          stroke: currentColor;
+        }
+      }
+    }
+
+    @include element("title") {
+      @include typo("bodyS");
+      color: var(--primary_100);
+      margin-bottom: 16px;
+
+      @include modifier("mobile") {
+        @include typo("body");
+        margin-bottom: 10px;
+      }
+    }
+
+    @include element("desc") {
+      @include typo("bodyS");
+      color: var(--primary-dark_60);
+      margin-bottom: 16px;
+    }
+
+    @include element("subdesc") {
+      @include typo("bodyS");
+      color: var(--primary-dark_100);
+      margin-bottom: 16px;
+    }
+
+    @include element("list") {
+      list-style: disc;
+      padding-left: 10px;
+      margin-left: 10px;
+      @include element("item") {
+        @include typo("bodyS");
+        color: var(--primary-dark_100);
+      }
+    }
+
+    @include modifier("active") {
+      display: flex;
+    }
+
+    @include modifier("mobile") {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 16px;
+      transition: all 200ms ease-in-out;
+    }
+  }
+}

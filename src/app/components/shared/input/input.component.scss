@@ -1,0 +1,172 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-input {
+  @include element("wrapper") {
+    width: 100%;
+    position: relative;
+  }
+
+  @include element("label") {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    @include element("text") {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      top: 0;
+      left: 0;
+      color: var(--primary-dark_100);
+      display: flex;
+      align-items: center;
+      transition: transform 0.2s ease-in-out;
+    }
+
+    @include modifier("disabled") {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  }
+
+  @include element("text") {
+    border: none;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+
+    border: 2px solid var(--secondary_100);
+
+    padding-top: 14px;
+
+    &[type="number"] {
+      -moz-appearance: textfield;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &:hover {
+      outline: none;
+      border: none;
+      border: 2px solid var(--secondary_60);
+    }
+
+    &:focus,
+    &:active {
+      outline: none;
+      border: none;
+      border: 2px solid var(--primary-dark_20);
+
+      & + .sw-input__label__text {
+        @include modifier("medium") {
+          transform: translateY(-10px);
+          @include typo("body");
+        }
+
+        text-transform: uppercase;
+      }
+    }
+
+    &::placeholder {
+      opacity: 0.32;
+    }
+  }
+
+  @include element("error") {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    height: 26px;
+    padding: 0 16px;
+    width: 100%;
+    @include typo("bodyS");
+    color: #ff003d;
+    margin-top: 4px;
+  }
+
+  @include element("button") {
+    position: absolute;
+    right: 12px;
+  }
+
+  @include modifier("medium") {
+    .sw-input__label {
+      height: 56px;
+
+      @include element("text") {
+        padding-left: 26px;
+        @include typo("body");
+      }
+    }
+
+    .sw-input__text {
+      border-radius: 12px;
+      padding-left: 24px;
+      @include typo("body");
+
+      &::placeholder {
+        @include typo("body");
+      }
+    }
+  }
+
+  @include modifier("filled") {
+    .sw-input__label__text {
+      text-transform: uppercase;
+
+      @include modifier("medium") {
+        transform: translateY(-10px);
+        @include typo("body");
+      }
+    }
+  }
+
+  @include modifier("floating-error") {
+    .sw-input__error {
+      position: absolute;
+    }
+  }
+
+  @include element("specifier") {
+    @include typo("bodyS");
+    color: var(--primary-dark_40);
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 200ms ease-in;
+
+    &:hover {
+      opacity: 0.3;
+    }
+  }
+
+  &.ng-invalid {
+    &.hasErrors {
+      .sw-input__text {
+        border-color: #ff003d;
+      }
+    }
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    // display: none;
+    // -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    padding: 0px;
+    margin: 0px;
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

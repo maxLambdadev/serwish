@@ -1,0 +1,24 @@
+@import "../tools/tools.scss";
+
+@include font-face(
+  "HelveticaNeueLTGEO",
+  "../assets/fonts/HelveticaNeueLTGEO-55Roman",
+  400,
+  normal,
+  woff2
+);
+@include font-face(
+  "HelveticaNeueLTGEO",
+  "../assets/fonts/HelveticaNeueLTGEO-75Bold",
+  700,
+  normal,
+  woff2
+);
+
+html {
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
+      "Oxygen", "Ubuntu", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 400;
+  }
+}

@@ -1,0 +1,15 @@
+<section class="sw-portal-content">
+    <!-- content will be placed dynamically via Cdk Portal -->
+</section>
+
+<!-- Header -->
+<sw-header *ngIf="activePage !== PAGE.NOT_FOUND" [device]="device" [activePage]="activePage"></sw-header>
+
+<!-- Pages -->
+<router-outlet></router-outlet>
+
+<sw-footer [device]="device" [activePage]="activePage" *ngIf="activePage !== PAGE.NOT_FOUND"></sw-footer>
+
+<!-- Bottom Navgiation -->
+<ss-bottom-navigation [activePage]="activePage" *ngIf="device === DEVICE.MOBILE">
+</ss-bottom-navigation>

@@ -1,0 +1,121 @@
+<section class="sw-page sw-page--contact">
+  <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+
+    <div class="sw-contact">
+      <a routerLink="/" queryParamsHandling="merge" class="sw-contact__back">
+        <div class="sw-contact__back__icon">
+          <sw-icon [iconName]="'arrow-left-2'" [iconSize]="'size-28'" ></sw-icon>
+        </div>
+
+        <div class="sw-contact__back__text">{{'Contact.BACK' | translate}}</div>
+      </a>
+
+      <div class="sw-contact__content">
+        <div class="sw-contact__title">
+          {{ "Contact.CONTACT_US" | translate}}
+        </div>
+
+        <div class="sw-contact__breadcrumb">
+          <sw-breadcrumb>
+            <a class="sw-breadcrumb__item sw-breadcrumb__item--home" [routerLink]="['/']" queryParamsHandling="merge">
+              {{"Contact.HOME" | translate}}
+            </a>
+            <div class="sw-breadcrumb__separator">
+              <sw-icon [iconName]="'arrow-right-small'" [iconSize]="'size-24'" ></sw-icon>
+            </div>
+            <div class="sw-breadcrumb__item">
+              {{ "Contact.CONTACT_US" | translate}}
+            </div>
+          </sw-breadcrumb>
+        </div>
+
+        <ng-container *ngIf="!successMessage">
+          <div class="sw-contact__desc">
+            {{"Contact.FILL" | translate}}
+          </div>
+
+          <form class="sw-contact__form" [formGroup]="contactForm" (ngSubmit)="onSubmit()" #localForm="ngForm">
+
+            <div class="sw-contact__form__item">
+              <sw-input [name]="'name'" [size]="'medium'" [type]="'title-in'"
+                [placeholderDraft]="'Registration.FIRST_AND_LAST_NAME_PLACEHOLDER' | translate"
+                [labelText]="'Registration.FIRST_AND_LAST_NAME' | translate" [inputType]="'text'"
+                [showErrors]="localForm.submitted" [required]="true" formControlName="name"></sw-input>
+            </div>
+
+            <div class="sw-contact__form__item">
+              <sw-input [name]="'phone'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'555 555 555'"
+                [labelText]="'Registration.PHONE_NUMBER' | translate" [inputType]="'tel'"
+                [showErrors]="localForm.submitted" [required]="true" [mask]="'000 000 000'"
+                formControlName="phone_number">
+              </sw-input>
+            </div>
+
+            <div class="sw-contact__form__item">
+              <sw-input [name]="'email'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'giorgi@example.com'"
+                [labelText]="'Registration.EMAIL' | translate" [inputType]="'email'" [showErrors]="localForm.submitted"
+                formControlName="email"></sw-input>
+            </div>
+
+            <div class="sw-contact__form__item">
+              <sw-textarea [size]="'large'" [placeholderDraft]="'Registration.ENTER_MESSAGE' | translate"
+                [labelText]="'Registration.YOUR_MESSAGE' | translate" formControlName="description"
+                [showErrors]="localForm.submitted">
+              </sw-textarea>
+            </div>
+
+            <button class="sw-contact__form__send" type="submit">
+              <sw-button swPrimaryButton swRightIconButton [disabled]="!contactForm.valid">
+                {{"Contact.SEND" | translate}}
+
+                <sw-icon righticon [iconName]="'arrow-right-2'" [iconSize]="'size-24'" ></sw-icon>
+              </sw-button>
+            </button>
+          </form>
+        </ng-container>
+
+        <ng-container *ngIf="successMessage">
+          <div class="sw-contact__success">
+            <div class="sw-contact__success__image-wrapper">
+              <div class="sw-contact__success__image">
+                <sw-image [alt]="'Contact Success'" [src]="'./assets/img/Illustration-21'"></sw-image>
+              </div>
+            </div>
+
+            <h1 class="sw-contact__success__title">
+              {{"Contact.HEY" | translate}}
+            </h1>
+            <p class="sw-contact__success__desc">
+              {{"Contact.SUCCESS" | translate}}
+            </p>
+          </div>
+        </ng-container>
+
+
+      </div>
+
+      <div class="sw-contact__socials">
+        <div class="sw-contact__socials__title">
+          {{"Contact.WE_ARE_SOCIALS" | translate}}
+        </div>
+
+        <div class="sw-contact__socials__content">
+          <ng-container *ngFor="let social of socials; trackBy: trackBy">
+
+            <div class="sw-contact__socials__item">
+              <a href="{{ social.url }}" target="_blank">
+                <sw-icon [colored]="true" [iconName]="social.iconCodeRec" [iconSize]="'size-48'" >
+                </sw-icon>
+              </a>
+            </div>
+
+
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</section>

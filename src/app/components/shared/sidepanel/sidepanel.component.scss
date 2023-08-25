@@ -1,0 +1,83 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-side-panel {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+
+  @include element("content") {
+    background: var(--neutral_100);
+    box-shadow: 0px 0px 64px rgb(89 95 108 / 64%);
+    width: 544px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 9;
+    padding: 76px 32px 0px 32px;
+    overflow: auto;
+
+    @include modifier("underHeader") {
+      padding: 0;
+      padding-top: 112px;
+
+      //Remove this
+      overflow: visible;
+
+      &.sw-side-panel__content--mobile {
+        padding-top: 72px;
+      }
+    }
+
+    @include modifier("mobile") {
+      width: 100%;
+      padding: 44px 20px 0px 20px;
+
+      &.sw-side-panel__content--underHeader {
+        padding: 0;
+        padding-top: 72px;
+      }
+    }
+  }
+
+  @include element("close") {
+    cursor: pointer;
+    color: var(--primary-dark_100);
+    position: absolute;
+    top: 48px;
+    left: 32px;
+
+    &:hover {
+      color: var(--primary_100);
+    }
+
+    @include modifier("mobile") {
+      right: 32px;
+      left: auto;
+    }
+  }
+
+  @include element("overflow") {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(0deg, rgba(89, 95, 108, 0.64), rgba(89, 95, 108, 0.64));
+    z-index: 1;
+  }
+
+  @include modifier("underHeader") {
+    z-index: 900;
+  }
+}
+
+.bigTest {
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  overflow-y: auto;
+  padding-bottom: 60px;
+  padding-top: 60px;
+}

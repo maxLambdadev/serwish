@@ -1,0 +1,40 @@
+<a [routerLink]="['/blog', blog.id , blog.translated?.slug ]" queryParamsHandling="merge" *ngIf="blog">
+  <div class="sw-blog-item__content">
+    <div class="sw-blog-item__image">
+      <ng-container *ngIf="blog.images[0]">
+        <sw-image [src]="apiUrl + '/storage/' + (blog.images[0].path) | generateThumb:'366x228'"
+          [alt]="blog?.translated?.title" [absolute]="true" [noSRCSET]="true">
+        </sw-image>
+      </ng-container>
+
+      <ng-container *ngIf="!blog.images[0]">
+        <div class="sw-blog-item__image__empty">
+          <img [attr.src]="'./assets/img/empty.png'" [attr.alt]="blog?.translated?.title" loading="lazy" />
+        </div>
+      </ng-container>
+
+      <!-- Image Overlay -->
+      <div class="sw-blog-item__image__overlay"></div>
+
+      <!-- Button Overlay -->
+      <div class="sw-blog-item__image__button">
+        <sw-button swRightIconButton [size]="'size-32'">
+          {{ 'Global.MORE' | translate }}
+
+          <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'" ></sw-icon>
+        </sw-button>
+      </div>
+
+      <div class="sw-blog-item__date">
+        {{ blog.created_at | date: "M.dd.y" }}
+      </div>
+    </div>
+
+    <div class="sw-blog-item__info">
+      <h3 class="sw-blog-item__title">
+        {{ blog?.translated?.title }}
+      </h3>
+      <p class="sw-blog-item__desc" [innerHTML]="blog.translated.description | safe"></p>
+    </div>
+  </div>
+</a>

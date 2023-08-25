@@ -1,0 +1,26 @@
+import { HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { makeStateKey, TransferState } from "@angular/platform-browser";
+import { filter, tap } from "rxjs/operators";
+
+@Injectable({
+    providedIn: 'root'
+})
+export class ServerStateInterceptor implements HttpInterceptor {
+    constructor(
+        private transferState: TransferState
+    ) { }
+
+    intercept(req: HttpRequest<any>, next: HttpHandler) {
+        return next.handle(req).pipe(
+            filter(
+                (event: any) =>
+                    event instanceof HttpResponse &&
+                    (event.status === 200 || event.status === 202)
+            ),
+            tap((event: HttpResponse<any>) => {
+                this.transferState.set(makeStateKey(req.url), event.body);
+            })
+        );
+    }
+}

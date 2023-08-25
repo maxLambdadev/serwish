@@ -1,0 +1,107 @@
+<div
+  class="sw-join-us__content"
+  [ngClass]="{ 'sw-join-us__content--mobile': device === DEVICE.MOBILE }"
+>
+  <div class="sw-join-us__image">
+    <sw-image
+      [src]="'./assets/img/rocket-dynamic-color'"
+      [alt]="'Serwish'"
+      [noWEBP]="false"
+    ></sw-image>
+  </div>
+
+  <div class="sw-join-us__info">
+    <h2 class="sw-join-us__title">
+      <span>{{ "JoinUs.LABEL" | translate }}</span> {{ "JoinUs.VALUE" | translate }}
+    </h2>
+
+    <p class="sw-join-us__desc">
+      {{ "JoinUs.DESC" | translate }}
+    </p>
+
+    <form
+      class="sw-join-us__form"
+      [formGroup]="joinUsForm"
+      #localForm="ngForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <!-- Gender -->
+      <div class="sw-join-us__form__item">
+        <ng-container *ngIf="device === DEVICE.MOBILE">
+          <ws-radio
+            formControlName="type"
+            groupName="type"
+            valueName="personal"
+            label="{{ 'Registration.PERSONAL_SHORT' | translate }}"
+          ></ws-radio>
+        </ng-container>
+
+        <ng-container *ngIf="device === DEVICE.DESKTOP">
+          <ws-radio
+            formControlName="type"
+            groupName="type"
+            valueName="personal"
+            label="{{ 'Registration.PERSONAL' | translate }}"
+          ></ws-radio>
+        </ng-container>
+
+        <ws-radio
+          formControlName="type"
+          groupName="type"
+          valueName="business"
+          label="{{ 'Registration.BUSINESS' | translate }}"
+        ></ws-radio>
+      </div>
+
+      <!-- Submit -->
+      <div class="sw-join-us__form__item sw-join-us__form__item--button">
+        <ng-container *ngIf="activeType === 'business'">
+          <sw-input
+            [name]="'name'"
+            swFloatingError
+            [size]="'medium'"
+            [type]="'title-in'"
+            [placeholderDraft]="'Metrix'"
+            [labelText]="'Registration.COMPANY_NAME' | translate"
+            [inputType]="'text'"
+            [showErrors]="localForm.submitted"
+            [required]="true"
+            formControlName="name"
+          ></sw-input>
+        </ng-container>
+
+        <ng-container *ngIf="activeType === 'personal'">
+          <sw-input
+            [name]="'name'"
+            swFloatingError
+            [size]="'medium'"
+            [type]="'title-in'"
+            [placeholderDraft]="
+              'Registration.FIRST_AND_LAST_NAME_PLACEHOLDER' | translate
+            "
+            [labelText]="'Registration.FIRST_AND_LAST_NAME' | translate"
+            [inputType]="'text'"
+            [showErrors]="localForm.submitted"
+            [required]="true"
+            formControlName="name"
+          ></sw-input>
+        </ng-container>
+
+        <button class="sw-join-us__form__send" type="submit" aria-label="Submit">
+          <sw-button
+            swPrimaryButton
+            swOnlyIconButton
+            [size]="'size-56'"
+            [disabled]="!joinUsForm.valid"
+          >
+            <sw-icon
+              onlyicon
+              [iconName]="'next-arrow-icon'"
+              [iconSize]="'size-12'"
+            ></sw-icon>
+          </sw-button>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

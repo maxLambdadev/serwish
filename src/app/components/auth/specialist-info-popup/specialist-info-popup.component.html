@@ -1,0 +1,88 @@
+<div class="sw-specialist-info-popup__content"
+  [ngClass]="{'sw-specialist-info-popup__content--mobile' : device === DEVICE.MOBILE}">
+
+  <div class="sw-specialist-info-popup__header">
+
+    <div class="sw-specialist-info-popup__header__info">
+
+      <div class="sw-specialist-info-popup__header__icon">
+        <sw-icon onlyicon [iconName]="'user-icon'" [iconSize]="'size-20'" ></sw-icon>
+      </div>
+
+
+      <div class="sw-specialist-info-popup__header__title">
+        <span>{{'Registration.CONTINUE_REGISTRATION_AS_SPECIALIST' | translate}}</span>
+      </div>
+
+    </div>
+
+
+    <div class="sw-specialist-info-popup__header__close">
+      <sw-button swOnlyIconButton swSecondaryButton [size]="'size-48'" (clickAction)="closePopup()">
+        <sw-icon onlyicon [iconName]="'close-icon'" [iconSize]="'size-12'" ></sw-icon>
+      </sw-button>
+    </div>
+
+  </div>
+
+  <div class="sw-specialist-info-popup__notification">
+
+    <div class="sw-specialist-info-popup__notification__icon">!</div>
+    <div class="sw-specialist-info-popup__notification__info">
+      <div class="sw-specialist-info-popup__notification__title">
+        {{ 'Registration.NOTIFICATION.TITLE' | translate }}
+      </div>
+      <div class="sw-specialist-info-popup__notification__desc">
+        {{'Registration.NOTIFICATION.DESC' | translate}}
+      </div>
+    </div>
+  </div>
+
+  <form #testForm class="sw-specialist-info-popup__form sw-specialist-info-popup__form--popup"
+    [formGroup]="specialisInfoForm" #localForm="ngForm" (ngSubmit)="onSubmit()">
+    <!-- TYPE -->
+    <div class="sw-specialist-info-popup__form__item">
+      <ws-radio formControlName="personal" groupName="personal" valueName="personal"
+        label="{{ 'Registration.PERSONAL' | translate }}">
+      </ws-radio>
+
+      <ws-radio formControlName="personal" groupName="personal" valueName="business"
+        label="{{ 'Registration.BUSINESS' | translate }}"></ws-radio>
+    </div>
+
+    <!-- IF COMPANY -->
+    <ng-container *ngIf="activeType === 'business'">
+      <div class="sw-specialist-info-popup__form__item" [@shake]="animationState" (@shake.done)="reAnimattingDone()">
+        <sw-input [name]="'id'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'00000000000'"
+          [labelText]="'Registration.IDENTIFICATION_CODE' | translate" [inputType]="'number'"
+          [showErrors]="localForm.submitted" [required]="true" formControlName="id_number">
+        </sw-input>
+      </div>
+    </ng-container>
+
+    <!-- IF Personal -->
+    <ng-container *ngIf="activeType === 'personal'">
+      <div class="sw-specialist-info-popup__form__item" [@shake]="animationState" (@shake.done)="reAnimattingDone()">
+        <sw-input [name]="'id'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'00000000000'"
+          [labelText]="'Registration.ID_NUMBER' | translate" [inputType]="'number'" [showErrors]="localForm.submitted"
+          [required]="true" formControlName="id_number">
+        </sw-input>
+      </div>
+    </ng-container>
+
+    <!-- Submit -->
+    <button class="sw-specialist-info-popup__form__send sw-specialist-info-popup__form__send--popup" type="submit">
+      <sw-button swPrimaryButton swRightIconButton [size]="'size-56'" [disabled]="!specialisInfoForm.valid">
+        {{ 'Registration.REGISTRATION_SPECIALIST' | translate }}
+
+        <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'" ></sw-icon>
+      </sw-button>
+    </button>
+
+  </form>
+
+  <div class="sw-specialist-info-popup__loader" *ngIf="isLoadingResults">
+    <div class="sw-specialist-info-popup__loader__spinner"></div>
+  </div>
+
+</div>

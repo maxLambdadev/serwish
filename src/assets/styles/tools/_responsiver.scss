@@ -1,0 +1,28 @@
+$breakpoints: (
+  "large": (
+    max-width: 105em //1680,
+  ),
+  "medium": (
+    max-width: 85.3125em //1365,
+  ),
+  "normal": (
+    max-width: 82.5em //1320,
+  ),
+  "small": (
+    max-width: 80em //1280,
+  ),
+) !default;
+
+@mixin responsiver($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media only screen and #{inspect(map-get($breakpoints, $breakpoint))},
+    only screen and (-webkit-min-device-pixel-ratio: 2) and #{inspect(map-get($breakpoints, $breakpoint))},
+    only screen and (min--moz-device-pixel-ratio: 2) and #{inspect(map-get($breakpoints, $breakpoint))},
+    only screen and (-o-min-device-pixel-ratio: 2/1) and #{inspect(map-get($breakpoints, $breakpoint))},
+    only screen and (min-device-pixel-ratio: 2) and #{inspect(map-get($breakpoints, $breakpoint))},
+    only screen and (min-resolution: 192dpi) and #{inspect(map-get($breakpoints, $breakpoint))},
+    only screen and (min-resolution: 2dppx) and #{inspect(map-get($breakpoints, $breakpoint))} {
+      @content;
+    }
+  }
+}

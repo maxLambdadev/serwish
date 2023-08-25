@@ -1,0 +1,256 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+
+  transition: background 150ms ease-in;
+  will-change: background;
+
+  @include element("icon") {
+    line-height: 0;
+    pointer-events: none;
+  }
+
+  @include modifier("size-32") {
+    height: 32px;
+    border-radius: 8px;
+    padding: 0 16px;
+
+    @include typo("bodyS-bold");
+
+    &.sw-button--icon-only {
+      width: 32px;
+    }
+
+    .sw-button__icon {
+      @include modifier("right") {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  @include modifier("size-40") {
+    height: 40px;
+    border-radius: 12px;
+    padding: 0 16px;
+
+    @include typo("bodyS-bold");
+
+    &.sw-button--icon-only {
+      width: 40px;
+    }
+
+    .sw-button__icon {
+      @include modifier("right") {
+        margin-left: 10px;
+      }
+    }
+  }
+
+  @include modifier("size-48") {
+    height: 48px;
+    border-radius: 12px;
+    padding: 0 16px;
+
+    @include typo("body-bold");
+
+    &.sw-button--icon-only {
+      width: 48px;
+    }
+
+    .sw-button__icon {
+      @include modifier("left") {
+        margin-right: 8px;
+      }
+      @include modifier("right") {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  @include modifier("size-56") {
+    height: 56px;
+    border-radius: 12px;
+
+    @include typo("body-bold");
+
+    &.sw-button--icon-only {
+      width: 56px;
+    }
+
+    .sw-button__icon {
+      @include modifier("left") {
+        margin-right: 8px;
+      }
+      @include modifier("right") {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  @include modifier("size-64") {
+    height: 64px;
+    border-radius: 16px;
+
+    &.sw-button--icon-only {
+      width: 64px;
+    }
+
+    .sw-button__icon {
+    }
+  }
+
+  @include modifier("width") {
+    @include part("full") {
+      width: 100%;
+
+      .sw-button__content {
+        justify-content: space-between;
+      }
+
+      .sw-button__text {
+        justify-content: flex-start;
+        width: 100%;
+      }
+    }
+  }
+
+  @include element("content") {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    z-index: 8;
+  }
+
+  @include element("text") {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @include modifier("disabled") {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  @include element("waves") {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    span {
+      background: var(--neutral_60);
+      transform: scale(0);
+      border-radius: 100%;
+      position: absolute;
+      opacity: 0.75;
+      animation: wave 1000ms;
+    }
+  }
+
+  @include modifier("primary") {
+    color: var(--neutral_100);
+    background: var(--primary_100);
+
+    &:hover {
+      background: var(--primary_80);
+    }
+
+    &.sw-button--bordered {
+      color: var(--primary_100);
+      background: transparent;
+      border: 2px solid var(--primary_100);
+
+      &:hover {
+        color: var(--neutral_100);
+        background: var(--primary_100);
+        border: 2px solid var(--primary_100);
+      }
+    }
+  }
+
+  @include modifier("secondary") {
+    color: var(--primary-dark_60);
+    background: var(--secondary_100);
+
+    &:hover {
+      color: var(--neutral_100);
+      background: var(--primary_80);
+    }
+
+    &.sw-button--bordered {
+      color: var(--primary_100);
+      background: var(--neutral_100);
+      border: 2px solid var(--primary_100);
+
+      &:hover {
+        color: var(--neutral_100);
+        background: var(--primary_100);
+        border: 2px solid var(--primary_100);
+      }
+    }
+  }
+
+  @include modifier("white") {
+    color: var(--primary-dark_100);
+    background: var(--neutral_100);
+
+    &:hover {
+      color: var(--neutral_100);
+      background: var(--primary_80);
+    }
+  }
+
+  @include element("loading") {
+    position: relative;
+    margin-left: 15px;
+
+    &::after {
+      content: "";
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      border: 4px solid transparent;
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: button-loading-spinner 1s ease infinite;
+    }
+  }
+}
+
+@keyframes wave {
+  to {
+    opacity: 0;
+    transform: scale(2);
+  }
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}

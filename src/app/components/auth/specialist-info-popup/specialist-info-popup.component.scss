@@ -1,0 +1,191 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-specialist-info-popup {
+  @include element("content") {
+    width: 690px;
+    background: var(--neutral_100);
+    border-radius: 16px;
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+
+    @include modifier("mobile") {
+      width: 100%;
+    }
+  }
+
+  @include element("header") {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 32px;
+
+    @include element("info") {
+      display: flex;
+      align-items: center;
+    }
+
+    @include element("icon") {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--primary_100);
+      background: var(--secondary_100);
+      border-radius: 12px;
+      width: 48px;
+      height: 48px;
+      margin-right: 16px;
+    }
+
+    @include element("title") {
+      color: var(--primary-dark_100);
+      @include typo("h3-bold");
+      font-feature-settings: "case" on;
+    }
+
+    @include element("close") {
+    }
+  }
+
+  @include element("notification") {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--processing_100);
+    box-sizing: border-box;
+    border-radius: 12px;
+    padding: 8px 12px;
+    margin-bottom: 32px;
+
+    @include element("icon") {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-right: 11px;
+      width: 33px;
+      height: 33px;
+      color: var(--processing_100);
+      background: var(--processing_20);
+      border-radius: 8px;
+
+      @include typo("h2-bold");
+    }
+
+    @include element("info") {
+    }
+
+    @include element("title") {
+      color: var(--processing_100);
+      @include typo("bodyS-bold");
+    }
+
+    @include element("desc") {
+      color: var(--processing_100);
+      @include typo("bodyS");
+    }
+  }
+
+  @include element("registration") {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    margin-top: 32px;
+    padding-bottom: 64px;
+
+    @include element("icon") {
+      color: var(--primary_100);
+      background: var(--secondary_100);
+      border-radius: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      margin-right: 16px;
+    }
+
+    @include element("other") {
+    }
+
+    @include element("label") {
+      color: var(--primary-dark_100);
+      @include typo("body");
+    }
+
+    @include element("button") {
+      color: var(--primary_100);
+      @include typo("body-bold");
+      text-decoration: underline;
+    }
+
+    @include modifier("popup") {
+      padding-bottom: 0;
+    }
+  }
+
+  @include element("form") {
+    padding-bottom: 24px;
+
+    @include modifier("popup") {
+      padding-bottom: 0;
+    }
+
+    @include element("item") {
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+      column-gap: 8px;
+      width: 100%;
+      margin-bottom: 8px;
+
+      .sw-input {
+        width: 100%;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    @include element("send") {
+      -webkit-appearance: none;
+      padding: 0;
+      width: 100%;
+      margin-top: 32px;
+      margin-bottom: 16px;
+
+      @include modifier("popup") {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.sw-specialist-info-popup__loader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 35%;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--neutral_40);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  @include element("spinner") {
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--primary_100);
+    border-bottom-color: var(--neutral_100);
+    border-radius: 50%;
+    display: inline-block;
+    animation: rotation 1s linear infinite;
+  }
+}

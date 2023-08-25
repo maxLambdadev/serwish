@@ -1,0 +1,74 @@
+<a [routerLink]="['/specialists', item.id , item.slug]" queryParamsHandling="merge"
+  [queryParams]="{ page:null , categories:null , quality:null,personal:null , cities:null }" *ngIf="item">
+
+  <div class="sw-specialist-item__content" [ngClass]="{
+      'sw-specialist-item__content--mobile' : device === DEVICE.MOBILE,
+      'sw-specialist-item__content--noneSlider' : noneSlider
+     }">
+
+    <div class="sw-specialist-item__image">
+
+      <!-- NO IMAGE -->
+      <div class="sw-specialist-item__image__empty" *ngIf="item?.images && !item?.images[0]?.path && !item.extraPic">
+        <img [attr.src]="'./assets/img/empty.png'" [attr.alt]="item.name" loading="lazy" />
+      </div>
+
+      <!-- UPLOADED ONE -->
+      <ng-container *ngIf="item?.images && (item?.images)[0]?.path && !item.extraPic">
+        <sw-image [src]="apiUrl + '/storage/' + (item?.images[0].path) | generateThumb:'228x228'"
+          [alt]="item.name" [absolute]="true" [noSRCSET]="true" [format]=""></sw-image>
+      </ng-container>
+
+      <!-- EXTRA PIC -->
+      <ng-container *ngIf="item.extraPic">
+        <sw-image [src]="item.extraPic" [alt]="item.name" [absolute]="true" [noSRCSET]="true">
+        </sw-image>
+      </ng-container>
+
+      <!-- Image Overlay -->
+      <div class="sw-specialist-item__image__overlay"></div>
+
+      <!-- Button Overlay -->
+      <div class="sw-specialist-item__image__button">
+        <sw-button swRightIconButton [size]="'size-32'">
+          {{ 'Global.OFFERS' | translate }}
+
+          <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+        </sw-button>
+      </div>
+
+      <!-- Rating -->
+      <div class="sw-specialist-item__rating">
+        <div class="sw-specialist-item__rating__percentage">
+          <div class="sw-specialist-item__rating__percentage-icon">
+            <sw-icon onlyicon [iconName]="'like-icon'" [iconSize]="'size-12'"></sw-icon>
+          </div>
+
+          <div class="sw-specialist-item__rating__percentage-value">{{ item.likePercent }}%</div>
+        </div>
+        <div class="sw-specialist-item__rating__count">{{ item.totalReviews }} {{ 'Global.REVIEW' | translate }}</div>
+      </div>
+
+      <!-- Badge -->
+      <div class="sw-specialist-item__badge sw-specialist-item__badge--serwish" *ngIf="item?.serwish_quality">
+        <div class="sw-specialist-item__badge__icon">
+          <sw-icon onlyicon [iconName]="'star-icon'" [iconSize]="'size-10'"></sw-icon>
+        </div>
+        <div class="sw-specialist-item__badge__text">
+          <span>SER</span>WISH {{ 'Global.QUALITY' | translate }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- {{ item | json }} -->
+
+  <div class="sw-specialist-item__bottom" [ngClass]="{
+    'sw-specialist-item__bottom--mobile' : device === DEVICE.MOBILE,
+    'sw-specialist-item__bottom--noneSlider' : noneSlider
+  }">
+    <h3 class="sw-specialist-item__title">{{ item.name | onlyName }}<span class="sw-specialist-item__id">{{ item.id
+        }}</span></h3>
+    <p class="sw-specialist-item__specialty">{{ item.serviceCategories | removeLastSemicolon }}</p>
+  </div>
+</a>

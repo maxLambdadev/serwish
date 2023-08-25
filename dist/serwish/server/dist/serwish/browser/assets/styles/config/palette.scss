@@ -1,0 +1,71 @@
+@import "../tools/tools.scss";
+//Primary
+$light-primary_100: #27aae1;
+//Primary Dark
+$light-primary-dark_100: #3f4655;
+//Secondary
+$light-secondary_100: #eff2f6;
+//Neutral
+$light-neutral_100: #ffffff;
+//Processing
+$light-processing_100: #ff9900;
+//Error
+$light-error_100: #ff003d;
+//Error
+$light-success_100: #00d22e;
+
+:root {
+  // --background_100--rgb: #{hexToRGB($light-background_100)};
+  --transparent: rgba(#{hexToRGB($light-neutral_100)}, 0);
+  //Primary
+  --primary_100: #{$light-primary_100};
+  --primary_90: rgba(#{hexToRGB($light-primary_100)}, 0.9);
+  --primary_80: rgba(#{hexToRGB($light-primary_100)}, 0.8);
+  --primary_60: rgba(#{hexToRGB($light-primary_100)}, 0.6);
+  --primary_40: rgba(#{hexToRGB($light-primary_100)}, 0.4);
+  --primary_20: rgba(#{hexToRGB($light-primary_100)}, 0.2);
+  --primary_10: rgba(#{hexToRGB($light-primary_100)}, 0.1);
+  //Primary Dark
+  --primary-dark_100: #{$light-primary-dark_100};
+  --primary-dark_80: rgba(#{hexToRGB($light-primary-dark_100)}, 0.8);
+  --primary-dark_60: rgba(#{hexToRGB($light-primary-dark_100)}, 0.6);
+  --primary-dark_40: rgba(#{hexToRGB($light-primary-dark_100)}, 0.4);
+  --primary-dark_20: rgba(#{hexToRGB($light-primary-dark_100)}, 0.2);
+  --primary-dark_10: rgba(#{hexToRGB($light-primary-dark_100)}, 0.1);
+  //Secondary
+  --secondary_100: #{$light-secondary_100};
+  --secondary_80: rgba(#{hexToRGB($light-secondary_100)}, 0.8);
+  --secondary_60: rgba(#{hexToRGB($light-secondary_100)}, 0.6);
+  --secondary_40: rgba(#{hexToRGB($light-secondary_100)}, 0.4);
+  --secondary_20: rgba(#{hexToRGB($light-secondary_100)}, 0.2);
+  --secondary_10: rgba(#{hexToRGB($light-secondary_100)}, 0.1);
+  //Neutral
+  --neutral_100: #{$light-neutral_100};
+  --neutral_90: rgba(#{hexToRGB($light-neutral_100)}, 0.9);
+  --neutral_80: rgba(#{hexToRGB($light-neutral_100)}, 0.8);
+  --neutral_60: rgba(#{hexToRGB($light-neutral_100)}, 0.6);
+  --neutral_40: rgba(#{hexToRGB($light-neutral_100)}, 0.4);
+  --neutral_20: rgba(#{hexToRGB($light-neutral_100)}, 0.2);
+  --neutral_10: rgba(#{hexToRGB($light-neutral_100)}, 0.1);
+  //Processing
+  --processing_100: #{$light-processing_100};
+  --processing_80: rgba(#{hexToRGB($light-processing_100)}, 0.8);
+  --processing_60: rgba(#{hexToRGB($light-processing_100)}, 0.6);
+  --processing_40: rgba(#{hexToRGB($light-processing_100)}, 0.4);
+  --processing_20: rgba(#{hexToRGB($light-processing_100)}, 0.2);
+  --processing_10: rgba(#{hexToRGB($light-processing_100)}, 0.1);
+  //Error
+  --error_100: #{$light-error_100};
+  --error_80: rgba(#{hexToRGB($light-error_100)}, 0.8);
+  --error_60: rgba(#{hexToRGB($light-error_100)}, 0.6);
+  --error_40: rgba(#{hexToRGB($light-error_100)}, 0.4);
+  --error_20: rgba(#{hexToRGB($light-error_100)}, 0.2);
+  --error_10: rgba(#{hexToRGB($light-error_100)}, 0.1);
+  //Success
+  --success_100: #{$light-success_100};
+  --success_80: rgba(#{hexToRGB($light-success_100)}, 0.8);
+  --success_60: rgba(#{hexToRGB($light-success_100)}, 0.6);
+  --success_40: rgba(#{hexToRGB($light-success_100)}, 0.4);
+  --success_20: rgba(#{hexToRGB($light-success_100)}, 0.2);
+  --success_10: rgba(#{hexToRGB($light-success_100)}, 0.1);
+}

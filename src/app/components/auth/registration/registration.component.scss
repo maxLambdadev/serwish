@@ -1,0 +1,139 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-registration {
+  @include element("content") {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  @include element("title") {
+    color: var(--primary_100);
+    @include typo("h3-bold");
+    font-feature-settings: "case" on;
+    margin-bottom: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+
+    @include element("counter") {
+      color: var(--primary-dark_100);
+      @include typo("body");
+      font-feature-settings: "case" on;
+      padding-right: 14px;
+    }
+  }
+
+  @include element("form") {
+    padding-bottom: 24px;
+
+    @include element("item") {
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+      column-gap: 8px;
+      width: 100%;
+      margin-bottom: 8px;
+
+      .sw-input {
+        width: 100%;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    @include element("bottom") {
+      width: 100%;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+    }
+
+    @include element("back") {
+      margin-right: 8px;
+    }
+
+    @include element("send") {
+      -webkit-appearance: none;
+      padding: 0;
+      width: 100%;
+    }
+  }
+
+  @include element("specialist") {
+    padding: 32px;
+
+    background: var(--secondary_100);
+    margin: 0 -32px;
+
+    @include element("title") {
+      color: var(--primary_100);
+      @include typo("h3");
+      margin-bottom: 8px;
+      font-feature-settings: "case" on;
+
+      span {
+        @include typo("h3-bold");
+      }
+    }
+
+    @include element("desc") {
+      color: var(--primary-dark_100);
+      @include typo("bodyS");
+      margin-bottom: 32px;
+    }
+
+    @include element("button") {
+      .sw-icon:not(.sw-icon--colored) path {
+        fill: none;
+        stroke: currentColor;
+      }
+    }
+
+    @include modifier("mobile") {
+      margin: 0 -20px;
+      padding-bottom: 96px;
+    }
+  }
+
+  @include element("top") {
+    @include modifier("mobile") {
+      .sw-input--medium .sw-input__label__text {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+.sw-registration__loader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 35%;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--neutral_40);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+
+  @include element("spinner") {
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--primary_100);
+    border-bottom-color: var(--neutral_100);
+    border-radius: 50%;
+    display: inline-block;
+    animation: rotation 1s linear infinite;
+  }
+}

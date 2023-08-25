@@ -1,0 +1,289 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-search {
+  @include element("filters") {
+    @include element("item") {
+      flex-shrink: 0;
+      margin-right: 8px;
+
+      @include modifier("checkbox") {
+        .ws-checkbox__button {
+          height: 32px;
+          border-radius: 8px;
+          padding-left: 8px;
+          padding-right: 12px;
+        }
+
+        .ws-checkbox__text {
+          @include typo("bodyS");
+        }
+
+        .ws-checkbox__icon {
+          margin-right: 8px;
+        }
+      }
+
+      @include modifier("serwish") {
+        .ws-checkbox__button {
+          background: var(--primary_20);
+        }
+
+        .ws-checkbox__text {
+          color: var(--primary_100);
+        }
+      }
+
+      @include modifier("dropdown") {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .sw-search__filters__item__content {
+          border-radius: 8px;
+          padding-left: 8px;
+          padding-right: 16px;
+          height: 32px;
+          background: var(--secondary_100);
+          position: relative;
+
+          @include modifier("active") {
+            z-index: 99;
+          }
+
+          @include responsiver("small") {
+            width: 100%;
+          }
+
+          @include modifier("category") {
+            background: var(--primary_20);
+
+            .sw-search__filters__item__icon {
+              color: var(--primary_100);
+            }
+
+            .sw-search__filters__item__text {
+              color: var(--primary_100);
+            }
+
+            .sw-search__filters__item__toggle {
+              &::before {
+                border-top: 4px solid var(--primary_100);
+              }
+            }
+          }
+        }
+
+        &:hover {
+          .sw-search__filters__item__content {
+            background: var(--secondary_80);
+          }
+        }
+      }
+
+      @include element("content") {
+        display: flex;
+        align-items: center;
+
+        border: 2px solid transparent;
+      }
+
+      @include element("icon") {
+        color: var(--primary-dark_100);
+        margin-right: 8px;
+      }
+
+      @include element("text") {
+        color: var(--primary-dark_60);
+        @include typo("bodyS");
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+
+        span {
+          @include typo("bodyS");
+          transition: 200ms ease-in;
+
+          &.up {
+            transform: rotate(180deg);
+          }
+        }
+      }
+
+      @include element("toggle") {
+        margin-left: 12px;
+        position: relative;
+
+        &::before {
+          content: "";
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-top: 4px solid var(--primary-dark_60);
+          position: absolute;
+          top: -1px;
+          right: -5px;
+        }
+
+        &.up {
+          transform: rotate(180deg);
+        }
+      }
+
+      @include element("dropdown") {
+        position: absolute;
+        top: calc(100% + 8px);
+        right: 0;
+        background: var(--neutral_100);
+        box-shadow: 0px 10px 48px -20px rgba(89, 95, 108, 0.4);
+        border-radius: 8px;
+        padding-right: 8px;
+        min-width: 150px;
+
+        @include element("content") {
+          height: 100%;
+          padding: 8px;
+          padding-right: 0;
+          max-height: 286px;
+          overflow-x: hidden;
+          overflow-y: overlay;
+          // min-width: 257px;
+          min-width: 100%;
+
+          @include modifier("scroll") {
+            padding-right: 26px;
+          }
+
+          @include modifier("category") {
+            min-width: 250px;
+          }
+
+          &::-webkit-scrollbar-track {
+            margin-top: 16px;
+            margin-bottom: 8px;
+            // visibility: hidden;
+
+            border-radius: 4px;
+            background: var(--secondary_100);
+          }
+        }
+
+        @include modifier("static") {
+          position: static;
+          width: 100%;
+          padding: 16px;
+          background: var(--secondary_40);
+          box-shadow: none;
+          display: none;
+
+          .sw-search__filters__item__dropdown__content {
+            padding: 0;
+            max-height: unset;
+            overflow: auto;
+            margin-bottom: 0;
+          }
+
+          &.sw-search__filters__item__dropdown--active {
+            display: block;
+
+            .sw-search__filters__item__content {
+              margin-bottom: 12px;
+            }
+          }
+        }
+      }
+
+      @include modifier("static") {
+        flex-direction: column;
+        align-items: flex-start;
+
+        .sw-search__filters__item__content {
+          width: 100%;
+        }
+
+        &.sw-search__filters__item--active {
+          .sw-search__filters__item__content {
+            margin-bottom: 12px;
+          }
+        }
+
+        .sw-search__filters__item__toggle {
+          display: none;
+        }
+      }
+    }
+
+    @include element("dropdown") {
+      @include element("group") {
+        @include element("title") {
+          color: var(--primary-dark_60);
+          @include typo("bodyS");
+          margin-bottom: 10px;
+          margin-top: 10px;
+        }
+      }
+
+      @include element("item") {
+        display: flex;
+        align-items: center;
+        height: 32px;
+        padding: 0 8px;
+        background: var(--secondary_100);
+        margin-bottom: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+
+        @include part("checkbox") {
+          color: var(--neutral_100);
+          margin-right: 8px;
+
+          @include modifier("close") {
+            color: var(--primary_100);
+          }
+        }
+
+        @include part("text") {
+          color: var(--primary-dark_100);
+          @include typo("bodyS");
+        }
+      }
+    }
+  }
+}
+
+.sw-search-filters-item {
+  flex-shrink: 0;
+
+  &.active {
+    .sw-search__filters__item--dropdown {
+      .sw-search__filters__item__content {
+        background: var(--primary_20);
+        border-color: var(--primary_100);
+      }
+
+      .sw-search__filters__item__text {
+        color: var(--primary_100);
+      }
+
+      .sw-search__filters__item__icon {
+        color: var(--primary_100);
+      }
+
+      .sw-search__filters__item__toggle {
+        &::before {
+          border-top: 4px solid var(--primary_100);
+        }
+      }
+    }
+  }
+
+  @include modifier("static") {
+    display: block;
+    margin-bottom: 16px;
+  }
+}

@@ -1,0 +1,25 @@
+<!-- INPUT -->
+<div class="sw-input__wrapper">
+  <label class="sw-input__label" [ngClass]="{ 'sw-input__label--disabled': disabled }">
+    <input [attr.name]="name" class="sw-input__text" [(ngModel)]="data" [type]="inputType" [required]="required"
+      [disabled]="disabled" [placeholder]="placeholder" [ngModelOptions]="{ standalone: true }" (input)="onChange()"
+      (change)="onChange()" (blur)="onTouchedFn()" (blur)="onBlurFn()" (focus)="onFocusFn()" [mask]="mask" [attr.maxlength]="maxlength"
+      autocomplete="on" />
+
+    <div #label class="sw-input__label__text">
+      {{ labelText }}
+    </div>
+
+    <div class="sw-input__button" *ngIf="_hasRightIcon">
+      <ng-content select="[righticon]"></ng-content>
+    </div>
+
+    <div class="sw-input__specifier">
+      <ng-content select="[specifier]"></ng-content>
+    </div>
+  </label>
+
+  <div class="sw-input__error" @slideUpDown *ngIf="invalid && showErrors">
+    {{ errors[0] }}
+  </div>
+</div>

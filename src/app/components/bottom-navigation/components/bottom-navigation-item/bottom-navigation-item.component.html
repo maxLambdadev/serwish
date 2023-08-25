@@ -1,0 +1,26 @@
+<a class="sb-navigation-bottom__item__content" [ngClass]="{'active' : navItem.activeTab == activePage }"
+    *ngIf="navItem.hasLink" [routerLink]="navItem.link" queryParamsHandling="merge" [attr.alt]="navItem.name"
+    [attr.aria-label]="navItem.name">
+
+    <div *ngIf="navItem.icon" class="sb-navigation-bottom__item__icon sb-navigation-bottom__item__icon--initail"
+        [ngClass]="{
+            'sb-navigation-bottom__item__icon--search' : navItem.isSearch,
+             'sb-navigation-bottom__item__icon--active' : navItem.activeTab == activePage
+        }">
+
+        <span class="hidden">{{navItem.name}}</span>
+
+        <sw-icon [iconName]="navItem.icon" [iconSize]="'size-24'">
+        </sw-icon>
+
+    </div>
+</a>
+
+<div class="sb-navigation-bottom__item__content" *ngIf="!navItem.hasLink" (click)="itemClick()">
+    <div *ngIf="navItem.icon" class="sb-navigation-bottom__item__icon sb-navigation-bottom__item__icon--initail">
+
+        <sw-icon [iconName]="navItem.icon" [iconSize]="'size-24'">
+        </sw-icon>
+
+    </div>
+</div>

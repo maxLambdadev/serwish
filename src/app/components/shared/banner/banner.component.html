@@ -1,0 +1,6 @@
+<ng-container *ngIf="banner">
+  <a href="{{banner.link}}" [attr.title]="banner.name">
+    <div class="sw-banner" [ngStyle]="{'background-image': 'url(' + banner.image + ')'}">
+    </div>
+  </a>
+</ng-container>

@@ -1,0 +1,59 @@
+<div class="sw-add-service__form__photo"
+  [ngClass]="{'sw-add-service__form__photo--specialist' : uploadDestination === UPLOAD_DESTINATION.SPECIALIST }">
+
+  <label class="sw-add-service__form__photo__add"
+    [ngClass]="{'sw-add-service__form__photo__add--specialist' : uploadDestination === UPLOAD_DESTINATION.SPECIALIST }"
+    *ngIf="!selectedFile">
+
+    <ng-container *ngIf="uploadDestination === UPLOAD_DESTINATION.SPECIALIST">
+
+      <div class="sw-add-service__form__photo__add-button-specialist">
+
+        <div class="sw-add-service__form__photo__add-button__icon">
+          +
+        </div>
+
+        <div class="sw-add-service__form__photo__add-button__text">
+
+          <ng-container *ngIf="alreadyHasImage">
+            {{ 'Profile.UPDATE_PHOTO' | translate }}
+          </ng-container>
+
+          <ng-container *ngIf="!alreadyHasImage">
+            {{ 'Profile.ADD_PHOTO' | translate }}
+          </ng-container>
+        </div>
+
+
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="uploadDestination === UPLOAD_DESTINATION.SERVICE">
+      <div class="sw-add-service__form__photo__add-button">
+        <sw-icon [iconName]="'plus'" [iconSize]="'size-24'" ></sw-icon>
+      </div>
+      <div class="sw-add-service__form__photo__add-text">
+        {{ "AddService.ADD_PHOTO" | translate }}
+      </div>
+    </ng-container>
+
+
+
+    <input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)" />
+  </label>
+
+  <div class="img-preview-container" *ngIf="selectedFile">
+
+    <div class="sw-add-service__form__photo__remove" *ngIf="!imageLoading"  (click)="removeImage(selectedFile.mediaId)">
+      <sw-icon [iconName]="'error-icon'" [iconSize]="'size-16'" ></sw-icon>
+    </div>
+
+    <div class="img-preview{{ selectedFile.status === 'fail' ? '-error' : '' }}"
+      [ngStyle]="{ 'background-image': 'url(' + selectedFile.src + ')' }"></div>
+  </div>
+
+  <div *ngIf="imageLoading" class="img-loading-overlay">
+    <div class="img-spinning-circle"></div>
+  </div>
+</div>

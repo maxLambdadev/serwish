@@ -1,0 +1,65 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-not-found-page {
+  @include element("content") {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  @include element("wrapper") {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background: #f5f5f5;
+  }
+
+  @include element("title") {
+    color: #ff6e6e;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    position: relative;
+
+    @include modifier("mobile") {
+      flex-direction: column;
+    }
+  }
+
+  @include element("logo") {
+    margin-bottom: 50px;
+
+    img {
+      width: 188px;
+    }
+  }
+
+  @include element("button") {
+    margin-top: 40px;
+  }
+
+  .code {
+    border-right: 3px solid;
+    @include typo("h1");
+    font-feature-settings: "case" on;
+    font-size: 55px;
+    padding: 0 10px 0 10px;
+    text-align: center;
+
+    @include modifier("mobile") {
+      border-right: none;
+      margin-bottom: 10px;
+    }
+  }
+
+  .message {
+    @include typo("h1");
+    font-feature-settings: "case" on;
+    text-align: center;
+    padding: 10px;
+  }
+}

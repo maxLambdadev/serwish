@@ -1,0 +1,157 @@
+<section class="sw-page sw-page--services">
+  <div class="sw-services">
+    <div
+      class="sw-services__search"
+      [ngClass]="{ 'sw-services__search--mobile': device === DEVICE.MOBILE }"
+    >
+      <div
+        class="sw-container"
+        [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+      >
+        <sw-search [isServicesPage]="true" (filterChange)="onFilterChange()"></sw-search>
+      </div>
+    </div>
+
+    <!-- <div class="sw-services-header-banner">
+      <div
+        class="sw-services__wrapper"
+        [ngClass]="{ 'sw-services__wrapper--mobile': device === DEVICE.MOBILE }"
+      >
+        <div
+          class="sw-container"
+          [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+        >
+          <div class="tst">
+            <h1>სამშენებლო ამწეკრანი</h1>
+            <p>
+              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Alias cum labore
+              nihil excepturi quisquam nemo vel consectetur numquam, cupiditate
+              necessitatibus fugit reiciendis ducimus officia blanditiis architecto
+              aperiam? Libero, architecto sit?
+            </p>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div
+      class="sw-services__wrapper"
+      [ngClass]="{ 'sw-services__wrapper--mobile': device === DEVICE.MOBILE }"
+    >
+      <div
+        class="sw-container"
+        [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+      >
+        <div
+          class="sw-services__content"
+          infinite-scroll
+          [infiniteScrollDistance]="scrollDistance"
+          [infiniteScrollUpDistance]="scrollUpDistance"
+          [infiniteScrollThrottle]="throttle"
+          (scrolled)="onScrollDown()"
+          (scrolledUp)="onUp()"
+          [ngClass]="{ 'sw-services__content--mobile': device === DEVICE.MOBILE }"
+        >
+          <!-- Content -->
+          <ng-container
+            *ngFor="
+              let service of services$ | async;
+              trackBy: trackBy;
+              let i = index;
+              let isLast = last
+            "
+          >
+            <ng-container *ngIf="device === DEVICE.DESKTOP">
+              <sw-service-item @fadeIn [item]="service" [specialist]="service.specialist">
+              </sw-service-item>
+            </ng-container>
+
+            <ng-container *ngIf="device === DEVICE.MOBILE">
+              <sw-service-item-mobile
+                @fadeIn
+                [item]="service"
+                [specialist]="service.specialist"
+              >
+              </sw-service-item-mobile>
+            </ng-container>
+            <!-- <div
+              *ngIf="headerItems.length > 0"
+              class="sw-services__header-banner"
+              [ngClass]="{
+                'sw-services__header--mobile': device === DEVICE.MOBILE,
+                'sw-services__header--desktop': device === DEVICE.DESKTOP
+              }"
+            ></div> -->
+            <ng-container *ngIf="ads">
+              <ng-container *ngIf="ads.length > 0">
+                <div
+                  class="sw-services__banner"
+                  [ngClass]="{ 'sw-services__banner--mobile': device === DEVICE.MOBILE }"
+                  *ngIf="i === 5 && ads[0]?.is_active"
+                >
+                  <sw-banner *ngIf="ads" [banner]="ads[0]"></sw-banner>
+                </div>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+
+          <!-- Loading -->
+          <ng-container
+            *ngIf="(servicesLoadingStatus$ | async) === LOADING_STATUS.LOADING"
+          >
+            <ng-container *ngFor="let in of counter(16); let i = index">
+              <ng-container *ngIf="device === DEVICE.DESKTOP">
+                <sw-service-item-loader></sw-service-item-loader>
+              </ng-container>
+
+              <ng-container *ngIf="device === DEVICE.MOBILE">
+                <sw-service-item-loader-mobile></sw-service-item-loader-mobile>
+              </ng-container>
+            </ng-container>
+          </ng-container>
+        </div>
+
+        <!-- Empty -->
+        <ng-container *ngIf="(servicesLoadingStatus$ | async) === LOADING_STATUS.EMPTY">
+          <div class="sw-services__empty">
+            <div class="sw-services__empty__icon">
+              <sw-icon [iconName]="'empty'" [iconSize]="'size-70'"></sw-icon>
+            </div>
+            <h3 class="sw-services__empty__title">
+              {{ "Services.EMPTY.TITLE" | translate }}
+            </h3>
+            <p class="sw-services__empty__desc">
+              {{ "Services.EMPTY.DESC" | translate }}
+            </p>
+
+            <div class="sw-services__empty__buttons">
+              <div
+                (click)="goBack()"
+                class="sw-services__empty__button sw-services__empty__button--back sw-services__empty__button--outline"
+              >
+                <div
+                  class="sw-services__empty__button-icon  sw-services__empty__button-icon--mirrored"
+                >
+                  <sw-icon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'">
+                  </sw-icon>
+                </div>
+                <div class="sw-services__empty__button-text">
+                  {{ "Services.EMPTY.BACK" | translate }}
+                </div>
+              </div>
+
+              <div
+                (click)="goHome()"
+                class="sw-services__empty__button sw-services__empty__button--home sw-services__empty__button--full"
+              >
+                <div class="sw-services__empty__button-text">
+                  {{ "Services.EMPTY.HOME_PAGE" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>

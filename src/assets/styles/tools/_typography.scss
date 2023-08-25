@@ -1,0 +1,50 @@
+@mixin typo($property, $color: inherit) {
+  font-family: var(--#{$property}-family);
+  font-size: var(--#{$property}-size);
+  font-weight: var(--#{$property}-weight);
+  line-height: var(--#{$property}-height);
+  letter-spacing: var(--#{$property}-spacing);
+
+  @if $color != "inherit" {
+    color: var(--font-#{$color});
+  }
+}
+
+@mixin typoCalc($index, $size, $family, $weight, $spacing, $height) {
+  // Font Family
+  @if $family {
+    --#{$index}-family: "#{$family}";
+  }
+
+  // Font Size
+  --#{$index}-size: #{size-calc($size, $size-index)}px;
+
+  // Font Weight
+  --#{$index}-weight: #{$weight};
+
+  // Letter Spacing
+  @if $spacing {
+    --#{$index}-spacing: #{$spacing}px;
+  } @else {
+    --#{$index}-spacing: #{spacing-calc($size, $spacing-index)}px;
+  }
+
+  // Line Height
+  @if $height {
+    --#{$index}-height: #{$height}px;
+  } @else {
+    --#{$index}-height: #{height-calc($size, $height-index)}px;
+  }
+}
+
+@function size-calc($size, $size-index) {
+  @return round($size * $size-index);
+}
+
+@function spacing-calc($size, $spacing-index) {
+  @return ($size * $size-index) / $spacing-index;
+}
+
+@function height-calc($size, $height-index) {
+  @return round(($size * $size-index) * $height-index);
+}

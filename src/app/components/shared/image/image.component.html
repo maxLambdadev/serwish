@@ -1,0 +1,19 @@
+<div class="image__wrapper" (SWDefer)="renderImage = true">
+  <ng-container *ngIf="renderImage">
+    <picture class="image__picture" *ngIf="!noSRCSET && !absolute">
+      <ng-container *ngIf="!noWEBP">
+        <source [attr.srcset]="generateUrl('webp')" type="image/webp" />
+      </ng-container>
+
+      <source [attr.srcset]="generateUrl('png')" type="image/jpeg" />
+
+      <img [alt]="alt" (load)="onLoadImage($event)" (error)="errorImage.emit($event)" [src]="imageSrc" loading="lazy" />
+    </picture>
+
+    <img *ngIf="noSRCSET && !absolute" [alt]="alt" (load)="onLoadImage($event)" (error)="errorImage.emit($event)"
+      [src]="imageSrc" loading="lazy" />
+
+    <img *ngIf="absolute" [alt]="alt" (load)="onLoadImage($event)" (error)="errorImage.emit($event)" [src]="src"
+      loading="lazy" />
+  </ng-container>
+</div>

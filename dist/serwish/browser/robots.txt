@@ -1,0 +1,3 @@
+User-agent: *
+Sitemap: https://serwish.ge/sitemap.xml
+Disallow:

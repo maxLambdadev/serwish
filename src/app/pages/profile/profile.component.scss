@@ -1,0 +1,216 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-profile-page {
+  @include element("content") {
+    display: flex;
+    padding-top: 40px;
+
+    @include modifier("mobile") {
+      flex-direction: column;
+      padding: 16px;
+      padding-bottom: 0;
+    }
+  }
+
+  @include element("user") {
+    width: 260px;
+    margin-right: 154px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+
+    @include element("image") {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      background: #effaff;
+      border-radius: 8px;
+      height: 228px;
+      position: relative;
+
+      img {
+        height: 228px;
+        width: 228px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+
+      @include part("upload") {
+        display: none;
+
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: var(--primary_20);
+        backdrop-filter: blur(8px);
+
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 200ms ease-in-out;
+        will-change: opacity;
+
+        align-items: center;
+        justify-content: center;
+      }
+
+      @include part("empty") {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    @include element("content") {
+      background: var(--neutral_100);
+      border-radius: 16px;
+      padding: 16px;
+
+      &:hover {
+        .sw-profile-page__user__image-upload {
+          display: flex;
+          opacity: 1;
+        }
+      }
+    }
+
+    @include element("name") {
+      color: var(--primary_100);
+      @include typo("body");
+    }
+
+    @include element("type") {
+      color: var(--primary-dark_100);
+      @include typo("bodyXS");
+    }
+
+    @include element("amount") {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      align-self: flex-start;
+      height: 40px;
+      border: 2px solid var(--neutral_100);
+      border-radius: 8px;
+      padding: 2px;
+      margin-top: 32px;
+
+      @include part("title") {
+        color: var(--primary-dark_100);
+        @include typo("bodyS");
+        padding-left: 20px;
+        padding-right: 14px;
+      }
+
+      @include part("amount") {
+        color: var(--primary_100);
+        @include typo("h3-bold");
+        background: var(--neutral_100);
+        border-radius: 6px;
+        min-width: 71px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+      }
+    }
+
+    @include modifier("mobile") {
+      margin-bottom: 48px;
+    }
+  }
+
+  @include element("form") {
+    width: 100%;
+
+    @include element("group") {
+      margin-bottom: 32px;
+
+      @include element("header") {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+
+        @include element("content") {
+          display: flex;
+          align-items: center;
+        }
+
+        @include modifier("withCount") {
+          justify-content: space-between;
+        }
+      }
+
+      @include element("title") {
+        color: var(--primary-dark_100);
+        @include typo("h3");
+        font-feature-settings: "case" on;
+
+        span {
+          color: var(--primary_100);
+          @include typo("h3-bold");
+        }
+      }
+
+      @include element("edit") {
+        cursor: pointer;
+        color: var(--primary-dark_100);
+        margin-left: 18px;
+      }
+
+      @include element("content") {
+        background: var(--neutral_100);
+        border-radius: 16px;
+        padding: 16px;
+        transition: box-shadow 100ms ease-in;
+
+        @include modifier("editMode") {
+          box-shadow: 0px 24px 48px -20px rgba(89, 95, 108, 0.4);
+        }
+      }
+
+      @include element("actions") {
+        display: flex;
+        padding-top: 16px;
+      }
+
+      @include element("item") {
+        display: grid;
+        grid-auto-columns: 1fr;
+        grid-auto-flow: column;
+        grid-column-gap: 8px;
+        -moz-column-gap: 8px;
+        column-gap: 8px;
+        width: 100%;
+        margin-bottom: 8px;
+
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+
+    @include element("action") {
+      min-width: 165px;
+
+      @include modifier("save") {
+        margin-right: 16px;
+      }
+
+      .sw-button {
+        width: 100%;
+      }
+    }
+
+    @include element("counter") {
+      color: var(--primary-dark_100);
+      @include typo("body");
+      font-feature-settings: "case" on;
+      padding-right: 14px;
+    }
+  }
+}

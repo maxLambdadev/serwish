@@ -1,0 +1,53 @@
+<div
+  class="header-slider__inner"
+  (click)="showCategories(category)"
+  id="header-slider_dropdown"
+  #headerSliderDropdown
+  routerLinkActive="active"
+  #rla="routerLinkActive"
+  [class.linkActive]="rla.isActive"
+  #swiperSlider
+>
+  <img
+    src="{{ apiUrl + '/storage/' + (category?.images)[0]?.path }}"
+    alt=" "
+    class="header-swiper__item__image"
+  />
+  {{ category?.translated.title }}
+  <div
+    class="header_slider_dropdown"
+    (click)="$event.stopPropagation()"
+    #itemDropdown
+    [ngClass]="{ 'header_slider_dropdown--last': lastChild }"
+  >
+    <div class="header-slider-main-wrap">
+      <div class="header-slider-main-inner">
+        <div
+          class="header-slider-item-dropdown"
+          *ngFor="let subcategory of category.childrens"
+        >
+          <a
+            class="sw-categories__subitem-link"
+            queryParamsHandling="merge"
+            [routerLink]="['/services', subcategory?.translated.slug]"
+            [attr.title]="subcategory?.translated.title"
+            [attr.alt]="subcategory?.translated.title"
+            [queryParams]="{
+              categories: subcategory.id,
+              page: null,
+              cities: null,
+              quality: null,
+              personal: null
+            }"
+            routerLinkActive="active"
+            #rla="routerLinkActive"
+            [class.linkActive]="rla.isActive"
+            (click)="clickedSubcategory()"
+          >
+            {{ subcategory?.translated.title }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

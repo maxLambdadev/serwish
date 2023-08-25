@@ -1,0 +1,430 @@
+{
+  "Global": {
+    "SEARCH": {
+      "ENTER_CHARACTER": "ENTER ONE OR MORE CHARACTERS",
+      "NOT_FOUND": "RECORD IS NOT FOUND"
+    },
+    "REVIEW": "RATING",
+    "QUALITY": "QUALITY ",
+    "WITH_QUALITY": "WITH QUALITY",
+    "WITHOUT_QUALITY": "WITHOUT QUALITY",
+    "OFFERS": "OFFERS ",
+    "ALL": "ALL",
+    "MORE": "Read more",
+    "HAS_ONLINE": "WITH ONLINE PAYMENTS",
+    "WRONG_CODE": "CODE IS WRONG!",
+    "FILTER": " FILTER ",
+    "HOUR": "PER HOUR",
+    "DAY": "PER DAY",
+    "WEEK": "PER WEEK",
+    "MONTH": "PER MONTH",
+    "END": "AT THE END",
+    "ONEND": "AT THE END",
+    "SYMBOL": "SYMBOL",
+    "VIEWED": " VIEWED ",
+    "REQUIRED": "* REQUIRED!",
+    "MAX_380": "*TEXT SHOULD NOT EXCEED 380 CHARACTERS!",
+    "CALLED": " CALLED ",
+    "RESET": "CLEANING UP",
+    "BACK": " BACK ",
+    "HOME": "MAIN",
+    "RECOMENDATION": "RECOMMENDATION ",
+    "ALREADY_RECOMMENDED": "THE RECOMMENDATION IS WRITTEN",
+    "HAS_ONLINE_SHORT": "Online",
+    "SESSION_DEATH": "For session update please",
+    "REFRESH": "Refresh",
+    "PAGE": "Page",
+    "CLOSE": "Close",
+    "PAGE_NOT_FOUND": "Page not found",
+    "TO_HOME": "Main Page"
+  },
+  "Recommendation": {
+    "TITLE": "WRITING A RECOMMENDATION",
+    "LIKE": "I LIKED",
+    "DISLIKE": "I DID NOT LIKE",
+    "ENTER_MESSAGE": "TEXT OF THE RECOMMENDATION",
+    "SUBMIT": "SENDING THE RECOMMENDATION"
+  },
+  "Navigation": {
+    "HOME": "Main",
+    "PROFILE": "Profile",
+    "SEARCH": "Search",
+    "ORDERS": "Orders",
+    "CATEGORIES": "Categories"
+  },
+  "Header": {
+    "COMMON": {
+      "CATEGORIES": "Categories",
+      "AUTH": "Authorization"
+    },
+    "LANG": {
+      "EN": "Eng",
+      "KA": "Geo",
+      "RU": "Rus"
+    },
+    "NAVIGATION": {
+      "HOME": "Main",
+      "SPECIALISTS": "Specialists",
+      "BLOG": "Blog",
+      "CONTACT": "Contact"
+    },
+    "PROFILE": {
+      "PROFILE": "Profile",
+      "SPECIALIST_PROFILE": "profile of the specialist",
+      "PROFILE_INFO": "Information of the profile",
+      "ONLINE_SERVICES": "Online orders",
+      "MY_ONLINE_SERVICES": "My online orders",
+      "WITHDRAW_MONEY": "Accounts/requesting money",
+      "BECOME": "Become",
+      "SPECIALIST": "Specialist",
+      "BECOME_SPECIALIST_DESC": "Lorem Ipsum dviresa being are born I have rested as painters to the enemies",
+      "REGISTER_AS_SPECIALIST": "Register as specialist",
+      "LOGOUT": "Log out",
+      "ALL_SERVICES": "All services",
+      "BALANCE": "Balance",
+      "LIKED_SERVICES": "liked services",
+      "MY_SERVICES": "My services"
+    }
+  },
+  "Policy": {
+    "TITLE": "Privacy policy",
+    "DESC": "Rules will be updated soon"
+  },
+  "Terms": {
+    "TITLE": "Terms of use",
+    "DESC": "Update soon"
+  },
+  "AboutSpecialists": {
+    "TITLE": "About specialists",
+    "DESC": "Update soon"
+  },
+  "AboutQuality": {
+    "TITLE": "About Serwish Quality",
+    "DESC": "Update soon"
+  },
+  "Help": {
+    "TITLE": "Help",
+    "DESC": "Update soon"
+  },
+  "Footer": {
+    "SITEMAP": "Site map",
+    "CONTACT": "Contact",
+    "MENU": "Menu",
+    "INFORMATION_LINKS": "Information links",
+    "TERMS_AND_POLICY": "Terms of Use",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "USEFUL_LINKS": "Required Links",
+    "CALL_REQUEST": "Call request",
+    "HELP": "Help",
+    "SPECIALISTS": "Specialist",
+    "ABOUT_SPECIALISTS": "About specialist",
+    "ABOUT_SERWISH_QUALITY": "About Serwish quality"
+  },
+  "Login": {
+    "FACEBOOK_LOGIN": "Login with Facebook",
+    "RESET__PASSWORD": "Password recovery",
+    "AUTH": "Authorization",
+    "ORDER_TITLE": "Service order online",
+    "NOTIFICATION": {
+      "TITLE": "To add a service you need to be an authorized user",
+      "DESC": "If you don’t have a user, please, go through a simple registration.",
+      "TITLE_ORDER": "To make an online order you need to be an authorized user.",
+      "DESC_ORDER": "If you don’t have a user, please, go through a simple registration. "
+    }
+  },
+  "Registration": {
+    "ADD_MOBILE": "Enter a phone number",
+    "REGISTRATION": "Registration",
+    "REGISTRATION_SPECIALIST": "Registration as a specialist",
+    "FOR_SPECIALIST": "As a specialist",
+    "NO_ACCOUNT_QUESTION": "Don’t you have an account?",
+    "FACEBOOK_REGISTRATION": "Register with Facebook",
+    "PHONE_NUMBER": "Phone number",
+    "NEW_PHONE_NUMBER": "New phone number",
+    "FIRST_AND_LAST_NAME": "Name and surname",
+    "FIRST_AND_LAST_NAME_PLACEHOLDER": "Giorgi Melunashvili",
+    "BIRTH_DATE": "Year of birth",
+    "EMAIL": "Email",
+    "SMS_CODE": "SMS code",
+    "SEND_CODE": "Send code",
+    "PASSWORD": "Password",
+    "REPEAT_PASSWORD": "Repeat password",
+    "NEW_PASSWORD": "New password",
+    "REPEAT_NEW_PASSWORD": "Repeat new password",
+    "BECOME_SPECIALIST_DESC": "Lorem Ipsum dviresa being are born I have rested as painters to the enemies.",
+    "REGISTER_AS_SPECIALIST": "Register as a specialist",
+    "REGISTER": "Register",
+    "AS_SPECIALIST": "As a specialist",
+    "MALE": "Male",
+    "FEMALE": "Female",
+    "PERSONAL": "Individual person",
+    "PERSONAL_SHORT": "Ind. person",
+    "BUSINESS": "Company",
+    "JOIN": "Join",
+    "SERWISH": "To Serwish",
+    "AUTH": "Authorization",
+    "ID_NUMBER": "Personal Identification number",
+    "COMPANY_NAME": "Company name",
+    "IDENTIFICATION_CODE": "Identification code",
+    "ESTABLISHMENT_DATE": "Establishment date",
+    "NEXT": "Next",
+    "USER": "User:",
+    "PASSWORD_CHANGE_SUCCESS": "Password has been changed successfully.",
+    "ENTER_MESSAGE": "Enter message",
+    "YOUR_MESSAGE": "Your message",
+    "CONTINUE_REGISTRATION_AS_SPECIALIST": "Continue registration as a specialist",
+    "NOTIFICATION": {
+      "TITLE": "To add the service you must be registered as a specialist",
+      "DESC": "Continue registration and become a specialist"
+    }
+  },
+  "JoinUs": {
+    "LABEL": "Join",
+    "VALUE": "To Serwish",
+    "DESC": "Lorem Ipsum dviresa being are born I have rested as painters to the enemies."
+  },
+  "Faq": {
+    "HOW": "How",
+    "DESC": "How it works description",
+    "IT_WORKS": "It works",
+    "ABOUT_US": "About us"
+  },
+  "ServiceRequest": {
+    "REQUEST_CALL": "Request call",
+    "DESC": "*Contact will be made within three working days.",
+    "CHOOSE_CATEGORY": "Choose a category",
+    "LABEL1": "Cleaner",
+    "LABEL2": "IT specialist",
+    "LABEL3": "Cleaner",
+    "LABEL4": "Electrician",
+    "REQUEST": "Request",
+    "SERVICE": "Service",
+    "CONTACT_SOON": "You will be contacted soon!",
+    "ALREADY": "Your request has already been sent. Please, wait.",
+    "CONFIRME_PHONE": "Confirme Phone"
+  },
+  "AddService": {
+    "IMAGE_UPLOAD": "Uploading an image in progress",
+    "IMAGE_ERROR": "Image is required",
+    "ADD_NEW_SERVICE": "Add new service",
+    "OVERALL_INFO": "General information",
+    "NEXT": "Next",
+    "CHOOSE_CATEGORY": "Choose a category",
+    "TITLE_LABEL": "Title",
+    "TITLE_PLACEHOLDER": "Windows reinstalling",
+    "MAX_60_CHARACHTERS": "Max. 60 characters",
+    "MAX_380_CHARACHTERS": "Max. 380 characters",
+    "DESCRIPTION": "Description",
+    "PHOTOS": "Photos",
+    "ADD_PHOTO": "Add a photo",
+    "TAGS": "Tags",
+    "TAGS_TITLE": "Search words - phrases",
+    "TAGS_DESC": "To search easily your service search words - phrases (tags) must be added.",
+    "ADD_NEW_TAG": "Add new tag",
+    "AVAILABILITY": "Availability",
+    "ANYTIME": "Every day 24/7",
+    "SPECIFIC_TIME": "At specific time",
+    "WORK_DAYS": "Working days (Monday-Friday)",
+    "WORK_DAYS_SMALL": "Working  days",
+    "SATURDAY": "Saturday",
+    "SUNDAY": "Sunday",
+    "SERVICE_AREAL": "Service areal",
+    "CITY": "City",
+    "ADD_NEW_CITY": "Add a new city",
+    "CITIES": "Cities",
+    "PHONE_NUMBER": "Phone number",
+    "PHONE_NUMBER_FROM_PROFILE": "Number from profile",
+    "OTHER_PHONE_NUMBER": "Other phone number",
+    "PRICE": "Price",
+    "SHOW_PRICE": "Show price",
+    "PER_HOUR": "Per hour",
+    "PAYMENT": "Payment",
+    "ONLINE_PAYMENT": "Online payment",
+    "ONHAND": "On hand payment",
+    "CHOOSE_ACCOUNT": "Choose account",
+    "ADD_SERVICE": "Sending an add",
+    "ENTER_CHARACTER": "Enter one or more characters",
+    "HEY": "Thanks!",
+    "SUCCESS": "Service has successfully been added"
+  },
+  "Top5": {
+    "MONTHLY_TOP_5": "TOP 5 of month",
+    "SPECIALIST": "Specialist",
+    "BLOGS": "Blog",
+    "DESC": "Top Specialists module description should be inserted here"
+  },
+  "Search": {
+    "150_TYPE": "150 title",
+    "SERVICE": "Service",
+    "DESC": "Request the desired service without leaving home.",
+    "DESC_2": "Find it, call it, get it.",
+    "WHAT_YOU_ARE_SEARCHING": "What do you need?",
+    "FILTERS": {
+      "SERWISH_QUALITY": "Only by Serwish Quality",
+      "CATEGORY": "Category",
+      "STATUS": "Legal status",
+      "LOCATION": "Location",
+      "RATING": "Rating"
+    },
+    "PLACEHOLDERS": {
+      "PLACEHOLDER1": "Сargo transportation...",
+      "PLACEHOLDER2": "Windows reinstalling...",
+      "PLACEHOLDER3": "Pottery master..."
+    },
+    "CATEGORIES": "Categories",
+    "SPECIALISTS": "Specialist",
+    "SERVICES": "Services",
+    "EMPTY": "Nothing was found",
+    "START": {
+      "TITLE": "What do you need?",
+      "DESC": "Write the desired service and find it easily"
+    }
+  },
+  "Home": {
+    "MONTH": "Top",
+    "SPECIALIST": "Specialist",
+    "SPECIALISTS_OF_MONTH": "Specialists of the month",
+    "ALL_SPECIALISTS": "All specialists",
+    "ALL_BLOGS": "all articles",
+    "ARTICLES": "Articles",
+    "FROM_BLOG": "From blog",
+    "NEWEST": "The latest",
+    "TOP_MONTH": "Popular of the month",
+    "TOP_WEEK": "Popular of the week",
+    "SLIDER": {
+      "SUBTITLE": "Lorem Ipsum",
+      "TITLE": "Dolor Sit Amet Slidedr",
+      "DESC": " Lorem Ipsum embroidered for parvenu conscious also",
+      "BUTTON": "Entirely",
+      "SUBTITLE2": "Impspool lorem de",
+      "TITLE2": "Some description will be here",
+      "DESC2": " for conscious parvenu Ipsum now going.",
+      "BUTTON2": "In detail"
+    }
+  },
+  "Specialist": {
+    "REVIEW": "Rating",
+    "SERWISH_QUALITY": "Serwish Quality",
+    "ON_SERVICE": "About service",
+    "RECOMENDATIONS": "Recommendation",
+    "CLIENTS": "Client’s",
+    "SERVICES": "Services",
+    "ONLINE_ORDER": "Online order",
+    "SIMILAR": "Similar",
+    "SPECIALISTS": "Specialists",
+    "ANYTIME": "Every day:",
+    "WORK_DAYS": "Working days:",
+    "SATURDAY": "Saturday:",
+    "SUNDAY": "Sunday:",
+    "EMPTY_SERVICES": {
+      "TITLE": "Services are empty",
+      "DESC": "Unfortunately, the indicated specialist does not have services."
+    },
+    "EMPTY": {
+      "TITLE": "Specialists were not found",
+      "DESC": "Unfortunately, in the filter selected by you no specialist was found.",
+      "BACK": "Back",
+      "NEXT": "Ahead",
+      "HOME_PAGE": "Main page"
+    }
+  },
+  "Services": {
+    "LAST_VIEWED": "Last Seen Services",
+    "EMPTY": {
+      "TITLE": "Category is empty",
+      "DESC": "Unfortunately, in the category selected by you services were not found",
+      "BACK": "Back",
+      "NEXT": "Ahead",
+      "HOME_PAGE": "Main page"
+    },
+    "SIMILAR": "Similar Services"
+  },
+  "Banner": {
+    "AD_PLACE": "Advertising space"
+  },
+  "Share": {
+    "TITLE": "Share",
+    "COPY_URL": "Copy the link",
+    "COPY": "Coping",
+    "SHARE_WITH_FRIENDS": "Share with your friends",
+    "LINK_COPIED": "link has been copied"
+  },
+  "Wishlist": {
+    "LIKED": "Liked",
+    "SERVICES": "Services",
+    "EMPTY": {
+      "TITLE": "Wishlist is empty",
+      "DESC": "You don’t have liked services.",
+      "BACK": "Back",
+      "NEXT": "Next",
+      "HOME_PAGE": "Main page"
+    },
+    "NOTIFICATION": {
+      "ADD": "Services has been added in wish list.",
+      "REMOVE": "Service was deleted from the liked list"
+    }
+  },
+  "Pages": {
+    "PROFILE": "Profile",
+    "BLOG": "Blog",
+    "BLOGS": "Blogs",
+    "CONTACT": "Contact",
+    "MY_SERVICES": "My Services"
+  },
+  "Profile": {
+    "PROFILES": "Profile’s",
+    "INFO": "Information",
+    "PHONE": "Phone",
+    "NUMBER": "Number",
+    "PASSWORD": "Password",
+    "EMAIL": "Email",
+    "SPECIALISTS": "Specialist’s",
+    "CLIENT": "User",
+    "SPECIALIST": "Specialist",
+    "ADD_PHOTO": "Add photo",
+    "UPDATE_PHOTO": "Update photo",
+    "SAVE": "Save",
+    "CANCEL": "Cancel"
+  },
+  "Contact": {
+    "HOME": "Main",
+    "CONTACT_US": "Contact",
+    "BACK": "Back",
+    "FILL": "Fill in the form and our team will contact you soon.",
+    "SEND": "Send",
+    "WE_ARE_SOCIALS": "Find us on social networks ",
+    "HEY": "Thanks!",
+    "SUCCESS": "Massage was successfully sent. Our team will contact you soon."
+  },
+  "ReviewPhone": {
+    "TITLE": "Did you have communication with specialist?",
+    "QUESTIONS": {
+      "ITEM1": "I did not call.",
+      "ITEM2": "I could not contact.",
+      "ITEM3": "I was not answered.",
+      "ITEM4": "We contacted but could not agree.",
+      "ITEM5": "We contacted and agree!"
+    }
+  },
+  "Withdraw": {
+    "TITLE": "Withdrawal of money",
+    "FIRST_AND_LAST_NAME_PLACEHOLDER": "Giorgi Melunashvili",
+    "FIRST_AND_LAST_NAME": "Name and surname",
+    "PRICE": "Amount of money",
+    "ACC_NUMBER": "Account number",
+    "SUBMIT": "Request money"
+  },
+  "Blog": {
+    "EMPTY": {
+      "TITLE": "Blog is empty",
+      "DESC": "Unfortunately, nothing was found."
+    }
+  },
+  "MyServices": {
+    "TITLE": "My Services",
+    "BOOST": "Boost",
+    "BOOST_SERVICE": "Boost Service",
+    "CHOOSE_PACKET": "Choose Packet",
+    "PAY": "Pay"
+  }
+}

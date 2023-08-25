@@ -1,0 +1,179 @@
+<div
+  class="sw-service-request__content"
+  [ngClass]="{ 'sw-service-request__content--mobile': device === DEVICE.MOBILE }"
+>
+  <span *ngIf="sentSuccess" class="sw-service-request__done">
+    {{ "ServiceRequest.CONTACT_SOON" | translate }}
+  </span>
+
+  <form
+    class="sw-side-panel__form"
+    [formGroup]="servieRequestForm"
+    #localForm="ngForm"
+    (ngSubmit)="onSubmit()"
+  >
+    <div
+      class="sw-service-request__row"
+      [ngClass]="{ 'sw-service-request__row--mobile': device === DEVICE.MOBILE }"
+    >
+      <ng-select
+        [ngClass]="{
+          'ng-select--error': localForm.submitted && categoryId.invalid && !sentSuccess
+        }"
+        class="ng-select--grey"
+        [items]="categories$ | async"
+        bindLabel="translated.title"
+        bindValue="id"
+        groupBy="childrens"
+        formControlName="category_id"
+        [clearable]="false"
+        placeholder="{{ 'ServiceRequest.CHOOSE_CATEGORY' | translate }}"
+      >
+        <ng-template ng-label-tmp let-item="item">
+          <b>{{ item.translated.title }}</b>
+        </ng-template>
+
+        <!-- Main Category Label // Should be same as groupBy -->
+        <ng-template ng-optgroup-tmp let-item="item" let-index="index">
+          {{ item.translated.title }}
+        </ng-template>
+
+        <ng-template
+          ng-option-tmp
+          let-item="item"
+          let-index="index"
+          let-search="searchTerm"
+        >
+          {{ item.translated.title }}
+        </ng-template>
+      </ng-select>
+    </div>
+    <div
+      class="sw-service-request__row"
+      [ngClass]="{ 'sw-service-request__row--mobile': device === DEVICE.MOBILE }"
+    >
+      <ng-container *ngIf="device === DEVICE.MOBILE">
+        <sw-input
+          [name]="'phone'"
+          [size]="'medium'"
+          [type]="'title-in'"
+          [placeholderDraft]="'555 555 555'"
+          [labelText]="'Registration.PHONE_NUMBER' | translate"
+          [inputType]="'tel'"
+          [showErrors]="localForm.submitted && !sentSuccess"
+          [required]="true"
+          [mask]="'000 000 000'"
+          formControlName="phone_number"
+        >
+        </sw-input>
+      </ng-container>
+
+      <ng-container *ngIf="device === DEVICE.DESKTOP">
+        <sw-input
+          [name]="'phone'"
+          swFloatingError
+          [size]="'medium'"
+          [type]="'title-in'"
+          [placeholderDraft]="'555 555 555'"
+          [labelText]="'Registration.PHONE_NUMBER' | translate"
+          [inputType]="'tel'"
+          [showErrors]="localForm.submitted && !sentSuccess"
+          [required]="true"
+          [mask]="'000 000 000'"
+          formControlName="phone_number"
+        >
+        </sw-input>
+      </ng-container>
+
+      <div
+        class="sw-service-request__form__send"
+        [ngClass]="{ 'sw-service-request__form__send--mobile': device === DEVICE.MOBILE }"
+      >
+        <sw-button
+          swPrimaryButton
+          [size]="'size-56'"
+          [disabled]="!servieRequestForm.valid"
+          (clickAction)="onPhoneCheck()"
+        >
+          {{ "ServiceRequest.CONFIRME_PHONE" | translate }}
+        </sw-button>
+      </div>
+    </div>
+
+    <div
+      class="sw-service-request__row"
+      [ngClass]="{ 'sw-service-request__row--mobile': device === DEVICE.MOBILE }"
+      *ngIf="showCode"
+    >
+      <ng-container *ngIf="device === DEVICE.MOBILE">
+        <sw-input
+          [size]="'medium'"
+          [type]="'title-in'"
+          [placeholderDraft]="'1234'"
+          [labelText]="'Registration.SMS_CODE' | translate"
+          [inputType]="'number'"
+          [showErrors]="localForm.submitted"
+          formControlName="sms_validation"
+        >
+        </sw-input>
+      </ng-container>
+
+      <ng-container *ngIf="device === DEVICE.DESKTOP">
+        <sw-input
+          swFloatingError
+          [size]="'medium'"
+          [type]="'title-in'"
+          [placeholderDraft]="'1234'"
+          [labelText]="'Registration.SMS_CODE' | translate"
+          [inputType]="'number'"
+          [showErrors]="localForm.submitted"
+          formControlName="sms_validation"
+        >
+        </sw-input>
+      </ng-container>
+
+      <button
+        class="sw-service-request__form__send"
+        [ngClass]="{ 'sw-service-request__form__send--mobile': device === DEVICE.MOBILE }"
+        type="submit"
+      >
+        <sw-button
+          swPrimaryButton
+          [size]="'size-56'"
+          [disabled]="!servieRequestForm.valid"
+          [isLoading]="isLoadingResults"
+        >
+          {{ "ServiceRequest.REQUEST_CALL" | translate }}
+        </sw-button>
+      </button>
+    </div>
+  </form>
+
+  <div
+    class="sw-service-request__label sw-service-request__label--left sw-service-request__label--top"
+  >
+    {{ "ServiceRequest.LABEL1" | translate }}
+  </div>
+  <div
+    class="sw-service-request__label sw-service-request__label--left sw-service-request__label--bottom"
+  >
+    {{ "ServiceRequest.LABEL2" | translate }}
+  </div>
+  <div
+    class="sw-service-request__label sw-service-request__label--right sw-service-request__label--top"
+  >
+    {{ "ServiceRequest.LABEL3" | translate }}
+  </div>
+  <div
+    class="sw-service-request__label sw-service-request__label--right sw-service-request__label--bottom"
+  >
+    {{ "ServiceRequest.LABEL4" | translate }}
+  </div>
+</div>
+
+<div
+  class="sw-service-request__desc"
+  [ngClass]="{ 'sw-service-request__desc--mobile': device === DEVICE.MOBILE }"
+>
+  {{ "ServiceRequest.DESC" | translate }}
+</div>

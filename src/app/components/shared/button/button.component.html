@@ -1,0 +1,27 @@
+<!-- Button Content -->
+<div class="sw-button__content">
+  <div class="sw-button__icon sw-button__icon--left" *ngIf="_hasLeftIcon">
+    <ng-content select="[lefticon]"></ng-content>
+  </div>
+
+  <span class="sw-button__text" *ngIf="!_onlyIcon">
+    <ng-content></ng-content>
+  </span>
+
+  <ng-content select="[count]"></ng-content>
+
+  <span class="sw-button__icon sw-button__icon--only" *ngIf="_onlyIcon">
+    <ng-content select="[onlyicon]"></ng-content>
+  </span>
+
+  <div class="sw-button__icon sw-button__icon--right" *ngIf="_hasRightIcon">
+    <ng-content select="[righticon]"></ng-content>
+  </div>
+
+  <div class="sw-button__loading" *ngIf="isLoading">
+  
+  </div>
+</div>
+
+<!-- Wave animation -->
+<div #wavesContainer class="sw-button__waves"></div>

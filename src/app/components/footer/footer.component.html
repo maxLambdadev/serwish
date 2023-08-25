@@ -1,0 +1,226 @@
+<footer class="sw-footer" [ngClass]="{
+    'sw-footer--page-other': activePage !== PAGES.HOME,
+    'sw-footer--mobile': device === DEVICE.MOBILE,
+    'sw-footer--space': activePage === PAGES.SPECIALISTS || activePage === PAGES.SERVICES
+}">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+        <div class="sw-footer__content">
+
+            <ng-container *ngIf="device === DEVICE.DESKTOP">
+                <div class="sw-footer__information">
+                    <div class="sw-footer__logo">
+                        <div class="sw-footer__logo__image">
+                            <a [routerLink]="['/']" queryParamsHandling="merge" [attr.title]="'Serwish'">
+                                <sw-image [src]="'./assets/img/logo'" [alt]="'Serwish'" [noWEBP]="true"></sw-image>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sw-footer__rights">
+                        © Copyright Serwish.ge - {{ currentYear }}
+                    </div>
+
+                    <sw-lang [type]="'buttons'"></sw-lang>
+                </div>
+
+                <div class="sw-footer__navigation">
+                    <div class="sw-footer__menu">
+                        <div class="sw-footer__menu__title">{{ 'Footer.INFORMATION_LINKS' | translate }} </div>
+
+                        <div class="sw-footer__menu__content">
+                            <a class="sw-footer__menu__item" routerLink="/terms" queryParamsHandling="merge">
+                                {{ 'Footer.TERMS_AND_POLICY' | translate }}
+                            </a>
+
+                            <a class="sw-footer__menu__item" routerLink="/policy" queryParamsHandling="merge">
+                                {{ 'Footer.PRIVACY_POLICY' | translate }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sw-footer__menu">
+                        <div class="sw-footer__menu__title">{{ 'Footer.USEFUL_LINKS' | translate }} </div>
+
+                        <div class="sw-footer__menu__content">
+
+                            <ng-container *ngIf="activePage === PAGES.HOME ">
+                                <span class="sw-footer__menu__item" (click)="scrollTo('serviceRequest')">
+                                    {{ 'Footer.CALL_REQUEST' | translate }}
+                                </span>
+                            </ng-container>
+
+                            <ng-container *ngIf="activePage !== PAGES.HOME ">
+                                <a class="sw-footer__menu__item" routerLink="/" fragment="serviceRequest"
+                                    queryParamsHandling="merge">
+                                    {{ 'Footer.CALL_REQUEST' | translate }}
+                                </a>
+                            </ng-container>
+
+
+                            <a class="sw-footer__menu__item" routerLink="/help" queryParamsHandling="merge">
+                                {{ 'Footer.HELP' | translate }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sw-footer__menu">
+                        <div class="sw-footer__menu__title">{{ 'Footer.SPECIALISTS' | translate }} </div>
+
+                        <div class="sw-footer__menu__content">
+                            <a class="sw-footer__menu__item" routerLink="/about-specialists"
+                                queryParamsHandling="merge">
+                                {{ 'Footer.ABOUT_SPECIALISTS' | translate }}
+                            </a>
+                            <a class="sw-footer__menu__item" routerLink="/about-quality" queryParamsHandling="merge">
+                                {{ 'Footer.ABOUT_SERWISH_QUALITY' | translate }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sw-footer__download">
+                    <div class="sw-footer__download__item">
+                        <a [routerLink]="['/']">
+                            <sw-image [src]="'./assets/img/googleplay'" [alt]="'Download From Google Play'"
+                                [noWEBP]="true">
+                            </sw-image>
+                        </a>
+                    </div>
+
+                    <div class="sw-footer__download__item">
+                        <a [routerLink]="['/']">
+                            <sw-image [src]="'./assets/img/appstore'" [alt]="'Download From App Store'" [noWEBP]="true">
+                            </sw-image>
+                        </a>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="device === DEVICE.MOBILE">
+
+                <div class="sw-footer__navigation sw-footer__navigation--mobile">
+                    <div class="sw-footer__menu sw-footer__menu--mobile">
+                        <div class="sw-footer__menu__title sw-footer__menu__title--mobile" (click)="toggleMenu(1)">{{
+                            'Footer.INFORMATION_LINKS' | translate }}
+
+                            <div class="sw-footer-mobile__menu__toggle"
+                                [ngClass]="{'sw-footer-mobile__menu__toggle--up' : activeMenu === 1}">
+                                <sw-icon onlyicon [iconName]="'drop-down-icon'" [iconSize]="'size-20'">
+                                </sw-icon>
+                            </div>
+
+                        </div>
+
+                        <div class="sw-footer__menu__content" @collapseAnimation *ngIf="activeMenu === 1">
+                            <a class="sw-footer__menu__item" routerLink="/terms" queryParamsHandling="merge">
+                                {{ 'Footer.TERMS_AND_POLICY' | translate }}
+                            </a>
+
+                            <a class="sw-footer__menu__item" routerLink="/policy" queryParamsHandling="merge">
+                                {{ 'Footer.PRIVACY_POLICY' | translate }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sw-footer__menu sw-footer__menu--mobile">
+                        <div class="sw-footer__menu__title sw-footer__menu__title--mobile" (click)="toggleMenu(2)"
+                            [ngClass]="{'sw-footer__menu__title--mobile' : device === DEVICE.MOBILE}">{{
+                            'Footer.USEFUL_LINKS' | translate }}
+
+                            <div class="sw-footer-mobile__menu__toggle"
+                                [ngClass]="{'sw-footer-mobile__menu__toggle--up' : activeMenu === 2}">
+                                <sw-icon onlyicon [iconName]="'drop-down-icon'" [iconSize]="'size-20'">
+                                </sw-icon>
+                            </div>
+
+                        </div>
+
+                        <div class="sw-footer__menu__content" @collapseAnimation *ngIf="activeMenu === 2">
+
+                            <ng-container *ngIf="activePage === PAGES.HOME ">
+                                <span class="sw-footer__menu__item" (click)="scrollTo('serviceRequest')">
+                                    {{ 'Footer.CALL_REQUEST' | translate }}
+                                </span>
+                            </ng-container>
+
+                            <ng-container *ngIf="activePage !== PAGES.HOME ">
+                                <a class="sw-footer__menu__item" routerLink="/" fragment="serviceRequest"
+                                    queryParamsHandling="merge">
+                                    {{ 'Footer.CALL_REQUEST' | translate }}
+                                </a>
+                            </ng-container>
+
+
+                            <a class="sw-footer__menu__item" routerLink="/help" queryParamsHandling="merge">
+                                {{ 'Footer.HELP' | translate }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="sw-footer__menu sw-footer__menu--mobile">
+                        <div class="sw-footer__menu__title sw-footer__menu__title--mobile" (click)="toggleMenu(3)">{{
+                            'Footer.SPECIALISTS' | translate }}
+
+                            <div class="sw-footer-mobile__menu__toggle"
+                                [ngClass]="{'sw-footer-mobile__menu__toggle--up' : activeMenu === 3}">
+                                <sw-icon onlyicon [iconName]="'drop-down-icon'" [iconSize]="'size-20'">
+                                </sw-icon>
+                            </div>
+
+                        </div>
+
+                        <div class="sw-footer__menu__content" @collapseAnimation *ngIf="activeMenu === 3">
+                            <a class="sw-footer__menu__item" routerLink="/about-specialists"
+                                queryParamsHandling="merge">
+                                {{ 'Footer.ABOUT_SPECIALISTS' | translate }}
+                            </a>
+                            <a class="sw-footer__menu__item" routerLink="/about-quality" queryParamsHandling="merge">
+                                {{ 'Footer.ABOUT_SERWISH_QUALITY' | translate }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sw-footer-mobile__bottom">
+
+                    <div class="sw-footer__information sw-footer__information--mobile">
+                        <div class="sw-footer__logo">
+                            <div class="sw-footer__logo__image">
+                                <a [routerLink]="['/']" queryParamsHandling="merge" [attr.title]="'Serwish'">
+                                    <sw-image [src]="'./assets/img/logo'" [alt]="'Serwish'" [noWEBP]="true"></sw-image>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="sw-footer__rights">
+                            © Copyright Serwish.ge - {{ currentYear }}
+                        </div>
+
+                        <sw-lang [type]="'buttons'"></sw-lang>
+                    </div>
+
+
+                    <div class="sw-footer__download sw-footer__download--mobile">
+                        <div class="sw-footer__download__item">
+                            <a [routerLink]="['/']" aria-label="Google Play">
+                                <sw-image [src]="'./assets/img/googleplay'" [alt]="'Download From Google Play'"
+                                    [noWEBP]="true">
+                                </sw-image>
+                            </a>
+                        </div>
+
+                        <div class="sw-footer__download__item">
+                            <a [routerLink]="['/']" aria-label="App Store">
+                                <sw-image [src]="'./assets/img/appstore'" [alt]="'Download From App Store'"
+                                    [noWEBP]="true">
+                                </sw-image>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </ng-container>
+
+        </div>
+    </div>
+</footer>

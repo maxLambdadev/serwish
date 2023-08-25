@@ -1,0 +1,87 @@
+<div class="sw-registration__content">
+  <div
+    class="sw-registration__top"
+    [ngClass]="{ 'sw-registration__top--mobile': device === DEVICE.MOBILE }"
+  >
+    <div class="sw-registration__title">
+      <span>{{ "Registration.ADD_MOBILE" | translate }}</span>
+      <div class="sw-registration__title__counter" *ngIf="counter !== 30">
+        {{ counter }}
+      </div>
+    </div>
+
+    <form
+      class="sw-registration__form"
+      [formGroup]="registrationForm"
+      #localForm="ngForm"
+      (ngSubmit)="onSubmit()"
+    >
+      <div
+        class="sw-registration__form__item"
+        [@shake]="animationState"
+        (@shake.done)="reAnimattingDone()"
+      >
+        <sw-input
+          [name]="'phone'"
+          swRightIconInput
+          [size]="'medium'"
+          [type]="'title-in'"
+          [placeholderDraft]="'555 555 555'"
+          [labelText]="'Registration.PHONE_NUMBER' | translate"
+          [inputType]="'tel'"
+          [showErrors]="localForm.submitted || submited"
+          [required]="true"
+          [mask]="'000 000 000'"
+          formControlName="new_phone_number"
+        >
+          <sw-button
+            righticon
+            swSecondaryButton
+            [size]="'size-40'"
+            [disabled]="waitingForCode"
+            (clickAction)="getVerificationCode()"
+          >
+            {{ "Registration.SEND_CODE" | translate }}
+          </sw-button>
+        </sw-input>
+      </div>
+
+      <!-- SMS Code -->
+      <div
+        class="sw-registration__form__item"
+        [@shake]="animationState"
+        (@shake.done)="reAnimattingDone()"
+      >
+        <sw-input
+          [size]="'medium'"
+          [type]="'title-in'"
+          [placeholderDraft]="'1234'"
+          [labelText]="'Registration.SMS_CODE' | translate"
+          [inputType]="'number'"
+          [required]="true"
+          [showErrors]="localForm.submitted || submited"
+          formControlName="sms_validation"
+        >
+        </sw-input>
+      </div>
+
+      <div class="sw-registration__form__bottom">
+        <!-- Submit -->
+        <button class="sw-registration__form__send" type="submit">
+          <sw-button
+            swPrimaryButton
+            swRightIconButton
+            [size]="'size-56'"
+            [disabled]="!registrationForm.valid"
+          >
+            {{ "Registration.REGISTRATION" | translate }}
+          </sw-button>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="sw-registration__loader" *ngIf="isLoadingResults">
+  <div class="sw-registration__loader__spinner"></div>
+</div>

@@ -1,0 +1,85 @@
+<div class="sw-profile__content">
+  <div class="sw-profile__top" [ngClass]="{'sw-profile__top--mobile' : device === DEVICE.MOBILE}">
+    <div class="sw-profile__user sw-container-padding-right"
+      [ngClass]="{'sw-profile__user--mobile' : device === DEVICE.MOBILE}">
+      <div class="sw-profile__user__content">
+        <div class="sw-profile__user__info">
+          <div class="sw-profile__user__name">
+            {{ user.name }}
+          </div>
+
+          <div class="sw-profile__user__logout" (click)="onLogout()">
+            <div class="sw-profile__user__logout-icon">
+              <sw-icon [iconName]="'logout'" [iconSize]="'size-16'"></sw-icon>
+            </div>
+
+            <div class="sw-profile__user__logout-title">
+              {{ "Header.PROFILE.LOGOUT" | translate }}
+            </div>
+          </div>
+        </div>
+
+        <div class="sw-profile__user__image">
+
+          <div class="sw-profile__user__image__empty" *ngIf="!user?.image && !user.extraPic">
+            <sw-icon [iconName]="'no-img'" [iconSize]="'size-24'"></sw-icon>
+          </div>
+
+          <ng-container *ngIf="!user.extraPic && user.image">
+            <sw-image [src]="user.image | generateThumb:'228x228'" [alt]="user.name" [absolute]="true"
+              [noSRCSET]="true">
+            </sw-image>
+          </ng-container>
+
+          <ng-container *ngIf="user.extraPic">
+            <sw-image [src]="user.extraPic" [alt]="user.name" [absolute]="true" [noSRCSET]="true">
+            </sw-image>
+          </ng-container>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="sw-profile__navigation sw-container-margin-right"
+      [ngClass]="{'sw-profile__navigation--mobile' : device === DEVICE.MOBILE}">
+      <p class="sw-profile__navigation__title">
+        {{ "Header.PROFILE.PROFILE" | translate }}
+      </p>
+
+      <a class="sw-profile__navigation__item" [routerLink]="['/profile']" queryParamsHandling="merge"
+        [queryParams]="{ page:null , categories:null , quality:null,personal:null , cities:null }">
+        {{ "Header.PROFILE.PROFILE_INFO" | translate }}
+      </a>
+      <a class="sw-profile__navigation__item" [routerLink]="['/my-services']" queryParamsHandling="merge"
+        [queryParams]="{ page:null , categories:null , quality:null,personal:null , cities:null }">
+        {{ "Header.PROFILE.MY_SERVICES" | translate }}
+      </a>
+      <a class="sw-profile__navigation__item" [routerLink]="['/wishlist']" queryParamsHandling="merge"
+        [queryParams]="{ page:null , categories:null , quality:null,personal:null , cities:null }">
+        {{ "Header.PROFILE.LIKED_SERVICES" | translate }}
+      </a>
+
+    </div>
+  </div>
+
+  <ng-container *ngIf="user.client_type === CLIENT_TYPE.CLIENT">
+    <div class="sw-profile__specialist" [ngClass]="{'sw-profile__specialist--mobile' : device === DEVICE.MOBILE}">
+      <h3 class="sw-profile__specialist__title">
+        <span>{{ "Header.PROFILE.BECOME" | translate }}</span>
+        {{ "Header.PROFILE.SPECIALIST" | translate }}
+      </h3>
+
+      <p class="sw-profile__specialist__desc">
+        {{ "Header.PROFILE.BECOME_SPECIALIST_DESC" | translate }}
+      </p>
+
+      <p class="sw-profile__specialist__button">
+        <sw-button swRightIconButton swPrimaryButton swBorderedButton [size]="'size-56'"
+          (clickAction)="onBecomeSpecialist()">
+          <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+          {{ "Header.PROFILE.REGISTER_AS_SPECIALIST" | translate }}
+        </sw-button>
+      </p>
+    </div>
+  </ng-container>
+</div>

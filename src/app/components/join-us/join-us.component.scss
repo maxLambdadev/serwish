@@ -1,0 +1,105 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-join-us {
+  @include element("content") {
+    width: 950px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    @include modifier("mobile") {
+      width: auto;
+      flex-direction: column;
+      padding: 16px;
+
+      .sw-join-us {
+        @include element("image") {
+          margin-right: 0;
+          margin-bottom: 16px;
+
+          height: 112px;
+          width: 112px;
+
+          img {
+            height: 112px;
+            width: 112px;
+          }
+        }
+
+        @include element("title") {
+          text-align: center;
+          @include typo("h3");
+          margin-bottom: 8px;
+
+          span {
+            @include typo("h3-bold");
+          }
+        }
+
+        @include element("desc") {
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  @include element("image") {
+    width: 398px;
+    height: 398px;
+    margin-right: 16px;
+    flex-shrink: 0;
+
+    img {
+      width: 398px;
+      height: 398px;
+    }
+  }
+
+  @include element("title") {
+    color: var(--primary-dark_100);
+    @include typo("h2");
+    margin-bottom: 16px;
+    font-feature-settings: "case" on;
+
+    span {
+      color: var(--primary_100);
+      @include typo("h2-bold");
+    }
+  }
+
+  @include element("desc") {
+    color: var(--primary-dark_100);
+    @include typo("bodyS");
+    margin-bottom: 32px;
+  }
+
+  @include element("form") {
+    @include element("item") {
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+      column-gap: 8px;
+      width: 100%;
+      margin-bottom: 16px;
+
+      .sw-input {
+        width: 100%;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+
+      @include modifier("button") {
+        grid-auto-columns: 1fr auto;
+      }
+    }
+
+    @include element("send") {
+      -webkit-appearance: none;
+      padding: 0;
+      width: 100%;
+    }
+  }
+}

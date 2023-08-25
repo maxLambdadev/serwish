@@ -1,0 +1,78 @@
+<div class="sw-faq__content" [ngClass]="{'sw-faq__content--mobile' : device === DEVICE.MOBILE}">
+
+  <div class="sw-faq__questions" [ngClass]="{'sw-faq__questions--mobile' : device === DEVICE.MOBILE}">
+    <ng-container *ngFor="let question of _faq; let i = index; trackBy: trackBy">
+      <div class="sw-faq__question" [ngClass]="{
+          'sw-faq__question--mobile' : device === DEVICE.MOBILE,
+          'sw-faq__question--active': activeQuestion === question.id
+        }" (click)="onQuestionClick(question.id,i)">
+        <div class="sw-faq__question__number">0{{ i + 1 }}</div>
+        <div class="sw-faq__question__info">
+          <h3 class="sw-faq__question__title">{{ question.translated.title }}</h3>
+          <p class="sw-faq__question__desc" [innerHTML]="question.translated.desc"></p>
+        </div>
+      </div>
+
+      <div class="sw-faq__answer sw-faq__answer--mobile" @collapseAnimation
+        *ngIf="device === DEVICE.MOBILE && activeQuestion === question.id">
+
+        <div class="sw-faq__answer__image sw-faq__answer__image--mobile">
+          <sw-image [src]="question.image" [absolute]="true" [alt]="question.translated.title" [noSRCSET]="true">
+          </sw-image>
+        </div>
+
+        <div class="sw-faq__answer__other">
+          <div class="sw-faq__answer__info">
+            <h4 class="sw-faq__answer__title sw-faq__answer__title--mobile">
+              {{ question.translated.title }}
+            </h4>
+            <p class="sw-faq__answer__desc" [innerHTML]="question.translated.description | safe"></p>
+
+          </div>
+
+
+          <a href="{{question.translated.button_link }}">
+            <sw-button swRightIconButton swPrimaryButton [size]="'size-40'">
+              {{ 'Global.MORE' | translate}}
+              <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+            </sw-button>
+          </a>
+
+        </div>
+      </div>
+    </ng-container>
+
+    <div class="sw-faq__questions__line" *ngIf="device === DEVICE.DESKTOP">
+      <div class="indicator" [style.top.px]="activeIndex * 64 + activeIndex * 32"></div>
+    </div>
+  </div>
+
+  <div class="sw-faq__answers" *ngIf="device === DEVICE.DESKTOP">
+    <ng-container *ngFor="let question of _faq; trackBy: trackBy">
+      <div class="sw-faq__answer" [ngClass]="{
+          'sw-faq__answer--active': activeQuestion === question.id
+        }">
+        <div class="sw-faq__answer__image">
+          <sw-image [src]="question.image" [absolute]="true" [alt]="question.translated.title" [noSRCSET]="true">
+          </sw-image>
+        </div>
+        <div class="sw-faq__answer__other">
+          <div class="sw-faq__answer__info">
+            <h4 class="sw-faq__answer__title">
+              {{ question.translated.title }}
+            </h4>
+            <p class="sw-faq__answer__desc" [innerHTML]="question.translated.description | safe">
+            </p>
+          </div>
+
+          <a href="{{question.translated.button_link }}">
+            <sw-button swRightIconButton swWhiteButton [size]="'size-40'">
+              {{ 'Global.MORE' | translate}}
+              <sw-icon righticon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+            </sw-button>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

@@ -1,0 +1,412 @@
+<!-- Header -->
+<header class="sw-header" [ngClass]="{ 'sw-header--mobile': device === DEVICE.MOBILE }">
+  <div class="header-top-section">
+    <div
+      class="sw-container"
+      [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+    >
+      <div class="sw-header__content ">
+        <div class="sw-header__logo">
+          <a
+            [routerLink]="['/']"
+            [queryParams]="{
+              categories: null,
+              page: null,
+              cities: null,
+              quality: null,
+              personal: null
+            }"
+            queryParamsHandling="merge"
+          >
+            <sw-image
+              [src]="'./assets/img/logo'"
+              [alt]="'Serwish'"
+              [noWEBP]="true"
+            ></sw-image>
+          </a>
+
+          <sw-lang [type]="'dropdown'"></sw-lang>
+        </div>
+
+        <nav class="sw-header__navigation" *ngIf="device === DEVICE.DESKTOP">
+          <ul class="sw-header__navigation__content">
+            <li
+              class="sw-header__navigation__item"
+              [routerLinkActive]="'sw-header__navigation__item--active'"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                class="sw-header__navigation__item-link"
+                [routerLink]="['/']"
+                queryParamsHandling="merge"
+                [queryParams]="{
+                  page: null,
+                  categories: null,
+                  quality: null,
+                  personal: null,
+                  cities: null
+                }"
+              >
+                {{ "Header.NAVIGATION.HOME" | translate }}
+              </a>
+            </li>
+            <li
+              class="sw-header__navigation__item"
+              [routerLinkActive]="'sw-header__navigation__item--active'"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                class="sw-header__navigation__item-link"
+                [routerLink]="['/specialists']"
+                queryParamsHandling="merge"
+                [queryParams]="{
+                  page: null,
+                  categories: null,
+                  quality: null,
+                  personal: null,
+                  cities: null
+                }"
+              >
+                {{ "Header.NAVIGATION.SPECIALISTS" | translate }}</a
+              >
+            </li>
+            <li
+              class="sw-header__navigation__item"
+              [routerLinkActive]="'sw-header__navigation__item--active'"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                class="sw-header__navigation__item-link"
+                [routerLink]="['/blog']"
+                queryParamsHandling="merge"
+                [queryParams]="{
+                  page: null,
+                  categories: null,
+                  quality: null,
+                  personal: null,
+                  cities: null
+                }"
+              >
+                {{ "Header.NAVIGATION.BLOG" | translate }}</a
+              >
+            </li>
+            <li
+              class="sw-header__navigation__item"
+              [routerLinkActive]="'sw-header__navigation__item--active'"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <a
+                class="sw-header__navigation__item-link"
+                [routerLink]="['/contact']"
+                queryParamsHandling="merge"
+                [queryParams]="{
+                  page: null,
+                  categories: null,
+                  quality: null,
+                  personal: null,
+                  cities: null
+                }"
+              >
+                {{ "Header.NAVIGATION.CONTACT" | translate }}</a
+              >
+            </li>
+          </ul>
+
+          <div class="sw-header__navigation__arrow-container">
+            <div class="sw-header__navigation__arrow"></div>
+          </div>
+        </nav>
+
+        <div class="sw-header__profile">
+          <div class="sw-header__profile__add">
+            <sw-button
+              swOnlyIconButton
+              swSecondaryButton
+              [size]="'size-48'"
+              (clickAction)="openAddServicePopup()"
+            >
+              <sw-icon onlyicon [iconName]="'plus'" [iconSize]="'size-20'"></sw-icon>
+            </sw-button>
+          </div>
+          <!-- IS AUTH-->
+          <ng-container *ngIf="_user">
+            <ng-container *ngIf="isAuth && _user.name">
+              <div class="sw-header__profile__user">
+                <ng-container *ngIf="device === DEVICE.MOBILE">
+                  <sw-button
+                    swOnlyIconButton
+                    swPrimaryButton
+                    [size]="'size-48'"
+                    (clickAction)="toggleProfile()"
+                  >
+                    <sw-icon
+                      onlyicon
+                      [iconName]="'user-icon'"
+                      [iconSize]="'size-16'"
+                    ></sw-icon>
+                  </sw-button>
+                </ng-container>
+
+                <ng-container *ngIf="device === DEVICE.DESKTOP">
+                  <sw-button
+                    swLeftIconButton
+                    swPrimaryButton
+                    [size]="'size-48'"
+                    (clickAction)="toggleProfile()"
+                  >
+                    <sw-icon
+                      lefticon
+                      [iconName]="'user-icon'"
+                      [iconSize]="'size-16'"
+                    ></sw-icon>
+                    {{ _user.name }}
+                  </sw-button>
+                </ng-container>
+              </div>
+
+              <div class="sw-header__profile__all" *ngIf="device === DEVICE.DESKTOP">
+                <sw-button
+                  swOnlyIconButton
+                  swPrimaryButton
+                  swBorderedButton
+                  [size]="'size-48'"
+                  (clickAction)="toggleCategories()"
+                >
+                  <sw-icon
+                    onlyicon
+                    [iconName]="'menu-icon'"
+                    [iconSize]="'size-20'"
+                  ></sw-icon>
+                </sw-button>
+              </div>
+            </ng-container>
+          </ng-container>
+
+          <!-- NOT AUTH -->
+          <ng-container *ngIf="!isAuth">
+            <div class="sw-header__profile__user">
+              <sw-button
+                swOnlyIconButton
+                swPrimaryButton
+                [size]="'size-48'"
+                (clickAction)="toggleLogin()"
+              >
+                <sw-icon
+                  onlyicon
+                  [iconName]="'user-icon'"
+                  [iconSize]="'size-16'"
+                ></sw-icon>
+              </sw-button>
+            </div>
+
+            <div class="sw-header__profile__all" *ngIf="device === DEVICE.DESKTOP">
+              <sw-button
+                swLeftIconButton
+                swPrimaryButton
+                swBorderedButton
+                [size]="'size-48'"
+                (clickAction)="toggleCategories()"
+              >
+                <sw-icon
+                  lefticon
+                  [iconName]="'menu-icon'"
+                  [iconSize]="'size-20'"
+                ></sw-icon>
+                {{ "Header.PROFILE.ALL_SERVICES" | translate }}
+              </sw-button>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="header-swiper__container"
+    [ngClass]="{
+      'header-swiper__container-active': (categories$ | async).length > 0
+    }"
+  >
+    <div class="hide-slider-left"></div>
+    <div class="header-swiper__container__inner">
+      <swiper
+        [slidesPerView]="getSlidesPerView()"
+        [spaceBetween]="15"
+        [navigation]="{
+          nextEl: '.header-swiper-navNext',
+          prevEl: '.header-swiper-navPrev'
+        }"
+        class="header-swiper"
+        #swiper
+        [watchSlidesProgress]="true"
+      >
+        <ng-template
+          swiperSlide
+          #swiperSlide
+          *ngFor="let category of categories$ | async; let last = last"
+          class="header-swiper__item"
+        >
+          <header-slider-item
+            [device]="device"
+            class="header-swiper-inner"
+            [category]="category"
+            [apiUrl]="apiUrl"
+            (sliderItemClick)="openAndShowCategories($event)"
+            [lastChild]="last"
+          ></header-slider-item>
+        </ng-template>
+      </swiper>
+
+      <div class="header-swiper-navNext">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M9 22.0001H15C20 22.0001 22 20.0001 22 15.0001V9.00012C22 4.00012 20 2.00012 15 2.00012H9C4 2.00012 2 4.00012 2 9.00012V15.0001C2 20.0001 4 22.0001 9 22.0001Z"
+            stroke="#27AAE1"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M10.7402 15.5301L14.2602 12.0001L10.7402 8.47009"
+            stroke="#27AAE1"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+      <div class="header-swiper-navPrev">
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M15 2L9 2C4 2 2 4 2 9L2 15C2 20 4 22 9 22L15 22C20 22 22 20 22 15L22 9C22 4 20 2 15 2Z"
+            stroke="#27AAE1"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M13.2598 8.47003L9.73977 12L13.2598 15.53"
+            stroke="#27AAE1"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </div>
+    </div>
+    <div class="hide-slider-right"></div>
+  </div>
+</header>
+
+<ng-container *ngIf="showCategoriesModal">
+  <sw-side-panel
+    [device]="device"
+    className1="bigTest"
+    class="sublinks-navbar"
+    (closePanel)="closeCategoriesModal()"
+  >
+    <div class="mobile-nav__subCategoryWrap">
+      <div
+        *ngFor="let subcategory of selectedCategory"
+        class="mobile-nav__subCategory"
+        (click)="closeCategoriesModal()"
+      >
+        <a
+          routerLinkActive="active"
+          #rla="routerLinkActive"
+          [class.linkActive]="rla.isActive"
+          class="sw-categories__subitem-link"
+          queryParamsHandling="merge"
+          [routerLink]="['/services', subcategory?.translated.slug]"
+          [attr.title]="subcategory?.translated.title"
+          [attr.alt]="subcategory?.translated.title"
+          [queryParams]="{
+            categories: subcategory.id,
+            page: null,
+            cities: null,
+            quality: null,
+            personal: null
+          }"
+        >
+          {{ subcategory?.translated.title }}
+        </a>
+      </div>
+    </div>
+  </sw-side-panel>
+</ng-container>
+
+<!-- Refactor all this stuff , to be able dynamically inject -->
+<ng-container *ngIf="showLogin">
+  <sw-side-panel
+    [device]="device"
+    (closePanel)="toggleLogin()"
+    [title]="'Header.COMMON.AUTH' | translate"
+  >
+    <sw-auth
+      (closeSidePanel)="toggleLogin()"
+      [activeAuthType]="activeAuthType"
+      (changeAndClose)="onChangeAndClose()"
+      [device]="device"
+    ></sw-auth>
+  </sw-side-panel>
+</ng-container>
+
+<ng-container *ngIf="showCategories">
+  <sw-side-panel
+    [device]="device"
+    (closePanel)="toggleCategories()"
+    [title]="'Header.COMMON.CATEGORIES' | translate"
+    [underHeader]="true"
+  >
+    <sw-categories [device]="device" (closePanel)="toggleCategories()"></sw-categories>
+  </sw-side-panel>
+</ng-container>
+
+<ng-container *ngIf="showProfile">
+  <sw-side-panel [device]="device" (closePanel)="toggleProfile()" [underHeader]="true">
+    <sw-profile
+      (closeProfileMenu)="toggleProfile()"
+      (becomeSpecialist)="becomeSpecialist()"
+      [user]="_user"
+      [device]="device"
+      (logout)="logout()"
+    ></sw-profile>
+  </sw-side-panel>
+</ng-container>
+
+<ng-template #addServiceTemplatePortalContent>
+  <sw-add-service
+    (closePopup)="closeAddServicePopup()"
+    [device]="device"
+  ></sw-add-service>
+</ng-template>
+
+<ng-template #loginTemplatePortalContent>
+  <sw-login-popup
+    (closeLoginPopup)="closeLoginPopup()"
+    (changeAuthTab)="onChangeAuthTab($event)"
+    [device]="device"
+  >
+  </sw-login-popup>
+</ng-template>
+
+<ng-template #specialistInfoTemplatePortalContent>
+  <sw-specialist-info-popup
+    [device]="device"
+    (closSpecialistInfoPopup)="closeSpecialistInfoPopup()"
+    (changeAuthTab)="onChangeAuthTab($event)"
+  >
+  </sw-specialist-info-popup>
+</ng-template>

@@ -1,0 +1,19 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+
+  img {
+    // width: 100%;
+    // image-rendering: -webkit-optimize-contrast;
+  }
+}
+
+.image__wrapper {
+  height: 100%;
+  width: 100%;
+}

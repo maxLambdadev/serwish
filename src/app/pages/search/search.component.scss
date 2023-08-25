@@ -1,0 +1,11 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-search-page {
+  @include element("search") {
+    width: 100%;
+    margin-bottom: 48px;
+    overflow: hidden;
+    z-index: 100;
+    position: relative;
+  }
+}

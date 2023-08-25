@@ -1,0 +1,298 @@
+<div class="sw-search__content" (keyup)="keyUp($event)" [ngClass]="{'sw-search__content--searchPage' : isSearchPage}">
+    <!-- INPUT -->
+    <div #search class="sw-search__header" *ngIf="device === DEVICE.DESKTOP || isSearchPage"
+        [ngClass]="{'sw-search__header--mobile' : device === DEVICE.MOBILE}">
+        <div class="sw-search__input-wrapper">
+
+            <label class="hidden"> {{ "Search.WHAT_YOU_ARE_SEARCHING" | translate }}</label>
+
+            <input #searchField class="sw-search__input"
+                [ngClass]="{'sw-search__input--filled' : searchText.length > 2}" [(ngModel)]="searchText"
+                (focus)="onFocus()" placeholder="" />
+
+            <div class="sw-search__input-placeholder" *ngIf="!isSearching && searchText.length === 0">
+                {{ "Search.WHAT_YOU_ARE_SEARCHING" | translate }}
+
+                <span class="sw-search__input-autotext">
+                    <span class="sw-search__input-autotext-content" #textElement class="text"></span>
+                    <span class="sw-search__input-autotext-blink" #blinkElement class="text blink"></span></span>
+            </div>
+
+            <div class="sw-search__loader" *ngIf="isSearching">
+                <div class="sw-search__loader__spinner"></div>
+            </div>
+
+            <!-- Results -->
+            <div class="sw-search__results"
+                *ngIf="!isSearchPage && searchItems?.body && searchText.length > 2 && !collapsed">
+
+                <div class="sw-search__results__content">
+
+                    <!-- Categories -->
+                    <div class="sw-search__results__group"
+                        *ngIf="searchItems?.body?.categories && searchItems?.body?.categories.length > 0">
+
+                        <div class="sw-search__results__group__title">{{ 'Search.CATEGORIES' | translate }}:</div>
+
+                        <div class="sw-search__results__group__items">
+                            <ng-container *ngFor="
+                      let item of searchItems?.body?.categories;
+                      trackBy: trackBySearch;
+                      let i = index;
+                      let isLast = last
+                    ">
+                                <a target="_blank" queryParamsHandling="merge"
+                                    [routerLink]="['/services' , item?.translated.slug]"
+                                    [attr.title]="item?.translated.title" [attr.alt]="item?.translated.title"
+                                    [queryParams]="{ categories: item.id , page:null , cities:null , quality:null , personal:null}">
+                                    <div
+                                        class="sw-search__results__group__item  sw-search__results__group__item--category">
+                                        {{ item.translated.title }}
+                                    </div>
+                                </a>
+                            </ng-container>
+                        </div>
+
+                    </div>
+
+                    <!-- Services -->
+                    <div class="sw-search__results__group"
+                        *ngIf="searchItems?.body?.services && searchItems?.body?.services.length > 0">
+
+                        <div class="sw-search__results__group__title">{{ 'Search.SERVICES' | translate }}:</div>
+
+                        <div class="sw-search__results__group__items">
+                            <ng-container *ngFor="
+                      let item of searchItems?.body?.services;
+                      trackBy: trackBySearch;
+                      let i = index;
+                      let isLast = last
+                    ">
+
+                                <a target="_blank" [routerLink]="['/services/details', item.id , item.translated.slug]"
+                                    queryParamsHandling="merge">
+                                    <div class="sw-search__results__group__item sw-search__results__group__item--service"
+                                        [ngClass]="{'sw-search__results__group__item--last' : isLast}">
+
+                                        <div class="sw-search__results__group__item-image" *ngIf="item?.images">
+                                            <sw-image *ngIf="(item?.images)[0]?.path"
+                                                [src]="apiUrl + '/storage/' + (item?.images)[0]?.path"
+                                                [alt]="item?.translated?.title" [absolute]="true" [noSRCSET]="true"
+                                                [format]=""></sw-image>
+                                        </div>
+
+                                        <div class="sw-search__results__group__item-other">
+                                            <div class="sw-search__results__group__item-title">
+                                                <span class="sw-search__results__group__item-name">
+                                                    {{ item?.translated?.title }}
+                                                </span>
+
+                                                <span class="sw-search__results__group__item-badge--serwish"
+                                                    *ngIf="item?.has_serwish_quality">
+                                                    S
+                                                </span>
+                                            </div>
+
+                                            <div class="sw-search__results__group__item-specialist"
+                                                *ngIf="item?.specialist">
+                                                <span class="sw-search__results__group__item-name">
+                                                    {{ item?.specialist?.name }}
+                                                </span>
+
+                                                <span class="sw-search__results__group__item-categories"
+                                                    *ngIf="item?.categories">
+                                                    <ng-container
+                                                        *ngFor="let category of item?.categories; trackBy: trackBySearch">
+                                                        {{ category.translated[0].title }}
+                                                    </ng-container>
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </a>
+
+                            </ng-container>
+                        </div>
+
+                    </div>
+
+                    <!-- Specialist -->
+                    <div class="sw-search__results__group"
+                        *ngIf="searchItems?.body?.specialist && searchItems?.body?.specialist.length > 0">
+
+                        <div class="sw-search__results__group__title">{{ 'Search.SPECIALISTS' | translate }}:</div>
+
+                        <div class="sw-search__results__group__items">
+
+                            <ng-container *ngFor="
+                  let item of searchItems?.body?.specialist;
+                  trackBy: trackBySearch;
+                  let i = index;
+                  let isLast = last
+                ">
+                                <a target="_blank" [routerLink]="['/specialists', item.id , item.slug]"
+                                    queryParamsHandling="merge"
+                                    [queryParams]="{ page:null , categories:null , quality:null,personal:null , cities:null }">
+                                    <div
+                                        class="sw-search__results__group__item  sw-search__results__group__item--specialist">
+                                        <span class="sw-search__results__group__item-serviceTitle">
+                                            {{ item?.name }}
+                                        </span>
+
+                                        <span class="sw-search__results__group__item-serviceCategories">
+                                            {{ item?.serviceCategories }}
+                                        </span>
+                                    </div>
+                                </a>
+                            </ng-container>
+                        </div>
+
+                    </div>
+
+                    <ng-container
+                        *ngIf="searchItems?.body.categories && searchItems?.body.services && searchItems?.body.specialist">
+                        <div class="sw-search__results__empty" *ngIf="
+                searchItems?.body.categories.length === 0 &&
+                searchItems?.body.services.length === 0 &&
+                searchItems?.body.specialist.length === 0">
+                            {{ "Search.EMPTY" | translate }}
+                        </div>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="sw-search__go">
+            <sw-button swOnlyIconButton swPrimaryButton [size]="'size-64'" (clickAction)="onGoSearch()">
+                <ng-container onlyicon>
+                    <sw-icon [iconName]="'search-icon'" [iconSize]="'size-20'"></sw-icon>
+                </ng-container>
+            </sw-button>
+        </div>
+    </div>
+
+    <sw-search-filters *ngIf="!isSearchPage" [device]="device" [isServicesPage]="isServicesPage"
+        (filterChange)="onFilterChange()"></sw-search-filters>
+
+</div>
+
+<!-- Results -->
+<div class="sw-search-page__results" [ngClass]="{'sw-search-page__results--mobile' : device === DEVICE.MOBILE}"
+    *ngIf="isSearchPage && searchItems?.body && searchText.length > 2">
+
+    <!-- Categories -->
+    <div class="sw-search-page__results__group"
+        *ngIf="searchItems?.body?.categories && searchItems?.body?.categories.length > 0">
+
+        <div class="sw-search-page__results__group__title">{{ 'Search.CATEGORIES' | translate }}</div>
+
+        <div class="sw-search-page__results__group__items sw-search-page__results__group__items--categories"
+            [ngClass]="{'sw-search-page__results__group__items--mobile' : device === DEVICE.MOBILE}">
+            <ng-container *ngFor="
+          let item of searchItems?.body?.categories;
+          trackBy: trackBySearch;
+          let i = index;
+          let isLast = last
+        ">
+                <a target="_blank" [routerLink]="['/services' , item?.translated.slug]"
+                    [attr.title]="item?.translated.title" [attr.alt]="item?.translated.title"
+                    [queryParams]="{ categories: item.id , page:null , cities:null , quality:null , personal:null}"
+                    queryParamsHandling="merge">
+                    <div class="sw-search-page__results__group__item  sw-search-page__results__group__item--category">
+                        {{ item.translated.title }}
+                    </div>
+                </a>
+            </ng-container>
+        </div>
+
+    </div>
+
+    <!-- Services -->
+    <div class="sw-search-page__results__group"
+        *ngIf="searchItems?.body?.services && searchItems?.body?.services.length > 0">
+
+        <div class="sw-search-page__results__group__title">{{ 'Search.SERVICES' | translate }}</div>
+
+        <div class="sw-search-page__results__group__items sw-search-page__results__group__items--services"
+            [ngClass]="{'sw-search-page__results__group__items--mobile' : device === DEVICE.MOBILE}">
+
+            <ng-container *ngFor="
+          let item of searchItems?.body?.services;
+          trackBy: trackBySearch;
+          let i = index;
+          let isLast = last
+        ">
+
+                <ng-container *ngIf="device === DEVICE.MOBILE">
+                    <sw-service-item-mobile @fadeIn [item]="item" [specialist]="item?.specialist">
+                    </sw-service-item-mobile>
+                </ng-container>
+
+                <ng-container *ngIf="device === DEVICE.DESKTOP">
+                    <sw-service-item @fadeIn [item]="item" [specialist]="item?.specialist">
+                    </sw-service-item>
+                </ng-container>
+
+
+
+            </ng-container>
+        </div>
+
+    </div>
+
+    <!-- Specialist -->
+    <div class="sw-search-page__results__group"
+        *ngIf="searchItems?.body?.specialist && searchItems?.body?.specialist.length > 0">
+
+        <div class="sw-search-page__results__group__title">{{ 'Search.SPECIALISTS' | translate }}</div>
+
+        <div class="sw-search-page__results__group__items sw-search-page__results__group__items--specialists"
+            [ngClass]="{'sw-search-page__results__group__items--mobile' : device === DEVICE.MOBILE}">
+
+            <ng-container *ngFor="
+            let item of searchItems?.body?.specialist;
+            trackBy: trackBySearch;
+            let i = index;
+            let isLast = last
+            ">
+                <sw-specialist-item [item]="item" [device]="device"></sw-specialist-item>
+            </ng-container>
+        </div>
+
+    </div>
+
+    <ng-container *ngIf="searchItems?.body.categories && searchItems?.body.services && searchItems?.body.specialist">
+        <div class="sw-search-page__results__empty" *ngIf="
+    searchItems?.body.categories.length === 0 &&
+    searchItems?.body.services.length === 0 &&
+    searchItems?.body.specialist.length === 0">
+            {{ "Search.EMPTY" | translate }}
+        </div>
+    </ng-container>
+</div>
+
+
+<div class="sw-search-page__start" [ngClass]="{'sw-search-page__start--mobile' : device === DEVICE.MOBILE}"
+    *ngIf="isSearchPage && searchText.length <= 2">
+
+    <div class="sw-search-page__start__image-wrapper">
+        <div class="sw-search-page__start__image">
+            <sw-image [alt]="'Search.START.TITLE' | translate" [src]="'./assets/img/Illustration-09'"></sw-image>
+        </div>
+    </div>
+
+
+    <h1 class="sw-search-page__start__title">
+        {{ "Search.START.TITLE" | translate }}
+    </h1>
+
+    <p class="sw-search-page__start__desc">
+        {{ "Search.START.DESC" | translate }}
+    </p>
+
+</div>

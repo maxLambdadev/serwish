@@ -1,0 +1,79 @@
+<div class="sw-search__filters" [ngClass]="{'sw-search__filters--mobile' : device === DEVICE.MOBILE}">
+
+    <!-- Quality -->
+    <sw-search-filters-item [filterName]="FILTERS.SERWISH_QUALITY" [active]="serwishQualityChecked" [type]="'checkbox'"
+        (toggleServishQualityFilterClick)="toggleServishQualityFilter()">
+    </sw-search-filters-item>
+
+    <!-- Mobile Filters  -->
+    <div class="sw-search-filters-mobile" [ngClass]="{'sw-search-filters-mobile--active' : showMobileFilters}"
+        (click)="onFiltersClick()" *ngIf="device === DEVICE.MOBILE">
+
+        <div class="sw-search-filters-mobile__icon">
+
+            <ng-container *ngIf="!showMobileFilters">
+                <sw-icon [iconName]="'filter'" [iconSize]="'size-24'" ></sw-icon>
+            </ng-container>
+
+            <ng-container *ngIf="showMobileFilters">
+                <sw-icon [iconName]="'close-icon'" [iconSize]="'size-18'" ></sw-icon>
+            </ng-container>
+
+
+        </div>
+
+        <div class="sw-search-filters-mobile__text">
+            {{ 'Global.FILTER' | translate }}
+        </div>
+
+    </div>
+
+    <!-- Category -->
+    <sw-search-filters-item *ngIf="device === DEVICE.DESKTOP && !isServicesPage"
+        [ngClass]="{ 'active' : (selectedCategories$ | async).length > 0 }" [filterName]="FILTERS.CATEGORY"
+        [type]="'dropdown'" [hasScroll]="true" [items]="categories$ | async" [isCategory]="true"
+        [selectedCategories]="selectedCategories$ | async" [title]="'Search.FILTERS.CATEGORY' | translate" [device]="DEVICE.DESKTOP"
+        (changeFilterClicked)="changeCategoryFilter($event)">
+    </sw-search-filters-item>
+
+    <!-- Status (Person) -->
+    <sw-search-filters-item *ngIf="device === DEVICE.DESKTOP"
+        [ngClass]="{ 'active' : status[0].childrens[0].checked || status[0].childrens[1].checked  }"
+        [filterName]="FILTERS.USER_TYPE" [type]="'dropdown'" [items]="status"
+        [title]="'Search.FILTERS.STATUS' | translate" [device]="DEVICE.DESKTOP" (changeFilterClicked)="changeUserTypeFilter($event)">
+    </sw-search-filters-item>
+
+    <!-- Location -->
+    <sw-search-filters-item *ngIf="device === DEVICE.DESKTOP"
+        [ngClass]="{ 'active' : (selectedCities$ | async).length > 0 }" [filterName]="FILTERS.LOCATION"
+        [type]="'dropdown'" [items]="cities" [hasScroll]="true" [selectedCities]="selectedCities$ | async"
+        [title]="'Search.FILTERS.LOCATION' | translate" [device]="DEVICE.DESKTOP" (changeFilterClicked)="changeLocationFilter($event)">
+    </sw-search-filters-item>
+
+
+    <div *ngIf="showMobileFilters && device === DEVICE.MOBILE" class="sw-search-filters-mobile__menu">
+        <!-- Category -->
+        <sw-search-filters-item *ngIf="!isServicesPage" [device]="device"
+            [ngClass]="{ 'active' : (selectedCategories$ | async).length > 0 }" [filterName]="FILTERS.CATEGORY"
+            [type]="'dropdown'" [hasScroll]="true" [items]="categories$ | async"
+            [selectedCategories]="selectedCategories$ | async" [title]="'Search.FILTERS.CATEGORY' | translate"
+            [isStatic]="true" [device]="DEVICE.MOBILE" (changeFilterClicked)="changeCategoryFilter($event)">
+        </sw-search-filters-item>
+
+        <!-- Status (Person) -->
+        <sw-search-filters-item [device]="device"
+            [ngClass]="{ 'active' : status[0].childrens[0].checked || status[0].childrens[1].checked  }"
+            [filterName]="FILTERS.USER_TYPE" [type]="'dropdown'" [items]="status"
+            [title]="'Search.FILTERS.STATUS' | translate" [isStatic]="true" [device]="DEVICE.MOBILE" 
+            (changeFilterClicked)="changeUserTypeFilter($event)">
+        </sw-search-filters-item>
+
+        <!-- Location -->
+        <sw-search-filters-item [device]="device" [ngClass]="{ 'active' : (selectedCities$ | async).length > 0 }"
+            [filterName]="FILTERS.LOCATION" [type]="'dropdown'" [items]="cities" [hasScroll]="true"
+            [selectedCities]="selectedCities$ | async" [title]="'Search.FILTERS.LOCATION' | translate" [isStatic]="true" [device]="DEVICE.MOBILE" 
+            (changeFilterClicked)="changeLocationFilter($event)">
+        </sw-search-filters-item>
+    </div>
+
+</div>

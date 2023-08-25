@@ -1,0 +1,79 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-specialist-info {
+  @include element("content") {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+
+  @include element("title") {
+    color: var(--primary_100);
+    @include typo("h3-bold");
+    font-feature-settings: "case"on;
+    margin-bottom: 16px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  @include element("form") {
+    padding-bottom: 24px;
+
+    @include element("item") {
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-auto-flow: column;
+      column-gap: 8px;
+      width: 100%;
+      margin-bottom: 8px;
+
+      .sw-input {
+        width: 100%;
+      }
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    @include element("send") {
+      -webkit-appearance: none;
+      padding: 0;
+      width: 100%;
+      margin-top: 32px;
+      margin-bottom: 16px;
+    }
+  }
+
+}
+
+.sw-specialist-info__loader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 35%;
+  justify-content: center;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--neutral_40);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+
+  @include element("spinner") {
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--primary_100);
+    border-bottom-color: var(--neutral_100);
+    border-radius: 50%;
+    display: inline-block;
+    animation: rotation 1s linear infinite;
+  }
+}

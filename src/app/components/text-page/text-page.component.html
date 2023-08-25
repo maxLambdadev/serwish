@@ -1,0 +1,26 @@
+<section class="sw-page sw-page--text">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+
+        <div class="sw-text-page" [ngClass]="{'sw-text-page--mobile' : device === DEVICE.MOBILE}">
+            <a routerLink="/" queryParamsHandling="merge" class="sw-text-page__back">
+                <div class="sw-text-page__back__icon">
+                    <sw-icon [iconName]="'arrow-left-2'" [iconSize]="'size-28'" ></sw-icon>
+                </div>
+
+                <div class="sw-text-page__back__text">{{'Global.BACK' | translate}}</div>
+            </a>
+
+            <div class="sw-text-page__content" [ngClass]="{'sw-text-page__conten--mobile' : device === DEVICE.MOBILE}">
+                <div class="sw-text-page__title">
+                    <ng-content select="[title]"></ng-content>
+                </div>
+
+                <div class="sw-text-page__desc">
+                    <ng-content select="[desc]"></ng-content>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>

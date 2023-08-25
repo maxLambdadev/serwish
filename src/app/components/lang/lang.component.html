@@ -1,0 +1,63 @@
+<div class="sw-lang-dropdown" #dropDown *ngIf="type === LANG_TYPE.DROPDOWN">
+  <!-- ACTIVE -->
+  <div class="sw-lang-dropdown__active" (click)="onLangToggle()">
+    <div class="sw-lang-dropdown__active__text">
+      {{ "Header.LANG." + (activeLang | uppercase) | translate }}
+    </div>
+
+    <div class="sw-lang-dropdown__active__toggle" [ngClass]="{
+        'sw-lang-dropdown__active__toggle--up': showDropDown
+      }">
+      <sw-icon [iconName]="'drop-down-icon'" [iconSize]="'size-12'" ></sw-icon>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="sw-lang-dropdown__content" @slideUpDown *ngIf="showDropDown">
+    <div class="sw-lang-dropdown__item" (click)="changeLang('ka')"
+      [ngClass]="{ 'sw-lang-dropdown__item--active' : activeLang === 'ka'}">
+      <div class="sw-lang-dropdown__item__text">
+        {{ "Header.LANG.KA" | translate }}
+      </div>
+    </div>
+
+    <div class="sw-lang-dropdown__item" (click)="changeLang('en')"
+      [ngClass]="{ 'sw-lang-dropdown__item--active' : activeLang === 'en'}">
+      <div class="sw-lang-dropdown__item__text">
+        {{ "Header.LANG.EN" | translate }}
+      </div>
+    </div>
+
+    <div class="sw-lang-dropdown__item" (click)="changeLang('ru')"
+      [ngClass]="{ 'sw-lang-dropdown__item--active' : activeLang === 'ru'}">
+      <div class="sw-lang-dropdown__item__text">
+        {{ "Header.LANG.RU" | translate }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sw-lang-buttons" #dropDown *ngIf="type === LANG_TYPE.BUTTONS">
+  <div class="sw-lang-buttons__content">
+    <div class="sw-lang-buttons__item" [ngClass]="{ 'sw-lang-buttons__item--active': activeLang === 'ka' }"
+      (click)="changeLang('ka')">
+      <div class="sw-lang-buttons__item__text">
+        {{ "Header.LANG.KA" | translate }}
+      </div>
+    </div>
+
+    <div class="sw-lang-buttons__item" [ngClass]="{ 'sw-lang-buttons__item--active': activeLang === 'en' }"
+      (click)="changeLang('en')">
+      <div class="sw-lang-buttons__item__text">
+        {{ "Header.LANG.EN" | translate }}
+      </div>
+    </div>
+
+    <div class="sw-lang-buttons__item" [ngClass]="{ 'sw-lang-buttons__item--active': activeLang === 'ru' }"
+      (click)="changeLang('ru')">
+      <div class="sw-lang-buttons__item__text">
+        {{ "Header.LANG.RU" | translate }}
+      </div>
+    </div>
+  </div>
+</div>

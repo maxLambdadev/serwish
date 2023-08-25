@@ -1,0 +1,132 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-blog-details {
+  @include element("content") {
+    position: relative;
+    width: 50%;
+    margin: 0 auto;
+    padding-top: 64px;
+
+    @include responsiver("large") {
+      width: 70%;
+    }
+
+    @include modifier("mobile") {
+      padding: 0 16px;
+      width: 100%;
+      padding-top: 48px; 
+    }
+  }
+
+  @include element("image") {
+    background: var(--secondary_100);
+    border-radius: 8px;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    @include part("overlay") {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgb(255 255 255 / 0%), var(--primary_60) 100%) no-repeat;
+      z-index: 5;
+    }
+
+    @include part("empty") {
+      color: var(--primary-dark_100);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @include part("wrapper") {
+      padding: 16px;
+      background: var(--neutral_100);
+      border-radius: 16px;
+      width: 100%;
+      height: 360px;
+      flex-shrink: 0;
+      margin-bottom: 48px;
+    }
+  }
+
+  @include element("desc") {
+    color: var(--primary-dark_100);
+    @include typo("body");
+
+    img {
+      width: 100%;
+      padding: 16px;
+      margin: 16px 0;
+      background: var(--neutral_100);
+      border-radius: 16px;
+      max-width: 260px;
+    }
+  }
+
+  @include element("title") {
+ 
+    @include part("wrapper") {
+      margin-bottom: 16px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+
+      color: var(--primary-dark_100);
+      @include typo("h3");
+      font-feature-settings: "case"on;
+    
+ }
+
+  @include element("date") {
+    background: var(--neutral_100);
+    padding: 0 16px;
+    color: var(--primary_100);
+    @include typo("body");
+    border-radius: 12px;
+     align-items: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  @include element("loader") {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 35%;
+    justify-content: center;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999;
+
+    @include element("spinner") {
+      width: 56px;
+      height: 56px;
+      border: 4px solid var(--primary_100);
+      border-bottom-color: var(--neutral_100);
+      border-radius: 50%;
+      display: inline-block;
+      animation: rotation 1s linear infinite;
+    }
+  }
+}

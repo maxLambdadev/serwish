@@ -1,0 +1,225 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-specialist-item {
+  @include modifier("mobile") {
+    width: 100%;
+    overflow: hidden;
+  }
+
+  @include element("content") {
+    width: 260px;
+    height: 260px;
+    background: var(--neutral_100);
+    border-radius: 16px;
+    padding: 16px;
+    position: relative;
+
+    @include responsiver("large") {
+      width: 202px;
+      height: 202px;
+    }
+
+    @include hover-supported() {
+      box-shadow: 0px 24px 35px -25px rgba(89, 95, 108, 0.4);
+
+      .sw-specialist-item__image__overlay {
+        opacity: 1;
+      }
+
+      .sw-specialist-item__image__button {
+        opacity: 1;
+      }
+    }
+
+    @include modifier("mobile") {
+      width: 192px;
+      height: 192px;
+
+      &.sw-specialist-item__content--noneSlider {
+        width: 100%;
+        height: 175px;
+      }
+    }
+  }
+
+  @include element("image") {
+    border-radius: 8px;
+    overflow: hidden;
+    background: #effaff;
+    border-radius: 8px;
+    height: 100%;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+
+    @include element("empty") {
+      color: var(--primary-dark_100);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px;
+      height: 68px;
+    }
+
+    @include element("overlay") {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--primary_20);
+      backdrop-filter: blur(8px);
+
+      border-radius: 8px;
+      opacity: 0;
+      transition: opacity 200ms ease-in-out;
+      will-change: opacity;
+    }
+
+    @include element("button") {
+      opacity: 0;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transition: opacity 200ms ease-in-out;
+      will-change: opacity;
+
+      .sw-button {
+        color: var(--primary_100);
+        background: var(--neutral_100);
+
+        .sw-icon:not(.sw-icon--colored) path {
+          fill: none;
+          stroke: currentColor;
+        }
+
+        &:hover {
+          color: var(--neutral_100);
+          background: var(--primary_100);
+        }
+      }
+    }
+  }
+
+  @include element("rating") {
+    position: absolute;
+    top: 8px;
+    left: 7px;
+    z-index: 9;
+
+    display: flex;
+    align-items: center;
+
+    background: var(--neutral_60);
+    border-radius: 10px;
+    height: 20px;
+    @include typo("h4");
+
+    @include element("percentage") {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background: var(--neutral_100);
+      border-radius: 10px;
+      width: 50px;
+      height: 100%;
+
+      @include part("icon") {
+        margin-right: 2px;
+        color: var(--processing_100);
+      }
+
+      @include part("value") {
+        color: var(--primary-dark_100);
+      }
+    }
+
+    @include element("count") {
+      color: var(--primary-dark_100);
+      padding: 0 8px;
+      white-space: nowrap;
+    }
+  }
+
+  @include element("bottom") {
+    margin-top: 16px;
+    width: 260px;
+    min-width: 0;
+
+    @include responsiver("large") {
+      width: 202px;
+    }
+
+    @include modifier("mobile") {
+      width: 192px;
+
+      &.sw-specialist-item__content--noneSlider {
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  @include element("title") {
+    color: var(--primary-dark_100);
+    @include typo("h3-bold");
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  @include element("id") {
+    margin-left: 5px;
+  }
+
+  @include element("badge") {
+    display: flex;
+    align-items: center;
+
+    color: var(--neutral_100);
+
+    height: 20px;
+    border-radius: 10px;
+    padding: 0 7px;
+
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+
+    @include modifier("serwish") {
+      background: var(--primary_100);
+      box-shadow: 0px 4px 16px rgba(0, 102, 255, 0.32);
+    }
+
+    @include element("icon") {
+      margin-right: 4px;
+    }
+
+    @include element("text") {
+      @include typo("h4");
+      font-feature-settings: "case" on;
+      white-space: nowrap;
+
+      span {
+        @include typo("h4-bold");
+      }
+    }
+  }
+
+  @include element("specialty") {
+    color: var(--primary-dark_60);
+    @include typo("bodyS");
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

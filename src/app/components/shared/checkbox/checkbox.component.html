@@ -1,0 +1,41 @@
+<div class="ws-checkbox__content">
+  <label class="ws-checkbox__label">
+    <input
+      class="ws-checkbox__input"
+      type="checkbox"
+      [value]="checked"
+      (change)="onModelChange($event)"
+      [disabled]="disabled"
+    />
+
+    <div
+      class="ws-checkbox__button"
+      [ngClass]="{
+        'ws-checkbox__button--active': checked && !disabled,
+        'ws-checkbox__button--disabled': disabled
+      }"
+    >
+      <div class="ws-checkbox__icon">
+        <ng-container *ngIf="checked && !disabled">
+          <sw-icon
+            [iconName]="'checked'"
+            [iconSize]="'size-16'"
+            
+            [colored]="true"
+          ></sw-icon>
+        </ng-container>
+
+        <ng-container *ngIf="!checked || disabled">
+          <sw-icon
+            [iconName]="'unchecked'"
+            [iconSize]="'size-16'"
+            
+            [colored]="true"
+          ></sw-icon>
+        </ng-container>
+      </div>
+
+      <div class="ws-checkbox__text">{{ label }}</div>
+    </div>
+  </label>
+</div>

@@ -1,0 +1,104 @@
+<!-- FIRST HERE -->
+<sw-first [device]="device"></sw-first>
+
+<!-- Home Scrollable Part -->
+<div id="sw-main-anchor"></div>
+
+<main class="sw-main-scrollable" [ngClass]="{'sw-main-scrollable--mobile': device === DEVICE.MOBILE}">
+
+  <!-- TOP SPECIALISTS -->
+  <sw-top-specialist [device]="device"></sw-top-specialist>
+
+  <!-- Banner 1 -->
+  <ng-container *ngIf="ads && device === DEVICE.DESKTOP">
+    <ng-container *ngIf="ads.length > 0">
+      <div class="sw-container sw-container--desktop" *ngIf="ads[0]?.is_active">
+        <sw-banner [banner]="ads[0]"></sw-banner>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <!-- TOP BLOGS -->
+  <sw-top-blog [device]="device"></sw-top-blog>
+
+  <!-- FAQ -->
+  <section class="sw-main-section sw-main-section--faq sw-main-section--padding-top-0"
+    [ngClass]="{'sw-main-section--mobile': device === DEVICE.MOBILE}">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+      <div class="sw-main-section__header" [ngClass]="{'sw-main-section__header--mobile' : device === DEVICE.MOBILE}">
+        <h2 class="sw-main-section__header__title"
+          [ngClass]="{'sw-main-section__header__title--mobile': device === DEVICE.MOBILE}">
+          <span>{{ 'Faq.HOW' | translate }}</span> {{ 'Faq.IT_WORKS' | translate }}?
+        </h2>
+
+        <div class="sw-main-section__header__other" *ngIf="device === DEVICE.DESKTOP">
+          <div class="sw-main-section__header__desc">
+            {{ 'Faq.DESC' | translate }}
+          </div>
+
+          <div class="sw-main-section__show-all">
+            <a [routerLink]="['/about-specialists']">
+              {{ 'Faq.ABOUT_US' | translate }}
+              <sw-icon [iconName]="'next-arrow-icon'" [iconSize]="'size-12'"></sw-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="sw-main-section__content sw-main-section__content--faq"
+        [ngClass]="{'sw-main-section__content--mobile' : device === DEVICE.MOBILE}">
+        <sw-faq [device]="device"></sw-faq>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner 2 -->
+  <ng-container *ngIf="ads && device === DEVICE.DESKTOP">
+    <ng-container *ngIf="ads.length > 0">
+      <div class="sw-container sw-container--desktop" *ngIf="ads[1]?.is_active">
+        <sw-banner [banner]="ads[1]"></sw-banner>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <!-- Request Service  -->
+  <section class="sw-main-section sw-main-section--request"
+    [ngClass]="{'sw-main-section--mobile': device === DEVICE.MOBILE}" id="serviceRequest">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+      <div class="sw-main-section__header sw-main-section__header--request"
+        [ngClass]="{'sw-main-section__header--mobile' :  device === DEVICE.MOBILE}">
+        <h2
+          class="sw-main-section__header__title sw-main-section__header__title--center sw-main-section__header__title--request"
+          [ngClass]="{'sw-main-section__header__title--mobile': device === DEVICE.MOBILE}">
+          <span> {{ 'ServiceRequest.REQUEST' | translate }} </span> {{ 'ServiceRequest.SERVICE' | translate }}
+        </h2>
+
+        <div class="sw-main-section__header__other sw-main-section__header__other--center"
+          [ngClass]="{'sw-main-section__header__other--mobile': device === DEVICE.MOBILE}">
+          <div
+            class="sw-main-section__header__desc sw-main-section__header__desc--center sw-main-section__header__desc--request"
+            [ngClass]="{'sw-main-section__header__desc--mobile': device === DEVICE.MOBILE}">
+            {{ 'ServiceRequest.DESC' | translate }}
+          </div>
+        </div>
+      </div>
+
+      <div class="sw-main-section__content sw-main-section__content--request"
+        [ngClass]="{'sw-main-section__content--mobile' : device === DEVICE.MOBILE}">
+        <sw-service-request [device]="device"></sw-service-request>
+      </div>
+    </div>
+  </section>
+
+  <!-- Join Serwish  -->
+  <section *ngIf="!(isAuth$ | async)"
+    class="sw-main-section sw-main-section--join sw-main-section--white sw-main-section--padding-top-64 sw-main-section--padding-bottom-64"
+    [ngClass]="{'sw-main-section--mobile': device === DEVICE.MOBILE}">
+    <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+      <div class="sw-main-section__content sw-main-section__content--join"
+        [ngClass]="{'sw-main-section__content--mobile' : device === DEVICE.MOBILE}">
+        <sw-join-us [device]="device"></sw-join-us>
+      </div>
+    </div>
+  </section>
+</main>

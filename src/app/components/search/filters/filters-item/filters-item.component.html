@@ -1,0 +1,330 @@
+<ng-container *ngIf="type === 'checkbox'">
+    <div class="sw-search__filters__item sw-search__filters__item--checkbox sw-search__filters__item--serwish">
+        <sw-checkbox [checked]="_active" [label]="'Search.FILTERS.SERWISH_QUALITY' | translate"
+            (toggleCheckboxClick)="toggleServishQualityFilter()"></sw-checkbox>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="type === 'dropdown'">
+    <div class="sw-search__filters__item sw-search__filters__item--dropdown"
+        [ngClass]="{
+        'sw-search__filters__item--static' : isStatic,
+        'sw-search__filters__item--active' : isActive
+    }"
+
+        (click)="toggleDropdown()" cdkOverlayOrigin #filterOverlayOrigin="cdkOverlayOrigin">
+        <div class="sw-search__filters__item__content"
+            [ngClass]="{'sw-search__filters__item__content--active' : !collapsed,
+            'sw-search__filters__item__content--category' : isCategory 
+        }">
+            <div class="sw-search__filters__item__icon">
+                <sw-icon [iconName]="'filter'" [iconSize]="'size-24'" ></sw-icon>
+            </div>
+            <div class="sw-search__filters__item__text">
+                {{ title }}
+
+                <span [ngClass]="{'up' : isActive }" *ngIf="device === DEVICE.MOBILE">
+                    <sw-icon [iconName]="'drop-down-icon'" [iconSize]="'size-18'" ></sw-icon>
+                </span>
+            </div>
+            <div class="sw-search__filters__item__toggle" [ngClass]="{'up' : isStaticActive }"></div>
+        </div>
+
+        <ng-template *ngIf="!isStatic" cdk-portal #filterOverlayTemplate="cdkPortal">
+            <div class="sw-search__filters__item__dropdown">
+
+                <div class="sw-search__filters__item__dropdown__content"
+                    [ngClass]="{'sw-search__filters__item__dropdown__content--scroll' : hasScroll,'sw-search__filters__item__dropdown__content--category' : filterName === FILTERS.CATEGORY}">
+                    <div class="sw-search__filters__dropdown__group__wrapper" *ngFor="
+                let item of _items;
+                let isFirstGroup = first;
+                trackBy: trackBy">
+
+                        <div class="sw-search__filters__dropdown__group__title" *ngIf="item?.translated?.title">
+                            {{ item?.translated.title }}
+                        </div>
+
+                        <div class="sw-search__filters__dropdown__group">
+                            <div class="sw-search__filters__dropdown__group__content">
+
+                                <ng-container *ngFor="
+                                let subitem of item.childrens;
+                                let isFirst = first;
+                                let isLast = last;
+                                trackBy: trackBy">
+
+
+                                    <!-- Category -->
+                                    <ng-container *ngIf="filterName === FILTERS.CATEGORY">
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="clearCategories($event)"
+                                            *ngIf="isFirstGroup && isFirst && selectedCategories.length > 0">
+
+
+                                            <div
+                                                class="sw-search__filters__dropdown__item-checkbox sw-search__filters__dropdown__item-checkbox--close">
+                                                <sw-icon [iconName]="'close-icon'" [iconSize]="'size-12'" 
+                                                    [colored]="true"></sw-icon>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ 'Global.RESET' | translate }}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="changeFilter(subitem?.id , $event)">
+
+                                            <div class="sw-search__filters__dropdown__item-checkbox">
+                                                <ng-container *ngIf="selectedCategories.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'checked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!selectedCategories.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'unchecked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ subitem?.translated.title }}
+                                            </div>
+
+                                        </div>
+
+                                    </ng-container>
+
+                                    <!-- Location -->
+                                    <ng-container *ngIf="filterName === FILTERS.LOCATION">
+
+                                        <div class="sw-search__filters__dropdown__item" (click)="clearCities($event)"
+                                            *ngIf="isFirstGroup && isFirst && selectedCities.length > 0">
+
+                                            <div
+                                                class="sw-search__filters__dropdown__item-checkbox sw-search__filters__dropdown__item-checkbox--close">
+                                                <sw-icon [iconName]="'close-icon'" [iconSize]="'size-12'" 
+                                                    [colored]="true"></sw-icon>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ 'Global.RESET' | translate }}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="changeFilter(subitem?.id , $event)">
+
+                                            <div class="sw-search__filters__dropdown__item-checkbox">
+
+                                                <ng-container *ngIf="selectedCities.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'checked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!selectedCities.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'unchecked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ subitem?.translated.name }}
+                                            </div>
+
+                                        </div>
+
+                                    </ng-container>
+
+                                    <!-- Fix This -->
+                                    <ng-container
+                                        *ngIf="filterName !== FILTERS.CATEGORY && filterName !== FILTERS.LOCATION">
+
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="changeFilter(subitem?.value , $event)">
+
+                                            <div class="sw-search__filters__dropdown__item-checkbox">
+                                                <ng-container *ngIf="subitem?.checked">
+                                                    <sw-icon [iconName]="'radio-active'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!subitem?.checked">
+                                                    <sw-icon [iconName]="'radio'" [iconSize]="'size-12'" 
+                                                        [colored]="true"></sw-icon>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ subitem?.translated.title }}
+                                            </div>
+
+                                        </div>
+
+                                    </ng-container>
+
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-template>
+
+        <ng-container *ngIf="isStatic">
+            <div class="sw-search__filters__item__dropdown sw-search__filters__item__dropdown--static"
+                [ngClass]="{'sw-search__filters__item__dropdown--active' : isActive }">
+
+                <div class="sw-search__filters__item__dropdown__content"
+                    [ngClass]="{'sw-search__filters__item__dropdown__content--scroll' : hasScroll,'sw-search__filters__item__dropdown__content--category' : filterName === FILTERS.CATEGORY}">
+                    <div class="sw-search__filters__dropdown__group__wrapper" *ngFor="
+                let item of _items;
+                let isFirstGroup = first;
+                trackBy: trackBy">
+
+                        <div class="sw-search__filters__dropdown__group__title" *ngIf="item?.translated?.title">
+                            {{ item?.translated.title }}
+                        </div>
+
+                        <div class="sw-search__filters__dropdown__group">
+                            <div class="sw-search__filters__dropdown__group__content">
+
+                                <ng-container *ngFor="
+                                let subitem of item.childrens;
+                                let isFirst = first;
+                                let isLast = last;
+                                trackBy: trackBy">
+
+
+                                    <!-- Category -->
+                                    <ng-container *ngIf="filterName === FILTERS.CATEGORY">
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="clearCategories($event)"
+                                            *ngIf="isFirstGroup && isFirst && selectedCategories.length > 0">
+
+
+                                            <div
+                                                class="sw-search__filters__dropdown__item-checkbox sw-search__filters__dropdown__item-checkbox--close">
+                                                <sw-icon [iconName]="'close-icon'" [iconSize]="'size-12'" 
+                                                    [colored]="true"></sw-icon>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ 'Global.RESET' | translate }}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="changeFilter(subitem?.id , $event)">
+
+                                            <div class="sw-search__filters__dropdown__item-checkbox">
+                                                <ng-container *ngIf="selectedCategories.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'checked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!selectedCategories.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'unchecked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ subitem?.translated.title }}
+                                            </div>
+
+                                        </div>
+
+                                    </ng-container>
+
+                                    <!-- Location -->
+                                    <ng-container *ngIf="filterName === FILTERS.LOCATION">
+
+                                        <div class="sw-search__filters__dropdown__item" (click)="clearCities($event)"
+                                            *ngIf="isFirstGroup && isFirst && selectedCities.length > 0">
+
+                                            <div
+                                                class="sw-search__filters__dropdown__item-checkbox sw-search__filters__dropdown__item-checkbox--close">
+                                                <sw-icon [iconName]="'close-icon'" [iconSize]="'size-12'" 
+                                                    [colored]="true"></sw-icon>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ 'Global.RESET' | translate }}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="changeFilter(subitem?.id , $event)">
+
+                                            <div class="sw-search__filters__dropdown__item-checkbox">
+
+                                                <ng-container *ngIf="selectedCities.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'checked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!selectedCities.includes(subitem?.id)">
+                                                    <sw-icon [iconName]="'unchecked'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ subitem?.translated.name }}
+                                            </div>
+
+                                        </div>
+
+                                    </ng-container>
+
+                                    <!-- Fix This -->
+                                    <ng-container
+                                        *ngIf="filterName !== FILTERS.CATEGORY && filterName !== FILTERS.LOCATION">
+
+
+                                        <div class="sw-search__filters__dropdown__item"
+                                            (click)="changeFilter(subitem?.value , $event)">
+
+                                            <div class="sw-search__filters__dropdown__item-checkbox">
+                                                <ng-container *ngIf="subitem?.checked">
+                                                    <sw-icon [iconName]="'radio-active'" [iconSize]="'size-12'"
+                                                         [colored]="true"></sw-icon>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="!subitem?.checked">
+                                                    <sw-icon [iconName]="'radio'" [iconSize]="'size-12'" 
+                                                        [colored]="true"></sw-icon>
+                                                </ng-container>
+                                            </div>
+
+                                            <div class="sw-search__filters__dropdown__item-text">
+                                                {{ subitem?.translated.title }}
+                                            </div>
+
+                                        </div>
+
+                                    </ng-container>
+
+                                </ng-container>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </ng-container>
+
+    </div>
+
+</ng-container>

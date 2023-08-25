@@ -1,0 +1,54 @@
+<section class="sw-page sw-page--blog">
+  <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+
+
+    <div class="sw-blog-details__content" [ngClass]="{'sw-blog-details__content--mobile' : device === DEVICE.MOBILE}">
+      <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADED">
+        <ng-container *ngIf="blog$ | async as blog">
+
+
+          <!-- Image -->
+          <div class="sw-blog-details__image-wrapper"
+            [ngClass]="{'sw-blog-details__image-wrapper--mobile' : device === DEVICE.MOBILE}">
+            <div class="sw-blog-details__image"
+              [ngClass]="{'sw-blog-details__image--mobile' : device === DEVICE.MOBILE}">
+
+              <ng-container *ngIf="blog.images[0]">
+                <sw-image [src]="apiUrl + '/storage/' + blog.images[0].path"
+                  [alt]="blog?.translated?.title" [absolute]="true" [noSRCSET]="true">
+                </sw-image>
+              </ng-container>
+
+              <ng-container *ngIf="!blog.images[0]">
+                <div class="sw-blog-details__image-empty">
+                  <sw-icon [iconName]="'no-img'" [iconSize]="'size-24'" ></sw-icon>
+                </div>
+              </ng-container>
+
+              <div class="sw-blog-details__image-overlay"></div>
+
+            </div>
+          </div>
+
+          <h1 class="sw-blog-details__title-wrapper"
+            [ngClass]="{'sw-blog-details__title--mobile' : device === DEVICE.MOBILE}">
+            <span class="sw-blog-details__title"> {{ blog?.translated?.title }}</span>
+
+            <span class="sw-blog-details__date">
+              {{ blog.created_at | date: "M.dd.y" }}
+            </span>
+          </h1>
+
+          <p [innerHTML]="blog?.translated?.description | safe" class="sw-blog-details__desc"></p>
+
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADING">
+        <div class="sw-blog__loader">
+          <div class="sw-blog__loader__spinner"></div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>

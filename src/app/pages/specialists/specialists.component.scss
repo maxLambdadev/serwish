@@ -1,0 +1,148 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-specialists {
+  @include element("search") {
+    background: var(--neutral_100);
+    width: 100%;
+    margin-bottom: 48px;
+    z-index: 100;
+    position: relative;
+
+    @include modifier("mobile") {
+      margin-bottom: 16px;
+    }
+
+    @include modifier("down") {
+      animation-name: slideDown;
+      animation-duration: 300ms;
+      // transform: translateY(0);
+      top: 112px;
+
+      &.sw-specialists__search--mobile {
+        top: 72px;
+      }
+    }
+
+    @include modifier("up") {
+      animation-name: slideUp;
+      animation-duration: 300ms;
+      transform: translateY(-100%);
+      top: 0;
+    }
+  }
+
+  @include element("content") {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 8px;
+    grid-row-gap: 32px;
+
+    @include modifier("mobile") {
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: 16px;
+    }
+  }
+
+  @include element("banner") {
+    width: 100%;
+    grid-column-start: span 6;
+    grid-column-gap: 0;
+    grid-template-rows: auto;
+    height: 114px;
+    align-self: center;
+
+    @include modifier("mobile") {
+      grid-column-start: span 2;
+    }
+  }
+
+  @include element("wrapper") {
+    padding-bottom: 120px;
+
+    @include modifier("mobile") {
+      padding: 0 16px;
+    }
+  }
+
+  @include element("empty") {
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 50vh;
+
+    @include element("icon") {
+      margin-bottom: 32px;
+    }
+
+    @include element("title") {
+      @include typo("h3-bold");
+      color: var(--primary-dark_100);
+      margin-bottom: 8px;
+    }
+
+    @include element("desc") {
+      @include typo("bodyS");
+      color: var(--primary-dark_60);
+      width: 291px;
+      text-align: center;
+    }
+
+    @include element("buttons") {
+      display: flex;
+      align-items: center;
+      margin-top: 32px;
+    }
+
+    @include element("button") {
+      display: flex;
+      align-items: center;
+      padding: 0 16px;
+      border-radius: 8px;
+      height: 32px;
+      cursor: pointer;
+
+      @include part("icon") {
+        margin-right: 8px;
+
+        .sw-icon:not(.sw-icon--colored) path {
+          fill: none;
+          stroke: currentColor;
+        }
+
+        @include modifier("mirrored") {
+          transform: rotate(180deg);
+        }
+      }
+
+      @include part("text") {
+        @include typo("bodyS-bold");
+      }
+
+      @include modifier("full") {
+        color: var(--neutral_100);
+        background: var(--primary_100);
+
+        &:hover {
+          background: var(--primary_80);
+        }
+      }
+
+      @include modifier("outline") {
+        color: var(--primary_100);
+        border: 2px solid var(--primary_100);
+
+        &:hover {
+          color: var(--neutral_100);
+          background: var(--primary_100);
+        }
+      }
+
+      @include modifier("back") {
+        margin-right: 8px;
+      }
+    }
+  }
+}

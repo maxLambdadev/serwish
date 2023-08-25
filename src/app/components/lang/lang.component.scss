@@ -1,0 +1,100 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-lang-dropdown {
+  position: relative;
+  margin-left: 16px;
+
+  @include element("active") {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+
+    @include element("text") {
+      color: var(--primary-dark_60);
+      @include typo("body");
+      font-feature-settings: "case" on;
+      text-transform: uppercase;
+    }
+
+    @include element("toggle") {
+      color: var(--primary-dark_40);
+      @include modifier("up") {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+
+  @include element("content") {
+    position: absolute;
+    background: #ffffff;
+    box-shadow: 0px 16px 24px -8px rgba(89, 95, 108, 0.16);
+    border-radius: 4px;
+    width: 50px;
+    padding: 4px;
+    top: -4px;
+    right: 0px;
+  }
+
+  @include element("item") {
+    @include element("text") {
+      color: var(--primary-dark_60);
+      @include typo("body");
+      font-feature-settings: "case" on;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    @include modifier("active") {
+      .sw-lang-dropdown__item__text {
+        color: var(--primary-dark_100);
+      }
+    }
+
+    cursor: pointer;
+    background: var(--secondary_100);
+    box-shadow: 0px 16px 24px -8px rgba(89, 95, 108, 0.16);
+    border-radius: 4px;
+    margin-bottom: 4px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.sw-lang-buttons {
+  @include element("content") {
+    display: flex;
+    align-items: center;
+  }
+
+  @include element("item") {
+    cursor: pointer;
+    height: 22px;
+    width: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--primary-dark_100);
+    border-radius: 4px;
+    margin-right: 8px;
+    opacity: 0.4;
+
+    @include element("text") {
+      color: var(--primary-dark_100);
+      @include typo("h4");
+      font-feature-settings: "case" on;
+      text-transform: uppercase;
+    }
+
+    @include modifier("active") {
+      opacity: 1;
+    }
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

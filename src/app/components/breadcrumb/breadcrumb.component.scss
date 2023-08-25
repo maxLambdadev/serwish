@@ -1,0 +1,23 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-breadcrumb {
+  @include element("content") {
+    display: flex;
+    align-items: center;
+  }
+
+  @include element("item") {
+    @include typo("body");
+    color: var(--primary-dark_100);
+
+    @include modifier("home") {
+      cursor: pointer;
+      color: var(--primary_100);
+    }
+  }
+
+  @include element("separator") {
+    margin-right: 2px;
+    color: var(--primary-dark_100);
+  }
+}

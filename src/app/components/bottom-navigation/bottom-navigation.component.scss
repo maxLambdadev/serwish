@@ -1,0 +1,169 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sb-navigation-bottom {
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  text-align: center;
+  bottom: env(safe-area-inset-bottom);
+
+  @include element("content") {
+    display: flex;
+    width: 100%;
+  }
+
+  &:after {
+    width: 100%;
+    height: 56px;
+    bottom: -56px;
+    position: absolute;
+    content: "";
+    background-color: var(--neutral_100);
+  }
+
+  @include element("item") {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    cursor: pointer;
+    z-index: 99;
+    top: 20%;
+    color: var(--primary-dark_100);
+
+    @include element("content") {
+      display: flex;
+      width: 100%;
+      height: 100%;
+      align-items: center;
+      justify-content: center;
+
+      &.active {
+        position: relative;
+
+        &::before {
+          content: "";
+          width: 40px;
+          height: 4px;
+          background: var(--primary_100);
+          position: absolute;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+        }
+      }
+    }
+
+    @include element("name") {
+      text-transform: capitalize;
+      @include typo("subtitle4");
+      color: var(--color_opacity);
+    }
+
+    @include element("icon") {
+      color: var(--primary-dark_100);
+
+      @include modifier("initail") {
+        position: relative;
+        margin: 0 0 -1px 0;
+      }
+
+      @include modifier("search") {
+        margin: 0 0 8px 0;
+        color: var(--neutral_100);
+      }
+
+      @include modifier("active") {
+        color: var(--primary_100);
+      }
+    }
+
+    @include modifier("active") {
+      .sb-navigation-bottom__item__name {
+        display: none;
+      }
+
+      .sb-navigation-bottom__item__icon {
+        display: none;
+        margin: 0 auto;
+
+        @include modifier("full") {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 48px;
+          height: 48px;
+          margin-bottom: 8px;
+        }
+      }
+    }
+  }
+
+  @include element("background") {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    @include element("cutout") {
+      width: 58px;
+      height: 53px;
+      left: calc((20% - 58px) / 2);
+      z-index: 3;
+      border-radius: 50%;
+      position: relative;
+      box-shadow: 9px 16px 0 var(--neutral_100), -40px 24px 0 var(--neutral_100);
+    }
+
+    @include element("circle") {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      position: absolute;
+      left: calc((20% - 48px) / 2);
+      top: 0;
+      z-index: 2;
+
+      span {
+        display: block;
+        border-radius: 50%;
+        height: 100%;
+        width: 100%;
+        position: relative;
+        z-index: 9;
+        // top: -20px;
+        background: var(--primary_100);
+      }
+
+      &:before,
+      &:after {
+        content: "";
+        position: absolute;
+        width: 3000%;
+        height: 60px;
+        top: 0;
+        background: var(--neutral_100);
+      }
+
+      &:before {
+        left: calc(100% + 5px);
+        border-top-left-radius: 24px;
+        box-shadow: 0px 14px 20px 0px rgb(0, 0, 0, 0.3);
+      }
+
+      &:after {
+        right: calc(100% + 5px);
+        border-top-right-radius: 24px;
+        box-shadow: 0px 14px 20px 0px rgb(0, 0, 0, 0.3);
+      }
+    }
+  }
+}

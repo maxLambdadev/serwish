@@ -1,0 +1,158 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+
+
+.sw-service-request {
+  @include element("content") {
+    width: 812px;
+    margin: 0 auto;
+    background: var(--neutral_100);
+    border-radius: 16px;
+    margin-bottom: 32px;
+
+    padding: 32px 35px;
+    position: relative;
+
+    @include modifier("mobile") {
+      width: auto;
+      margin: 0 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+    }
+  }
+
+  @include element("row") {
+    display: flex;
+    margin-bottom: 16px;
+    width: 100%;
+
+    .sw-button {
+      width: 223px;
+      margin-left: 12px;
+    }
+
+    .sw-input {
+      width: 100%;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    @include modifier("mobile") {
+      flex-direction: column;
+
+      .sw-button {
+        width: auto;
+        margin-left: 0;
+        margin-top: 16px;
+      }
+    }
+  }
+
+  @include element("desc") {
+    color: var(--primary-dark_60);
+    @include typo("bodyS-bold");
+    text-align: center;
+
+    @include modifier("mobile") {
+      padding: 0 16px;
+    }
+  }
+
+  @include element("label") {
+    color: var(--primary_100);
+    @include typo("bodyS");
+    display: flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 16px;
+    border: 1px dashed var(--primary_100);
+    border-radius: 6px;
+
+    position: absolute;
+
+    @include modifier("left") {
+      &.sw-service-request__label--top {
+        opacity: 0.4;
+        filter: blur(4px);
+        transform: rotate(15deg);
+
+        left: -330px;
+        top: 30px;
+      }
+
+      &.sw-service-request__label--bottom {
+        transform: rotate(-15deg);
+
+        left: -200px;
+        bottom: -40px;
+      }
+    }
+
+    @include modifier("right") {
+      &.sw-service-request__label--top {
+        filter: blur(3px);
+        transform: rotate(-15deg);
+
+        right: -380px;
+        top: 30px;
+      }
+
+      &.sw-service-request__label--bottom {
+        transform: rotate(15deg);
+
+        right: -200px;
+        bottom: -50px;
+      }
+    }
+  }
+
+  @include element("done") {
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    display: flex;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    animation: urlCopied 2.5s ease-in-out;
+    height: 32px;
+    color: var(--neutral_100);
+    background: var(--primary_100);
+    border-radius: 16px;
+    @include typo("bodyS-bold");
+    padding: 0 16px;
+    z-index: 9999;
+    width: 280px;
+    text-align: center;
+  }
+
+  @include element("already") {
+    cursor: pointer;
+    position: absolute;
+    left: 50%;
+    top: 50px;
+    display: flex;
+    opacity: 0;
+    align-items: center;
+    justify-content: center;
+    animation: urlCopied 2.5s ease-in-out;
+    height: 48px;
+    color: var(--neutral_100);
+    background: var(--error_100);
+    border-radius: 16px;
+    @include typo("bodyS-bold");
+    padding: 0 16px;
+    z-index: 9999;
+    width: 310px;
+    text-align: center;
+  }
+
+  @include element("form") {
+    @include element("send") {
+      padding: 0;
+    }
+  }
+}

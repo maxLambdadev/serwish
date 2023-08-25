@@ -1,0 +1,30 @@
+<!-- INPUT -->
+<div class="sw-textarea__wrapper" [ngClass]="{
+    'sw-textarea__wrapper--desktop': device === DEVICE.DESKTOP
+  }">
+  <label class="sw-textarea__label">
+
+
+    <textarea *ngIf="!autoFocus" class="sw-textarea__text" [ngClass]="{'sw-textarea__text--nolabel' : hideLabel}" [(ngModel)]="data" [required]="required"
+      [disabled]="disabled" [placeholder]="placeholder" [ngModelOptions]="{ standalone: true }" (input)="onChange()"
+      (change)="onChange()" (blur)="onTouchedFn()" (blur)="onBlurFn()" (focus)="onFocusFn()"
+      [attr.maxlength]="maxLength">
+    </textarea>
+
+
+    <textarea *ngIf="autoFocus" class="sw-textarea__text" [ngClass]="{'sw-textarea__text--nolabel' : hideLabel}" [(ngModel)]="data" [required]="required" [disabled]="disabled"
+      [placeholder]="placeholder" [ngModelOptions]="{ standalone: true }" (input)="onChange()" (change)="onChange()"
+      (blur)="onTouchedFn()" (blur)="onBlurFn()" (focus)="onFocusFn()" [attr.maxlength]="maxLength" autofocus>
+    </textarea>
+
+
+    <div #label class="sw-textarea__label__text" *ngIf="!hideLabel">
+      {{ labelText }}
+    </div>
+
+  </label>
+
+  <div class="sw-textarea__error" @slideUpDown *ngIf="showError">
+    {{ errors[0] }}
+  </div>
+</div>

@@ -1,0 +1,193 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-textarea {
+  @include element("wrapper") {
+    width: 100%;
+    position: relative;
+
+    @include modifier("desktop") {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  @include element("label") {
+    display: flex;
+    align-items: center;
+    position: relative;
+
+    @include element("text") {
+      position: absolute;
+      width: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      top: 26px;
+      left: 0;
+      color: var(--primary-dark_100);
+      display: flex;
+      align-items: center;
+      transition: transform 0.2s ease-in-out;
+    }
+  }
+
+  @include element("text") {
+    border: none;
+    padding: 0;
+    resize: none;
+    width: 100%;
+    height: 100%;
+    background: none;
+
+    border: 2px solid var(--secondary_100);
+    padding-top: 30px;
+
+    &:focus,
+    &:active {
+      outline: none;
+      border: none;
+      border: 2px solid var(--primary_100);
+
+      &+.sw-textarea__label__text {
+        text-transform: uppercase;
+
+        @include modifier("medium") {
+          transform: translateY(-10px);
+          @include typo("body");
+        }
+
+        @include modifier("large") {
+          transform: translateY(-14px);
+          @include typo("body");
+        }
+
+        @include modifier("x-large") {
+          transform: translateY(-14px);
+          @include typo("body");
+        }
+      }
+    }
+
+    &::placeholder {
+      opacity: 0.32;
+    }
+
+    @include modifier("nolabel") {
+      padding-top: 16px;
+    }
+  }
+
+  @include element("error") {
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    height: 26px;
+    padding: 0 16px;
+    width: 100%;
+    @include typo("bodyS");
+    color: #ff003d;
+    margin-top: 4px;
+  }
+
+  @include modifier("medium") {
+    .sw-textarea__label {
+      height: 160px;
+
+      @include element("text") {
+        padding-left: 26px;
+        @include typo("body");
+      }
+    }
+
+    .sw-textarea__text {
+      border-radius: 12px;
+
+      padding-left: 24px;
+      @include typo("body");
+
+      &::placeholder {
+        @include typo("body");
+      }
+    }
+  }
+
+  @include modifier("large") {
+    .sw-textarea__label {
+      height: 160px;
+
+      @include element("text") {
+        padding-left: 26px;
+        @include typo("body");
+      }
+    }
+
+    .sw-textarea__text {
+      border-radius: 12px;
+
+      padding-left: 24px;
+      @include typo("body");
+
+      &::placeholder {
+        @include typo("body");
+      }
+    }
+  }
+
+  @include modifier("x-large") {
+    .sw-textarea__label {
+      height: 170px;
+
+      @include element("text") {
+        padding-left: 26px;
+        @include typo("m0.5-Normal");
+      }
+    }
+
+    .sw-textarea__text {
+      border-radius: 16px;
+
+      padding-left: 24px;
+      @include typo("h2");
+
+      &::placeholder {
+        @include typo("h2");
+      }
+    }
+  }
+
+  @include modifier("filled") {
+    .sw-textarea__label__text {
+      text-transform: uppercase;
+
+      @include modifier("medium") {
+        transform: translateY(-10px);
+        color: var(--primary-dark_100);
+      }
+
+      @include modifier("large") {
+        transform: translateY(-14px);
+        @include typo("body");
+      }
+
+      @include modifier("x-large") {
+        transform: translateY(-14px);
+        @include typo("body");
+      }
+    }
+  }
+
+  &.ng-invalid {
+    &.ng-dirty {
+      .sw-textarea__text {
+        border-color: var(--error_100);
+      }
+    }
+
+    &.ng-touched {
+      .sw-textarea__text {
+        border-color: var(--error_100);
+      }
+    }
+  }
+}

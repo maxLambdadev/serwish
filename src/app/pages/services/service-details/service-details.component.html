@@ -1,0 +1,694 @@
+<section class="sw-page sw-page--service">
+  <div class="sw-service-details">
+    <div
+      class="sw-container"
+      [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }"
+    >
+      <div
+        class="sw-service-details__content"
+        [ngClass]="{ 'sw-service-details__content--mobile': device === DEVICE.MOBILE }"
+      >
+        <!-- Gallery -->
+        <ng-container *ngIf="device === DEVICE.DESKTOP">
+          <div class="sw-service-details__gallery sw-service-details__gallery--desktop">
+            <div
+              class="sw-service-details__gallery__overlay"
+              (click)="onGalleryClose($event)"
+            >
+              <div class="sw-service-details__gallery__overlay__close">
+                <sw-icon [iconName]="'close-icon'" [iconSize]="'size-48'"></sw-icon>
+              </div>
+            </div>
+
+            <ng-container *ngIf="images && images.length > 1">
+              <swiper
+                class="gallery-thumbs"
+                [config]="configGalleryThumb"
+                (swiper)="thumbsSwiper = $event"
+              >
+                <ng-container *ngFor="let image of images; trackBy: trackBy">
+                  <ng-template swiperSlide>
+                    <img [src]="image.src | generateThumb: '106x106'" loading="lazy" />
+                  </ng-template>
+                </ng-container>
+              </swiper>
+            </ng-container>
+
+            <div
+              class="sw-service-details__gallery__itself"
+              (click)="onGalleryZoom($event)"
+            >
+              <swiper
+                class="gallery"
+                [config]="configGallery"
+                [thumbs]="{ swiper: thumbsSwiper }"
+              >
+                <ng-container *ngFor="let image of images; trackBy: trackBy">
+                  <ng-template swiperSlide>
+                    <div class="swiper-zoom-container swiper-zoom-container--default">
+                      <img [src]="image.src | generateThumb: '610x510'" loading="lazy" />
+                    </div>
+
+                    <div class="swiper-zoom-container swiper-zoom-container--full">
+                      <img [src]="image.src" loading="lazy" />
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </swiper>
+            </div>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="device === DEVICE.MOBILE">
+          <div class="sw-service-details__gallery">
+            <div class="sw-service-details__gallery__itself">
+              <swiper
+                [spaceBetween]="10"
+                [navigation]="true"
+                [thumbs]="{ swiper: thumbsSwiper }"
+                class="gallery"
+                [zoom]="true"
+              >
+                <ng-container *ngFor="let image of images; trackBy: trackBy">
+                  <ng-template swiperSlide>
+                    <div class="swiper-zoom-container">
+                      <img [src]="image.src | generateThumb: '610x510'" loading="lazy" />
+                    </div>
+                  </ng-template>
+                </ng-container>
+              </swiper>
+            </div>
+
+            <swiper
+              [width]="138"
+              [height]="138"
+              [direction]="'horizontal'"
+              (swiper)="thumbsSwiper = $event"
+              [spaceBetween]="10"
+              [slidesPerView]="'auto'"
+              [freeMode]="true"
+              [watchSlidesProgress]="true"
+              class="gallery-thumbs"
+            >
+              <ng-container *ngFor="let image of images; trackBy: trackBy">
+                <ng-template swiperSlide>
+                  <img [src]="image.src | generateThumb: '106x106'" loading="lazy" />
+                </ng-template>
+              </ng-container>
+            </swiper>
+          </div>
+        </ng-container>
+
+        <!-- Other -->
+        <ng-container *ngIf="_service">
+          <div
+            class="sw-service-details__other"
+            [ngClass]="{ 'sw-service-details__other--mobile': device === DEVICE.MOBILE }"
+          >
+            <div
+              class="sw-service-details__top"
+              [ngClass]="{ 'sw-service-details__top--mobile': device === DEVICE.MOBILE }"
+            >
+              <div
+                class="sw-service-details__top__actions"
+                [ngClass]="{
+                  'sw-service-details__top__actions--mobile': device === DEVICE.MOBILE
+                }"
+              >
+                <div
+                  class="sw-service-details__top__review"
+                  *ngIf="isAuth"
+                  (click)="openRecomendationPopup()"
+                >
+                  <div class="sw-service-details__top__review-icon">
+                    <sw-icon [iconName]="'recomendation'" [iconSize]="'size-16'">
+                    </sw-icon>
+                  </div>
+                  <div class="sw-service-details__top__review-title">
+                    {{ "Global.RECOMENDATION" | translate }}
+                  </div>
+                </div>
+
+                <div class="sw-service-details__top__favorite">
+                  <sw-favorite
+                    [id]="_service.id"
+                    *ngIf="_service.id"
+                    (removeFromWishlist)="toggleFavorite()"
+                  >
+                  </sw-favorite>
+                </div>
+
+                <div class="sw-service-details__share">
+                  <div
+                    class="sw-service-details__share__content"
+                    (click)="openSharePopup($event)"
+                  >
+                    <span class="sw-service-details__share__icon">
+                      <sw-icon onlyicon [iconName]="'share-icon'" [iconSize]="'size-16'">
+                      </sw-icon>
+                    </span>
+                  </div>
+
+                  <ng-template cdk-portal>
+                    <sw-share-popup
+                      (closeSharePopup)="closeSharePopup()"
+                      [link]="link"
+                      [device]="device"
+                    >
+                    </sw-share-popup>
+                  </ng-template>
+                </div>
+              </div>
+
+              <div class="sw-service-details__badges">
+                <!-- Serwish Badge  -->
+                <div
+                  class="sw-service-details__badge sw-service-details__badge--serwish"
+                  *ngIf="_service?.has_serwish_quality"
+                >
+                  <div class="sw-service-details__badge__icon">
+                    <sw-icon
+                      onlyicon
+                      [iconName]="'star-icon'"
+                      [iconSize]="'size-10'"
+                    ></sw-icon>
+                  </div>
+                  <div class="sw-service-details__badge__text">
+                    <span>SER</span>WISH {{ "Global.QUALITY" | translate }}
+                  </div>
+                </div>
+
+                <!-- Rating -->
+                <div class="sw-service-details__rating">
+                  <div class="sw-service-details__rating__percentage">
+                    <div class="sw-service-details__rating__percentage-icon">
+                      <sw-icon
+                        onlyicon
+                        [iconName]="'like-icon'"
+                        [iconSize]="'size-12'"
+                      ></sw-icon>
+                    </div>
+
+                    <div class="sw-service-details__rating__percentage-value">
+                      {{ _service.likePercent }}%
+                    </div>
+                  </div>
+                  <div class="sw-service-details__rating__count">
+                    {{ _service.totalReviews }} {{ "Global.REVIEW" | translate }}
+                  </div>
+                </div>
+              </div>
+
+              <ng-container
+                *ngIf="(serviceLoadingStatus$ | async) === LOADING_STATUS.LOADING"
+              >
+                <div class="sw-service-details__title-loader"></div>
+
+                <div class="sw-service-details__info-loader"></div>
+
+                <div class="sw-service-details__author-loader"></div>
+              </ng-container>
+
+              <ng-container
+                *ngIf="(serviceLoadingStatus$ | async) === LOADING_STATUS.LOADED"
+              >
+                <h1 class="sw-service-details__title">
+                  <span class="sw-service-details__title-title">{{
+                    _service?.translated?.title
+                  }}</span>
+
+                  <span class="sw-service-details__id">
+                    ID: {{ _service?.id | formatId }}
+                  </span>
+                </h1>
+
+                <div class="sw-service-details__info">
+                  <p class="sw-service-details__category" *ngIf="_service?.categories">
+                    {{ ((_service?.categories)[0]?.translated)[0]?.title }}
+                  </p>
+                  <div
+                    class="sw-service-details__location"
+                    *ngIf="_service?.cities?.length > 0"
+                  >
+                    <div class="sw-service-details__location-icon">
+                      <sw-icon
+                        onlyicon
+                        [iconName]="'location'"
+                        [iconSize]="'size-12'"
+                      ></sw-icon>
+                    </div>
+                    <p class="sw-service-details__location-content">
+                      <ng-container
+                        *ngFor="
+                          let city of _service?.cities;
+                          trackBy: trackBy;
+                          let isLast = last
+                        "
+                      >
+                        {{ city.translated[0].name
+                        }}<ng-container *ngIf="!isLast">, </ng-container>
+                      </ng-container>
+                    </p>
+                  </div>
+                </div>
+
+                <p class="sw-service-details__author">
+                  {{ _service?.service_name || _service?.specialist?.name | onlyName }}
+                  {{ _service?.specialist?.id }}
+                </p>
+              </ng-container>
+
+              <p
+                *ngIf="_service?.translated?.description"
+                class="sw-service-details__description"
+                [ngClass]="{
+                  'sw-service-details__description--mobile': device === DEVICE.MOBILE
+                }"
+                [innerHTML]="_service?.translated?.description | safe"
+              ></p>
+
+              <div class="sw-service-details__price" *ngIf="_service?.price > 0">
+                ₾{{ _service?.price }}
+                <span
+                  class="sw-service-details__price-logic"
+                  *ngIf="_service?.price_type"
+                >
+                  / {{ "Global." + (_service?.price_type | uppercase) | translate }}
+                </span>
+              </div>
+
+              <div
+                class="sw-service-details__availability"
+                [ngClass]="{
+                  'sw-service-details__availability--mobile': device === DEVICE.MOBILE
+                }"
+                *ngIf="_service?.working_hours"
+              >
+                <ng-container *ngIf="_service?.working_hours.type === 'custom'">
+                  <div
+                    class="sw-service-details__availability__item"
+                    [ngClass]="{
+                      'sw-service-details__availability__item--mobile':
+                        device === DEVICE.MOBILE
+                    }"
+                    *ngIf="_service?.working_hours?.start_at"
+                  >
+                    <span>{{ "Specialist.WORK_DAYS" | translate }}</span
+                    >{{ _service?.working_hours?.start_at }} -
+                    {{ _service?.working_hours?.end_at }}
+                  </div>
+
+                  <div
+                    class="sw-service-details__availability__item"
+                    [ngClass]="{
+                      'sw-service-details__availability__item--mobile':
+                        device === DEVICE.MOBILE
+                    }"
+                    *ngIf="_service?.working_hours?.saturday_start_at"
+                  >
+                    <span>{{ "Specialist.SATURDAY" | translate }}</span
+                    >{{ _service?.working_hours?.saturday_start_at }} -
+                    {{ _service?.working_hours?.saturday_end_at }}
+                  </div>
+
+                  <div
+                    class="sw-service-details__availability__item"
+                    [ngClass]="{
+                      'sw-service-details__availability__item--mobile':
+                        device === DEVICE.MOBILE
+                    }"
+                    *ngIf="_service?.working_hours?.sunday_start_at"
+                  >
+                    <span>{{ "Specialist.SUNDAY" | translate }}</span
+                    >{{ _service?.working_hours?.sunday_start_at }} -
+                    {{ _service?.working_hours?.sunday_end_at }}
+                  </div>
+                </ng-container>
+
+                <ng-container *ngIf="_service?.working_hours.type === 'full'">
+                  <div
+                    class="sw-service-details__availability__item"
+                    [ngClass]="{
+                      'sw-service-details__availability__item--mobile':
+                        device === DEVICE.MOBILE
+                    }"
+                  >
+                    <span>
+                      {{ "Specialist.ANYTIME" | translate }} </span
+                    >24/7
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+
+            <div
+              class="sw-service-details__bottom"
+              [ngClass]="{
+                'sw-service-details__bottom--mobile': device === DEVICE.MOBILE
+              }"
+            >
+              <div
+                class="sw-service-details__actions"
+                [ngClass]="{
+                  'sw-service-details__actions--mobile': device === DEVICE.MOBILE
+                }"
+              >
+                <div
+                  class="sw-service-details__phone"
+                  [ngClass]="{
+                    'sw-service-details__phone--mobile': device === DEVICE.MOBILE
+                  }"
+                  (click)="togglePhoneNumber()"
+                >
+                  <div class="sw-service-details__phone-content">
+                    <ng-container *ngIf="showPhone">
+                      <a href="tel:{{ phoneNumber }}">{{ phoneNumber }}</a>
+                    </ng-container>
+
+                    <ng-container *ngIf="!showPhone">
+                      {{ hiddenPhoneNumber }}
+                    </ng-container>
+                  </div>
+                  <div class="sw-service-details__phone-toggle" *ngIf="!showPhone">
+                    <sw-icon [iconName]="'eye'" [iconSize]="'size-16'"></sw-icon>
+                  </div>
+
+                  <ng-template #templatePortalContent>
+                    <sw-review-phone-popup
+                      [specialist]="_service?.specialist"
+                      [serviceId]="_service.id"
+                      (closePhoneReviewPopup)="closeReviewPhonePopup()"
+                    >
+                    </sw-review-phone-popup>
+                  </ng-template>
+                </div>
+              </div>
+
+              <ng-template #reviewTemplatePortalContent>
+                <sw-recomendation
+                  [device]="device"
+                  [service]="_service"
+                  (closeRecomendationPopup)="closeRecomendationPopup()"
+                ></sw-recomendation>
+              </ng-template>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <!-- Reviews -->
+      <ng-container *ngIf="_service?.reviews">
+        <div
+          class="sw-service-details__review"
+          *ngIf="_service?.reviews.length > 0"
+          [ngClass]="{ 'sw-service-details__review--mobile': device === DEVICE.MOBILE }"
+        >
+          <h1
+            class="sw-service-details__review__title"
+            [ngClass]="{
+              'sw-service-details__review__title--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <span> {{ "Specialist.RECOMENDATIONS" | translate }}</span>
+            {{ "Specialist.ON_SERVICE" | translate }}
+          </h1>
+
+          <div
+            class="sw-service-details__review__slider"
+            [ngClass]="{
+              'sw-service-details__review__slider--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <swiper [config]="config">
+              <ng-container *ngFor="let review of _service?.reviews; trackBy: trackBy">
+                <ng-template swiperSlide>
+                  <div
+                    class="sw-service-details__review__slider__item"
+                    [ngClass]="{
+                      'sw-service-details__review__slider__item--mobile':
+                        device === DEVICE.MOBILE
+                    }"
+                  >
+                    <div class="sw-service-details__review__item__header">
+                      <div class="sw-service-details__review__item__user-image">
+                        <div
+                          class="sw-service-details__review__item__user-image-empty"
+                          *ngIf="!review.user.image && !review.user.extraPic"
+                        >
+                          <sw-icon [iconName]="'no-img'" [iconSize]="'size-24'"></sw-icon>
+                        </div>
+
+                        <ng-container
+                          *ngIf="
+                            !review.user.extraPic &&
+                            review?.user?.images &&
+                            (review?.user?.images)[0]?.path
+                          "
+                        >
+                          <sw-image
+                            [src]="
+                              apiUrl +
+                              '/storage/' +
+                              ((review?.user?.images)[0]?.path | generateThumb: '228x228')
+                            "
+                            [alt]="review?.user?.name"
+                            [absolute]="true"
+                            [noSRCSET]="true"
+                          >
+                          </sw-image>
+                        </ng-container>
+
+                        <ng-container *ngIf="review.user.extraPic">
+                          <sw-image
+                            [src]="review.user.extraPic"
+                            [alt]="review?.user?.name"
+                            [absolute]="true"
+                            [noSRCSET]="true"
+                          >
+                          </sw-image>
+                        </ng-container>
+                      </div>
+
+                      <div class="sw-service-details__review__item__user-other">
+                        <div class="sw-service-details__review__item__user-name">
+                          {{ review?.user?.name }}
+                        </div>
+                        <div class="sw-service-details__review__item__user-date">
+                          {{ review.created_at | date: "M.dd.y" }}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="sw-service-details__review__item__content">
+                      {{ review.description }}
+                    </div>
+
+                    <div class="sw-service-details__review__item__footer">
+                      <div class="sw-service-details__review__item__quote"></div>
+
+                      <div
+                        class="sw-service-details__review__item__status sw-service-details__review__item__status--like"
+                        *ngIf="review.likes"
+                      >
+                        <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'">
+                        </sw-icon>
+                      </div>
+
+                      <div
+                        class="sw-service-details__review__item__status sw-service-details__review__item__status--dislike"
+                        *ngIf="!review.likes"
+                      >
+                        <sw-icon [iconName]="'like-icon'" [iconSize]="'size-16'">
+                        </sw-icon>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </swiper>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Similar -->
+      <ng-container *ngIf="similarServices$ | async as similarServices">
+        <div class="sw-service-details__similar" *ngIf="similarServices.length > 0">
+          <h1
+            class="sw-service-details__similar__title"
+            [ngClass]="{
+              'sw-service-details__similar__title--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <span> {{ "Services.SIMILAR" | translate }}</span>
+          </h1>
+
+          <div
+            class="sw-service-details__similar__content"
+            [ngClass]="{
+              'sw-service-details__similar__content--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <ng-container
+              *ngIf="(similarServicesLoadingStatus$ | async) === LOADING_STATUS.LOADED"
+            >
+              <ng-container
+                *ngFor="let similarService of similarServices$ | async; trackBy: trackBy"
+              >
+                <ng-container *ngIf="device === DEVICE.DESKTOP">
+                  <sw-service-item
+                    @fadeIn
+                    [item]="similarService"
+                    [specialist]="similarServices.specialist"
+                  >
+                  </sw-service-item>
+                </ng-container>
+
+                <ng-container *ngIf="device === DEVICE.MOBILE">
+                  <sw-service-item-mobile
+                    @fadeIn
+                    [item]="similarService"
+                    [specialist]="similarServices.specialist"
+                  >
+                  </sw-service-item-mobile>
+                </ng-container>
+              </ng-container>
+            </ng-container>
+
+            <!-- <ng-container *ngIf="
+                            (similarServicesLoadingStatus$ | async) === LOADING_STATUS.LOADING
+                            ">
+
+                            <ng-container *ngFor="let in of counter(2); let i = index ">
+                                <ng-container *ngIf="device === DEVICE.DESKTOP">
+                                    <sw-service-item-loader></sw-service-item-loader>
+                                </ng-container>
+
+                                <ng-container *ngIf="device === DEVICE.MOBILE">
+                                    <sw-service-item-loader-mobile></sw-service-item-loader-mobile>
+                                </ng-container>
+                            </ng-container>
+
+                        </ng-container> -->
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Viewed -->
+      <ng-container *ngIf="viewedServices$ | async as viewedServices">
+        <div class="sw-service-details__viewed" *ngIf="viewedServices.length > 0">
+          <h1
+            class="sw-service-details__viewed__title"
+            [ngClass]="{
+              'sw-service-details__viewed__title--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <span>{{ "Services.LAST_VIEWED" | translate }}</span>
+          </h1>
+
+          <div
+            class="sw-service-details__viewed__slider"
+            [ngClass]="{
+              'sw-service-details__viewed__slider--mobile': device === DEVICE.MOBILE
+            }"
+          >
+            <swiper [config]="configViewedServices">
+              <ng-container
+                *ngIf="(viewedServicesLoadingStatus$ | async) === LOADING_STATUS.LOADED"
+              >
+                <ng-container
+                  *ngFor="let viewedService of viewedServices; trackBy: trackBy"
+                >
+                  <ng-template swiperSlide>
+                    <ng-container *ngIf="device === DEVICE.DESKTOP">
+                      <sw-service-item
+                        @fadeIn
+                        [item]="viewedService"
+                        [specialist]="viewedService.specialist"
+                      >
+                      </sw-service-item>
+                    </ng-container>
+
+                    <ng-container *ngIf="device === DEVICE.MOBILE">
+                      <sw-service-item-mobile
+                        @fadeIn
+                        [item]="viewedService"
+                        [specialist]="viewedService.specialist"
+                      >
+                      </sw-service-item-mobile>
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
+
+              <ng-container
+                *ngIf="(viewedServicesLoadingStatus$ | async) === LOADING_STATUS.LOADING"
+              >
+                <ng-container *ngFor="let in of counter(2); let i = index">
+                  <ng-template swiperSlide>
+                    <ng-container *ngIf="device === DEVICE.DESKTOP">
+                      <sw-service-item-loader></sw-service-item-loader>
+                    </ng-container>
+
+                    <ng-container *ngIf="device === DEVICE.MOBILE">
+                      <sw-service-item-loader-mobile></sw-service-item-loader-mobile>
+                    </ng-container>
+                  </ng-template>
+                </ng-container>
+              </ng-container>
+            </swiper>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- Specialists -->
+      <div class="sw-service-details__specialists">
+        <h1
+          class="sw-service-details__specialists__title"
+          [ngClass]="{
+            'sw-service-details__specialists__title--mobile': device === DEVICE.MOBILE
+          }"
+        >
+          <span> {{ "Specialist.SIMILAR" | translate }}</span>
+          {{ "Specialist.SPECIALISTS" | translate }}
+        </h1>
+
+        <div
+          class="sw-service-details__specialists__slider"
+          [ngClass]="{
+            'sw-service-details__specialists__slider--mobile': device === DEVICE.MOBILE
+          }"
+        >
+          <swiper [config]="configTopSpecialists">
+            <ng-container
+              *ngIf="(specialistsLoadingStatus$ | async) === LOADING_STATUS.LOADED"
+            >
+              <ng-container
+                *ngFor="let specialist of specialists$ | async; trackBy: trackBy"
+              >
+                <ng-template swiperSlide>
+                  <sw-specialist-item
+                    [item]="specialist"
+                    [device]="device"
+                    [device]="device"
+                  >
+                  </sw-specialist-item>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+
+            <ng-container
+              *ngIf="(specialistsLoadingStatus$ | async) === LOADING_STATUS.LOADING"
+            >
+              <ng-container *ngFor="let in of counter(7); let i = index">
+                <ng-template swiperSlide>
+                  <sw-specialist-item-loader [device]="device" [device]="device">
+                  </sw-specialist-item-loader>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+          </swiper>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

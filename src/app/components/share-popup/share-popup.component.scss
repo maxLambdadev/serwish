@@ -1,0 +1,233 @@
+@use 'src/assets/styles/tools/tools' as *;
+
+.sw-share-popup {
+
+    @include modifier("mobile") {
+        display: flex;
+        width: 100%;
+        padding: 16px;
+    }
+
+    @include element("content") {
+        display: flex;
+        flex-direction: column;
+        background: var(--neutral_100);
+        border-radius: 16px;
+        padding: 32px;
+        width: 500px;
+        position: relative;
+
+        @include modifier("mobile") {
+            width: 100%;
+        }
+    }
+
+    @include element("title") {
+        color: var(--primary-dark_100);
+        @include typo("h3-bold");
+        font-feature-settings: "case"on;
+    }
+
+    @include element("close") {
+        color: var(--neutral_100);
+        cursor: pointer;
+        position: absolute;
+        right: 0px;
+        top: -36px;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    @include element("input") {
+        @include part("wrapper") {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+
+            width: 100%;
+
+            position: relative;
+
+            border-bottom: 1px solid var(--secondary_100);
+
+
+            @include modifier("desktop") {
+                width: 440px;
+                margin-bottom: 32px;
+                padding-bottom: 32px;
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        @include element("header") {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+
+            @include part("share") {
+                color: var(--primary-dark_100);
+                @include typo("body-bold");
+            }
+
+            @include part("copy") {
+                color: var(--primary-dark_80);
+                @include typo("bodyS");
+                text-transform: uppercase;
+                cursor: pointer;
+            }
+        }
+
+        @include element("label") {
+            border: 2px solid var(--secondary_100);
+            border-radius: 12px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            padding-left: 6px;
+            padding-right: 8px;
+            position: relative;
+
+            &:active,
+            &:focus {
+                border: 2px solid var(--primary_100);
+            }
+        }
+
+        @include element("icon") {
+            padding-right: 8px;
+            position: relative;
+            cursor: pointer;
+
+            &::before {
+                content: "";
+                position: absolute;
+                height: 16px;
+                width: 1px;
+                background: var(--secondary_100);
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0.2;
+            }
+        }
+
+        @include element("text") {
+            border: none;
+            padding: 0;
+
+            width: 100%;
+            background: none;
+            padding-right: 75px;
+
+            color: var(--primary-dark_100);
+            @include typo("body");
+
+            &:focus,
+            &:active {
+                outline: none;
+                border: none;
+            }
+
+            @include part("wrapper") {
+                position: relative;
+                width: 100%;
+                display: flex;
+                align-items: center;
+                padding-left: 8px;
+
+                &::before {
+                    content: "";
+                    position: absolute;
+                    right: 45px;
+                    top: 50%;
+                    background: linear-gradient(90deg,
+                            rgba(255, 255, 255, 0.0001) -4.55%,
+                            #ffffff 100%);
+                    border-radius: 12px;
+                    width: 92px;
+                    height: 28px;
+                    transform: translateY(-14px);
+                }
+            }
+
+            @include part("prefix") {
+                @include typo("body");
+            }
+        }
+
+        @include element("button") {
+            position: absolute;
+            right: 8px;
+        }
+
+        @include element("copy") {
+            cursor: pointer;
+            position: absolute;
+            left: 50%;
+            bottom: 95px;
+            display: flex;
+            opacity: 0;
+            align-items: center;
+            justify-content: center;
+            animation: urlCopied 2.5s ease-in-out;
+            height: 32px;
+            color: var(--neutral_100);
+            background: var(--primary_100);
+            border-radius: 16px;
+            @include typo("bodyS-bold");
+            padding: 0 16px;
+            white-space: nowrap;
+        }
+    }
+
+    @include element("socials") {
+        // width: 440px;
+
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        width: 100%;
+        padding: 0 24px;
+        justify-content: space-between;
+
+        @include element("item") {
+            cursor: pointer;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            margin-right: 32px;
+            transition: opacity 200ms ease-in;
+
+            @include part("icon") {
+                margin-bottom: 12px;
+            }
+
+            @include part("name") {
+                @include typo("body");
+                color: var(--primary-dark_100);
+                text-transform: capitalize;
+            }
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+            &:hover {
+                opacity: 0.85;
+            }
+
+
+        }
+
+        @include modifier("mobile") {
+            overflow: scroll;
+        }
+
+    }
+
+}

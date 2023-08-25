@@ -1,0 +1,342 @@
+<section class="sw-page sw-page--profile">
+  <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+
+    <div class="sw-profile-page__content" [ngClass]="{ 'sw-profile-page__content--mobile': device === DEVICE.MOBILE }">
+
+      <div class="sw-profile-page__user" [ngClass]="{ 'sw-profile-page__user--mobile': device === DEVICE.MOBILE }">
+
+        <div class="sw-profile-page__user__content">
+
+          <div class="sw-profile-page__user__image">
+
+            <div class="sw-profile-page__user__image-empty" *ngIf="!user?.image && !user.extraPic">
+              <sw-icon [iconName]="'no-img'" [iconSize]="'size-24'"></sw-icon>
+            </div>
+
+            <ng-container *ngIf="!user.extraPic && user.image">
+              <sw-image [src]="user.image | generateThumb:'228x228'" [alt]="user.name" [absolute]="true"
+                [noSRCSET]="true">
+              </sw-image>
+            </ng-container>
+
+            <ng-container *ngIf="user.extraPic">
+              <sw-image [src]="user.extraPic" [alt]="user.name" [absolute]="true" [noSRCSET]="true">
+              </sw-image>
+            </ng-container>
+
+            <div class="sw-profile-page__user__image-upload">
+              <sw-image-upload [alreadyHasImage]="user?.image" [uploadDestination]="'specialist'" [userId]="userId">
+              </sw-image-upload>
+            </div>
+          </div>
+
+          <div class="sw-profile-page__user__name" *ngIf="user?.name">
+            {{ user.name }}
+          </div>
+
+          <div class="sw-profile-page__user__type" *ngIf="user?.client_type">
+            <ng-container *ngIf="user?.client_type === CLIENT_TYPE.EMPLOYEE">
+              {{ 'Profile.SPECIALIST' | translate }}
+            </ng-container>
+
+            <ng-container *ngIf="user?.client_type === CLIENT_TYPE.CLIENT">
+              {{ 'Profile.CLIENT' | translate }}
+            </ng-container>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="sw-profile-page__form" [ngClass]="{ 'sw-profile-page__form--mobile': device === DEVICE.MOBILE }">
+
+
+        <form class="sw-profile-page__form" [formGroup]="userForm" #localForm="ngForm" (ngSubmit)="onSubmit()">
+
+          <!-- Overal -->
+          <div class="sw-profile-page__form__group">
+
+            <!-- Header -->
+            <div class="sw-profile-page__form__group__header">
+              <h3 class="sw-profile-page__form__group__title">
+                <span>
+                  {{ 'Profile.PROFILES' | translate }}
+                </span>
+                {{ 'Profile.INFO' | translate }}
+              </h3>
+
+
+              <div class="sw-profile-page__form__group__edit" *ngIf="!isEditMode"
+                (click)="clickEdit(PROFILE_GROUPS.OVERAL_INFO)">
+                <sw-icon [iconName]="'edit'" [iconSize]="'size-16'"></sw-icon>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="sw-profile-page__form__group__content" formGroupName="overalInfo"
+              [ngClass]="{'sw-profile-page__form__group__content--editMode' : isEditMode && editingGrop === PROFILE_GROUPS.OVERAL_INFO}">
+
+              <div class="sw-profile-page__form__group__item">
+                <sw-input [name]="'name'" [size]="'medium'" [type]="'title-in'"
+                  [placeholderDraft]="'Registration.FIRST_AND_LAST_NAME_PLACEHOLDER' | translate"
+                  [labelText]="'Registration.FIRST_AND_LAST_NAME' | translate" [inputType]="'text'"
+                  [showErrors]="localForm.submitted" [required]="true" formControlName="name"></sw-input>
+              </div>
+
+              <div class="sw-profile-page__form__group__item">
+                <ws-radio formControlName="gender" groupName="gender" valueName="male"
+                  label="{{ 'Registration.MALE' | translate }}"></ws-radio>
+
+                <ws-radio formControlName="gender" groupName="gender" valueName="female"
+                  label="{{ 'Registration.FEMALE' | translate }}"></ws-radio>
+              </div>
+
+              <div class="sw-profile-page__form__group__item">
+                <sw-input id="requestdate" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'06.01.1997'"
+                  [labelText]="'Registration.BIRTH_DATE' | translate" [inputType]="'date'"
+                  [showErrors]="localForm.submitted" [required]="true" formControlName="date_of_birth">
+                </sw-input>
+              </div>
+            </div>
+
+
+            <!-- Actions -->
+            <div class="sw-profile-page__form__group__actions" @collapseAnimation
+              *ngIf="isEditMode && editingGrop === PROFILE_GROUPS.OVERAL_INFO">
+
+              <div class="sw-profile-page__form__action sw-profile-page__form__action--save">
+                <sw-button swPrimaryButton [size]="'size-56'" (clickAction)="updateOveralInfo()">
+                  {{ "Profile.SAVE" | translate }}
+                </sw-button>
+              </div>
+
+              <div class="sw-profile-page__form__action sw-profile-page__form__action--cancel">
+                <sw-button swWhiteButton [size]="'size-56'" (clickAction)="cancelEdit()">
+                  {{ "Profile.CANCEL" | translate }}
+                </sw-button>
+              </div>
+
+
+            </div>
+
+          </div>
+
+          <!-- Phone -->
+          <div class="sw-profile-page__form__group">
+
+            <!-- Header -->
+            <div class="sw-profile-page__form__group__header sw-profile-page__form__group__header--withCount">
+
+              <div class="sw-profile-page__form__group__header__content">
+                <h3 class="sw-profile-page__form__group__title">
+                  <span>
+                    {{ 'Profile.PHONE' | translate }}
+                  </span>
+                  {{ 'Profile.NUMBER' | translate }}
+                </h3>
+
+                <div class="sw-profile-page__form__group__edit" *ngIf="!isEditMode"
+                  (click)="clickEdit(PROFILE_GROUPS.PHONE_NUMBER)">
+                  <sw-icon [iconName]="'edit'" [iconSize]="'size-16'"></sw-icon>
+                </div>
+
+              </div>
+
+              <div class="sw-profile-page__form__counter" *ngIf="counter !== 30 && isEditMode">
+                {{ counter }}
+              </div>
+
+            </div>
+
+            <!-- Content -->
+            <div class="sw-profile-page__form__group__content"
+              [ngClass]="{' sw-profile-page__form__group__content--editMode' : isEditMode && editingGrop === PROFILE_GROUPS.PHONE_NUMBER}">
+
+              <ng-container *ngIf="!isEditMode || editingGrop !== PROFILE_GROUPS.PHONE_NUMBER">
+                <div class="sw-profile-page__form__group__item">
+                  <sw-input [name]="'phone'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'555 555 555'"
+                    [labelText]="'Registration.PHONE_NUMBER' | translate" [inputType]="'tel'"
+                    [showErrors]="localForm.submitted" [required]="true" [mask]="'000 000 000'"
+                    formControlName="phone_number">
+                  </sw-input>
+                </div>
+
+              </ng-container>
+
+              <ng-container *ngIf="isEditMode && editingGrop === PROFILE_GROUPS.PHONE_NUMBER">
+
+                <div class="sw-profile-page__form__group__item">
+                  <sw-input [name]="'phone'" swRightIconInput [size]="'medium'" [type]="'title-in'"
+                    [placeholderDraft]="'555 555 555'" [labelText]="'Registration.NEW_PHONE_NUMBER' | translate"
+                    [inputType]="'tel'" [showErrors]="localForm.submitted" [required]="true" [mask]="'000 000 000'"
+                    formControlName="new_phone_number">
+                    <sw-button righticon swSecondaryButton [disabled]="waitingForCode" [size]="'size-40'"
+                      (clickAction)="getVerificationCode()">
+                      {{ 'Registration.SEND_CODE' | translate }}
+                    </sw-button>
+                  </sw-input>
+                </div>
+
+                <div class="sw-profile-page__form__group__item">
+                  <sw-input [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'1234'"
+                    [labelText]="'Registration.SMS_CODE' | translate" [inputType]="'number'" [required]="true"
+                    [showErrors]="localForm.submitted" formControlName="sms_validation">
+                  </sw-input>
+                </div>
+
+              </ng-container>
+            </div>
+
+            <!-- Actions -->
+            <div class="sw-profile-page__form__group__actions" @collapseAnimation
+              *ngIf="isEditMode && editingGrop === PROFILE_GROUPS.PHONE_NUMBER">
+
+              <div class="sw-profile-page__form__action sw-profile-page__form__action--save">
+                <sw-button swPrimaryButton [size]="'size-56'" (clickAction)="updatePhone()">
+                  {{ "Profile.SAVE" | translate }}
+                </sw-button>
+              </div>
+
+              <div class="sw-profile-page__form__action sw-profile-page__form__action--cancel">
+                <sw-button swWhiteButton [size]="'size-56'" (clickAction)="cancelEdit()">
+                  {{ "Profile.CANCEL" | translate }}
+                </sw-button>
+              </div>
+
+            </div>
+
+
+          </div>
+
+          <!-- Password -->
+          <div class="sw-profile-page__form__group">
+
+            <!-- Header -->
+            <div class="sw-profile-page__form__group__header">
+              <h3 class="sw-profile-page__form__group__title">
+                <span>
+                  {{ 'Profile.PASSWORD' | translate }}
+                </span>
+              </h3>
+
+              <div class="sw-profile-page__form__group__edit" *ngIf="!isEditMode"
+                (click)="clickEdit(PROFILE_GROUPS.PASSWORD)">
+                <sw-icon [iconName]="'edit'" [iconSize]="'size-16'"></sw-icon>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class="sw-profile-page__form__group__content"
+              [ngClass]="{' sw-profile-page__form__group__content--editMode' : isEditMode && editingGrop === PROFILE_GROUPS.PASSWORD}">
+
+              <div class="sw-profile-page__form__group__item">
+                <sw-input [name]="'password'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'*******'"
+                  [labelText]="'Registration.PASSWORD' | translate" [inputType]="'password'"
+                  [showErrors]="localForm.submitted" [required]="true" formControlName="password">
+                </sw-input>
+
+                <sw-input [name]="'password'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'*******'"
+                  [labelText]="'Registration.REPEAT_PASSWORD' | translate" [inputType]="'password'"
+                  [showErrors]="localForm.submitted" [required]="true" formControlName="password_confirmation">
+                </sw-input>
+              </div>
+            </div>
+
+
+            <!-- Actions -->
+            <div class="sw-profile-page__form__group__actions" @collapseAnimation
+              *ngIf="isEditMode && editingGrop === PROFILE_GROUPS.PASSWORD">
+              <div class="sw-profile-page__form__action sw-profile-page__form__action--save">
+                <sw-button swPrimaryButton [size]="'size-56'" (clickAction)="updatePassword()">
+                  {{ "Profile.SAVE" | translate }}
+                </sw-button>
+              </div>
+
+              <div class="sw-profile-page__form__action sw-profile-page__form__action--cancel">
+                <sw-button swWhiteButton [size]="'size-56'" (clickAction)="cancelEdit()">
+                  {{ "Profile.CANCEL" | translate }}
+                </sw-button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Specialist Info -->
+          <ng-container *ngIf="user?.client_type === CLIENT_TYPE.EMPLOYEE">
+            <!-- Specialist Info  -->
+            <div class="sw-profile-page__form__group">
+
+              <!-- Header -->
+              <div class="sw-profile-page__form__group__header">
+                <h3 class="sw-profile-page__form__group__title">
+                  <span>
+                    {{ 'Profile.SPECIALISTS' | translate }}
+                  </span>
+                  {{ 'Profile.INFO' | translate }}
+                </h3>
+
+                <div class="sw-profile-page__form__group__edit" *ngIf="!isEditMode"
+                  (click)="clickEdit(PROFILE_GROUPS.SPECIALIST_INFO)">
+                  <sw-icon [iconName]="'edit'" [iconSize]="'size-16'"></sw-icon>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="sw-profile-page__form__group__content"
+                [ngClass]="{' sw-profile-page__form__group__content--editMode' : isEditMode && editingGrop === PROFILE_GROUPS.SPECIALIST_INFO}">
+
+                <div class="sw-profile-page__form__group__item">
+                  <ws-radio formControlName="personal" groupName="personal" valueName="personal"
+                    label="{{ 'Registration.PERSONAL' | translate }}">
+                  </ws-radio>
+
+                  <ws-radio formControlName="personal" groupName="personal" valueName="business"
+                    label="{{ 'Registration.BUSINESS' | translate }}"></ws-radio>
+                </div>
+
+                <!-- IF Personal -->
+                <ng-container *ngIf="activeType === USER_TYPE.PERSONAL">
+                  <sw-input [name]="'id'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'00000000000'"
+                    [labelText]="'Registration.ID_NUMBER' | translate" [inputType]="'number'"
+                    [showErrors]="localForm.submitted" [required]="true" formControlName="id_number">
+                  </sw-input>
+                </ng-container>
+
+                <!-- IF Company -->
+                <ng-container *ngIf="activeType === USER_TYPE.BUSINESS">
+                  <sw-input [name]="'id'" [size]="'medium'" [type]="'title-in'" [placeholderDraft]="'00000000000'"
+                    [labelText]="'Registration.IDENTIFICATION_CODE' | translate" [inputType]="'number'"
+                    [showErrors]="localForm.submitted" [required]="true" formControlName="id_number">
+                  </sw-input>
+                </ng-container>
+              </div>
+
+
+              <!-- Actions -->
+              <div class="sw-profile-page__form__group__actions" @collapseAnimation
+                *ngIf="isEditMode && editingGrop === PROFILE_GROUPS.SPECIALIST_INFO">
+                <div class="sw-profile-page__form__action sw-profile-page__form__action--save">
+                  <sw-button swPrimaryButton [size]="'size-56'" (clickAction)="updateSpecialistInfo()">
+                    {{ "Profile.SAVE" | translate }}
+                  </sw-button>
+                </div>
+
+                <div class="sw-profile-page__form__action sw-profile-page__form__action--cancel">
+                  <sw-button swWhiteButton [size]="'size-56'" (clickAction)="cancelEdit()">
+                    {{ "Profile.CANCEL" | translate }}
+                  </sw-button>
+                </div>
+
+              </div>
+
+            </div>
+          </ng-container>
+
+        </form>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

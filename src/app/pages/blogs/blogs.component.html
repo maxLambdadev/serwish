@@ -1,0 +1,36 @@
+<section class="sw-page sw-page--blog" [ngClass]="{ 'sw-page--mobile': device === DEVICE.MOBILE }">
+  <div class="sw-container" [ngClass]="{ 'sw-container--desktop': device === DEVICE.DESKTOP }">
+    <h1 class="sw-page__title">{{ 'Pages.BLOGS' | translate }}</h1>
+
+    <div class="sw-blogs__content" [ngClass]="{
+        'sw-blogs__content--mobile' : device === DEVICE.MOBILE,
+        'sw-blogs__content--empty' : (blogs$ | async).length === 0 && (loadingStatus$ | async) === LOADING_STATUS.LOADED
+    }">
+      <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADED">
+        <ng-container *ngFor="let blog of blogs$ | async; trackBy: trackBy">
+          <sw-blog-item [blog]="blog" [device]="device"></sw-blog-item>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="(loadingStatus$ | async) === LOADING_STATUS.LOADING">
+        <ng-container *ngFor="let in of counter(8); let i = index ">
+          <sw-blog-item-loader></sw-blog-item-loader>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="(blogs$ | async).length === 0 && (loadingStatus$ | async) !== LOADING_STATUS.LOADING">
+        <div class="sw-blogs__empty">
+          <div class="sw-blogs__empty__icon">
+            <sw-icon [iconName]="'empty'" [iconSize]="'size-70'"></sw-icon>
+          </div>
+          <h3 class="sw-blogs__empty__title"> {{
+            "Blog.EMPTY.TITLE" |
+            translate }}</h3>
+          <p class="sw-blogs__empty__desc"> {{
+            "Blog.EMPTY.DESC" |
+            translate }}</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>
