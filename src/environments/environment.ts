@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  // apiUrl: "https://api.serwish.ge",
-  apiUrl: 'https://test.serwish.ge'
+  apiUrl: 'http://localhost:8000'
+  // apiUrl: 'https://api.serwish.ge'
+  // apiUrl: 'https://test.serwish.ge'
 };
 /*
  * For easier debugging in development mode, you can import the following file
