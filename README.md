@@ -18,3 +18,8 @@ npm i
 ng build --configuration production
 
 და გაგეჩითება /dist ფოლდერში , ახლა ფარბეისზე რაღაც ფოლდერს მთხოვდა და ეგ დააიგნორე პროსტაა
+
+
+//in angular server nginx
+npm run build
+npm run serve:ssr   (localhost:4000)
